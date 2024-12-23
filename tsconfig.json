@@ -18,9 +18,9 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "~auth/*": ["src/auth/*"],
-      "~modules/*": ["src/modules/*"],
-      "~users/*": ["src/users/*"]
+      "@auth/*": ["src/auth/*"],
+      "@modules/*": ["src/modules/*"],
+      "@users/*": ["src/users/*"]
     }
   }
 }
