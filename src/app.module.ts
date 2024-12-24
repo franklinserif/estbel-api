@@ -5,7 +5,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ModulesModule } from '@modules/modules.module';
 import { UsersModule } from '@users/users.module';
+import { Module as ModuleEntity } from '@modules/entities/module.entity';
 import { AuthModule } from '@auth/auth.module';
+import { User } from '@users/entities/user.entity';
+import { UserModuleAccess } from '@modules/entities/user-module-access.entity';
 
 @Module({
   imports: [
@@ -22,7 +25,7 @@ import { AuthModule } from '@auth/auth.module';
       database: process.env.DB_NAME,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
-      autoLoadEntities: true,
+      entities: [User, ModuleEntity, UserModuleAccess],
       synchronize: true,
     }),
     ModulesModule,
