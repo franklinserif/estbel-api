@@ -5,6 +5,23 @@ export const users = [
     email: 'john.doe@example.com',
     phone: '+1234567890',
     password: 'SecurePassword123',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Jane',
@@ -12,6 +29,23 @@ export const users = [
     email: 'jane.smith@example.com',
     phone: '+1234567891',
     password: 'Password456!',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Alice',
@@ -19,6 +53,23 @@ export const users = [
     email: 'alice.johnson@example.com',
     phone: '+1234567892',
     password: 'Alice2024#',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Robert',
@@ -26,6 +77,23 @@ export const users = [
     email: 'robert.brown@example.com',
     phone: '+1234567893',
     password: 'RbSecure!789',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Emily',
@@ -33,6 +101,23 @@ export const users = [
     email: 'emily.davis@example.com',
     phone: '+1234567894',
     password: 'EmilyPass22$',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Michael',
@@ -40,6 +125,23 @@ export const users = [
     email: 'michael.williams@example.com',
     phone: '+1234567895',
     password: 'Mike@2023!',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Sarah',
@@ -47,6 +149,23 @@ export const users = [
     email: 'sarah.taylor@example.com',
     phone: '+1234567896',
     password: 'Taylor@Sarah1',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'David',
@@ -54,6 +173,23 @@ export const users = [
     email: 'david.clark@example.com',
     phone: '+1234567897',
     password: 'ClarkDavid!45',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Laura',
@@ -61,6 +197,23 @@ export const users = [
     email: 'laura.martinez@example.com',
     phone: '+1234567898',
     password: 'LauraMart1nez#',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Daniel',
@@ -68,6 +221,23 @@ export const users = [
     email: 'daniel.hernandez@example.com',
     phone: '+1234567899',
     password: 'Daniel2023$%',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Sophia',
@@ -75,6 +245,23 @@ export const users = [
     email: 'sophia.lopez@example.com',
     phone: '+1234567800',
     password: 'Sophia_Lopez12',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'William',
@@ -82,6 +269,23 @@ export const users = [
     email: 'william.young@example.com',
     phone: '+1234567801',
     password: 'WilliamYoung!88',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Olivia',
@@ -89,6 +293,7 @@ export const users = [
     email: 'olivia.walker@example.com',
     phone: '+1234567802',
     password: 'OliviaW#2024',
+    userModuleAccess: [],
   },
   {
     firstName: 'James',
@@ -96,6 +301,23 @@ export const users = [
     email: 'james.scott@example.com',
     phone: '+1234567803',
     password: 'JamesScott123',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Mia',
@@ -103,6 +325,23 @@ export const users = [
     email: 'mia.green@example.com',
     phone: '+1234567804',
     password: 'MiaGreen!45',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Christopher',
@@ -110,6 +349,23 @@ export const users = [
     email: 'christopher.hall@example.com',
     phone: '+1234567805',
     password: 'ChrisHall@567',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Amelia',
@@ -117,6 +373,23 @@ export const users = [
     email: 'amelia.allen@example.com',
     phone: '+1234567806',
     password: 'AmeliaA!990',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Henry',
@@ -124,6 +397,23 @@ export const users = [
     email: 'henry.adams@example.com',
     phone: '+1234567807',
     password: 'Henry@Adams$1',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Lily',
@@ -131,6 +421,23 @@ export const users = [
     email: 'lily.nelson@example.com',
     phone: '+1234567808',
     password: 'LilyNelson99#',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
   {
     firstName: 'Andrew',
@@ -138,5 +445,22 @@ export const users = [
     email: 'andrew.baker@example.com',
     phone: '+1234567809',
     password: 'AndrewBaker!78',
+    userModuleAccess: [
+      {
+        canRead: true,
+        canEdit: false,
+        canDelete: false,
+      },
+      {
+        canRead: true,
+        canEdit: true,
+        canDelete: true,
+      },
+      {
+        canRead: false,
+        canEdit: false,
+        canDelete: false,
+      },
+    ],
   },
 ];
