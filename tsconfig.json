@@ -20,7 +20,8 @@
     "paths": {
       "@auth/*": ["src/auth/*"],
       "@modules/*": ["src/modules/*"],
-      "@users/*": ["src/users/*"]
+      "@users/*": ["src/users/*"],
+      "@seeds/*": ["src/seeds/*"]
     }
   }
 }
