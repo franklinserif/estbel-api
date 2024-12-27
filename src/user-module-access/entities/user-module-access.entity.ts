@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '@users/entities/user.entity';
-import { Module } from './module.entity';
+import { Module } from '@modules/entities/module.entity';
 
 @Entity('user_module_access')
 export class UserModuleAccess {
