@@ -16,7 +16,7 @@ export class SeedsService {
   async run() {
     const queryRunner = this.dataSource.createQueryRunner();
 
-    await queryRunner.query('DELETE FROM "user_module_access"');
+    await queryRunner.query('DELETE FROM "access"');
     await queryRunner.query('DELETE FROM "modules"');
     await queryRunner.query('DELETE FROM "users"');
 
@@ -46,6 +46,7 @@ export class SeedsService {
           UMA.canEdit = user_module_access[userModuleAccessIndex].canEdit;
           UMA.canDelete = user_module_access[userModuleAccessIndex].canDelete;
           UMA.canRead = user_module_access[userModuleAccessIndex].canRead;
+          UMA.canPrint = user_module_access[userModuleAccessIndex].canPrint;
           UMA.module = modulesResults[moduleIndex];
           UMA.user = user;
 
@@ -62,6 +63,19 @@ export class SeedsService {
       throw error;
     } finally {
       await queryRunner.release();
+    }
+  }
+
+  async drop() {
+    try {
+      const queryRunner = this.dataSource.createQueryRunner();
+
+      await queryRunner.query('DELETE FROM "access"');
+      await queryRunner.query('DELETE FROM "modules"');
+      await queryRunner.query('DELETE FROM "users"');
+    } catch (error) {
+      this.logger.error('can drop the database, something went wrong1');
+      throw error;
     }
   }
 }
