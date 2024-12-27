@@ -28,6 +28,7 @@ export class UsersService {
       canDelete: false,
       canEdit: false,
       canRead: false,
+      canPrint: false,
       module,
       user,
     }));
