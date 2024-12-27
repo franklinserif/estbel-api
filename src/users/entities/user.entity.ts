@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { UserModuleAccess } from '@modules/entities/user-module-access.entity';
+import { UserModuleAccess } from '@user-module-access/entities/user-module-access.entity';
 
 @Entity('users')
 export class User {

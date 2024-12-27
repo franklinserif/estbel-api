@@ -5,7 +5,7 @@ import { users } from './seed/users';
 import { Module } from '@modules/entities/module.entity';
 import { modules } from './seed/modules';
 import { user_module_access } from './seed/user_module_access';
-import { UserModuleAccess } from '@modules/entities/user-module-access.entity';
+import { UserModuleAccess } from '@user-module-access/entities/user-module-access.entity';
 
 @Injectable()
 export class SeedsService {
