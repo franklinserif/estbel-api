@@ -26,7 +26,7 @@ export class User {
   @OneToMany(
     () => UserModuleAccess,
     (userModuleAccess) => userModuleAccess.user,
-    { eager: true },
+    { eager: true, cascade: true },
   )
   userModuleAccess: UserModuleAccess[];
 }
