@@ -12,7 +12,7 @@ export const QueryParams = createParamDecorator(
 
     const where: Record<string, any> = {};
     Object.keys(query).forEach((key) => {
-      const value = query[key];
+      const value = query[key].toLowerCase().trim();
 
       if (typeof value !== 'string') {
         throw new BadRequestException(
