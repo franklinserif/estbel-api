@@ -1,4 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from '@users/entities/user.entity';
 import { Module } from '@modules/entities/module.entity';
 
@@ -21,6 +28,17 @@ export class Accesses {
     default: false,
   })
   canDelete: boolean;
+
+  @Column('bool', {
+    default: false,
+  })
+  canPrint: boolean;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.accesses)
   user: User;

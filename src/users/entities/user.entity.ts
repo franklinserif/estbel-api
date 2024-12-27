@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+  CreateDateColumn,
+  UpdateDateColumn,
 import { Accesses } from '@accesses/entities/accesses.entity';
 
 @Entity('users')
@@ -22,6 +23,12 @@ export class User {
     select: false,
   })
   password: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @OneToMany(() => Accesses, (accesses) => accesses.user, {
     eager: true,
