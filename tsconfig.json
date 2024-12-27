@@ -20,6 +20,7 @@
     "paths": {
       "@auth/*": ["src/auth/*"],
       "@modules/*": ["src/modules/*"],
+      "@user-module-access/*": ["src/user-module-access/*"],
       "@users/*": ["src/users/*"],
       "@seeds/*": ["src/seeds/*"]
     }
