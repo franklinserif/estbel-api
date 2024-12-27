@@ -7,7 +7,16 @@ async function bootstrap() {
 
   const seedsService = app.get(SeedsService);
 
-  await seedsService.run();
+  const [, , command] = process.argv;
+
+  if (command === 'run') {
+    await seedsService.run();
+  } else if (command === 'drop') {
+    await seedsService.drop();
+  } else {
+    console.error('Invalid command. Use "run" or "drop".');
+    process.exit(1);
+  }
 
   await app.close();
 }
