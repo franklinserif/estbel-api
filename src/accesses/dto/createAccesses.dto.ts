@@ -9,4 +9,7 @@ export class CreateAccessDto {
 
   @IsBoolean()
   canDelete: boolean;
+
+  @IsBoolean()
+  canPrint: boolean;
 }
