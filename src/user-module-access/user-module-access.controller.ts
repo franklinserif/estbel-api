@@ -1,11 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { UserModuleAccessService } from './user-module-access.service';
 import { CreateUserModuleAccessDto } from './dto/create-user-module-access.dto';
 import { UpdateUserModuleAccessDto } from './dto/update-user-module-access.dto';
 
 @Controller('user-module-access')
 export class UserModuleAccessController {
-  constructor(private readonly userModuleAccessService: UserModuleAccessService) {}
+  constructor(
+    private readonly userModuleAccessService: UserModuleAccessService,
+  ) {}
 
   @Post()
   create(@Body() createUserModuleAccessDto: CreateUserModuleAccessDto) {
@@ -19,16 +29,19 @@ export class UserModuleAccessController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userModuleAccessService.findOne(+id);
+    return this.userModuleAccessService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserModuleAccessDto: UpdateUserModuleAccessDto) {
-    return this.userModuleAccessService.update(+id, updateUserModuleAccessDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateUserModuleAccessDto: UpdateUserModuleAccessDto,
+  ) {
+    return this.userModuleAccessService.update(id, updateUserModuleAccessDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userModuleAccessService.remove(+id);
+    return this.userModuleAccessService.remove(id);
   }
 }
