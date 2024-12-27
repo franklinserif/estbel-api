@@ -7,18 +7,16 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UserModuleAccessService } from './user-module-access.service';
-import { CreateUserModuleAccessDto } from './dto/create-user-module-access.dto';
-import { UpdateUserModuleAccessDto } from './dto/update-user-module-access.dto';
+import { AccessesService } from './accesses.service';
+import { CreateAccessDto } from './dto/createAccesses.dto';
+import { UpdateAccessDto } from './dto/updateAccesses.dto';
 
 @Controller('user-module-access')
-export class UserModuleAccessController {
-  constructor(
-    private readonly userModuleAccessService: UserModuleAccessService,
-  ) {}
+export class AccessesController {
+  constructor(private readonly userModuleAccessService: AccessesService) {}
 
   @Post()
-  create(@Body() createUserModuleAccessDto: CreateUserModuleAccessDto) {
+  create(@Body() createUserModuleAccessDto: CreateAccessDto) {
     return this.userModuleAccessService.create(createUserModuleAccessDto);
   }
 
@@ -35,7 +33,7 @@ export class UserModuleAccessController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateUserModuleAccessDto: UpdateUserModuleAccessDto,
+    @Body() updateUserModuleAccessDto: UpdateAccessDto,
   ) {
     return this.userModuleAccessService.update(id, updateUserModuleAccessDto);
   }

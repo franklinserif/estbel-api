@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { UserModuleAccess } from '@user-module-access/entities/user-module-access.entity';
+import { Accesses } from '@accesses/entities/accesses.entity';
 
 @Entity('modules')
 export class Module {
@@ -14,9 +14,6 @@ export class Module {
   @Column('text', {})
   description: string;
 
-  @OneToMany(
-    () => UserModuleAccess,
-    (userModuleAccess) => userModuleAccess.module,
-  )
-  userModuleAccess: UserModuleAccess[];
+  @OneToMany(() => Accesses, (accesses) => accesses.module)
+  accesses: Accesses[];
 }

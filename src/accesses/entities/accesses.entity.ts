@@ -2,8 +2,8 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '@users/entities/user.entity';
 import { Module } from '@modules/entities/module.entity';
 
-@Entity('user_module_access')
-export class UserModuleAccess {
+@Entity('access')
+export class Accesses {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -22,9 +22,9 @@ export class UserModuleAccess {
   })
   canDelete: boolean;
 
-  @ManyToOne(() => User, (user) => user.userModuleAccess)
+  @ManyToOne(() => User, (user) => user.accesses)
   user: User;
 
-  @ManyToOne(() => Module, (module) => module.userModuleAccess)
+  @ManyToOne(() => Module, (module) => module.accesses)
   module: Module;
 }

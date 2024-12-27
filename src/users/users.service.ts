@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { UserModuleAccess } from '@user-module-access/entities/user-module-access.entity';
+import { Accesses } from '@accesses/entities/accesses.entity';
 import { ModulesService } from '@modules/modules.service';
 
 @Injectable()
@@ -13,8 +13,8 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
 
-    @InjectRepository(UserModuleAccess)
-    private readonly UAMRepository: Repository<UserModuleAccess>,
+    @InjectRepository(Accesses)
+    private readonly UAMRepository: Repository<Accesses>,
 
     private readonly moduleService: ModulesService,
   ) {}
@@ -32,13 +32,8 @@ export class UsersService {
       user,
     }));
 
-    console.log('accesses: ', accesses);
-    console.log('user: ', user);
-
-    // Guarda el usuario primero
     const createdUser = await this.userRepository.save(user);
 
-    // Guarda los accesos en la base de datos
     await this.UAMRepository.save(accesses);
 
     return createdUser;

@@ -3,7 +3,7 @@ import { SeedsService } from './seeds.service';
 import { SeedsController } from './seeds.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ModulesModule } from '@modules/modules.module';
-import { UserModuleAccessModule } from '@user-module-access/user-module-access.module';
+import { AccessesModule } from '@accesses/accesses.module';
 import { UsersModule } from '@users/users.module';
 import { AuthModule } from '@auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
@@ -28,7 +28,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     ModulesModule,
     UsersModule,
-    UserModuleAccessModule,
+    AccessesModule,
     AuthModule,
   ],
   controllers: [SeedsController],

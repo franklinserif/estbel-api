@@ -1,6 +1,6 @@
 import { IsBoolean } from 'class-validator';
 
-export class CreateUserModuleAccessDto {
+export class CreateAccessDto {
   @IsBoolean()
   canRead: boolean;
 

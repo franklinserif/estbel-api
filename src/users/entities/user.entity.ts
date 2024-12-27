@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { UserModuleAccess } from '@user-module-access/entities/user-module-access.entity';
+import { Accesses } from '@accesses/entities/accesses.entity';
 
 @Entity('users')
 export class User {
@@ -23,10 +23,9 @@ export class User {
   })
   password: string;
 
-  @OneToMany(
-    () => UserModuleAccess,
-    (userModuleAccess) => userModuleAccess.user,
-    { eager: true, cascade: true },
-  )
-  userModuleAccess: UserModuleAccess[];
+  @OneToMany(() => Accesses, (accesses) => accesses.user, {
+    eager: true,
+    cascade: true,
+  })
+  accesses: Accesses[];
 }

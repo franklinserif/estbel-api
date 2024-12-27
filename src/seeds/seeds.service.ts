@@ -5,7 +5,7 @@ import { users } from './seed/users';
 import { Module } from '@modules/entities/module.entity';
 import { modules } from './seed/modules';
 import { user_module_access } from './seed/user_module_access';
-import { UserModuleAccess } from '@user-module-access/entities/user-module-access.entity';
+import { Accesses } from '@accesses/entities/accesses.entity';
 
 @Injectable()
 export class SeedsService {
@@ -42,14 +42,14 @@ export class SeedsService {
           );
           const moduleIndex = Math.floor(Math.random() * modulesResults.length);
 
-          const UMA = new UserModuleAccess();
+          const UMA = new Accesses();
           UMA.canEdit = user_module_access[userModuleAccessIndex].canEdit;
           UMA.canDelete = user_module_access[userModuleAccessIndex].canDelete;
           UMA.canRead = user_module_access[userModuleAccessIndex].canRead;
           UMA.module = modulesResults[moduleIndex];
           UMA.user = user;
 
-          return queryRunner.manager.create(UserModuleAccess, UMA);
+          return queryRunner.manager.create(Accesses, UMA);
         }),
       );
       await queryRunner.manager.save(userModuleAccessEntities);
