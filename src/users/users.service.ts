@@ -40,8 +40,8 @@ export class UsersService {
     return createdUser;
   }
 
-  async findAll() {
-    const users = await this.userRepository.find();
+  async findAll(where: Record<string, any>) {
+    const users = await this.userRepository.find({ where });
 
     return users;
   }
