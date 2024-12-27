@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserModuleAccessDto } from './dto/create-user-module-access.dto';
 import { UpdateUserModuleAccessDto } from './dto/update-user-module-access.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserModuleAccess } from './entities/user-module-access.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserModuleAccessService {
-  create(createUserModuleAccessDto: CreateUserModuleAccessDto) {
-    return 'This action adds a new userModuleAccess';
+  constructor(
+    @InjectRepository(UserModuleAccess)
+    private readonly UMARepository: Repository<UserModuleAccess>,
+  ) {}
+
+  async create(createUserModuleAccessDto: CreateUserModuleAccessDto) {
+    const UMA = this.UMARepository.create(createUserModuleAccessDto);
+
+    return await this.UMARepository.save(UMA);
   }
 
-  findAll() {
-    return `This action returns all userModuleAccess`;
+  async findAll() {
+    const UAMS = await this.UMARepository.find();
+
+    return UAMS;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userModuleAccess`;
+  async findOne(id: string) {
+    const UAM = await this.UMARepository.findOne({ where: { id } });
+
+    if (!UAM?.id) {
+      throw new NotFoundException(`UAM with id: ${id} not found`);
+    }
+
+    return UAM;
   }
 
-  update(id: number, updateUserModuleAccessDto: UpdateUserModuleAccessDto) {
-    return `This action updates a #${id} userModuleAccess`;
+  async update(
+    id: string,
+    updateUserModuleAccessDto: UpdateUserModuleAccessDto,
+  ) {
+    await this.findOne(id);
+
+    const updatedUAM = await this.UMARepository.update(
+      id,
+      updateUserModuleAccessDto,
+    );
+
+    return updatedUAM;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} userModuleAccess`;
+  async remove(id: string) {
+    await this.findOne(id);
+
+    return await this.UMARepository.delete(id);
   }
 }
