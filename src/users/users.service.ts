@@ -4,18 +4,44 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { UserModuleAccess } from '@user-module-access/entities/user-module-access.entity';
+import { ModulesService } from '@modules/modules.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    @InjectRepository(UserModuleAccess)
+    private readonly UAMRepository: Repository<UserModuleAccess>,
+
+    private readonly moduleService: ModulesService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto);
 
-    return await this.userRepository.save(user);
+    const modules = await this.moduleService.findAll();
+
+    const accesses = modules.map((module) => ({
+      canDelete: false,
+      canEdit: false,
+      canRead: false,
+      module,
+      user,
+    }));
+
+    console.log('accesses: ', accesses);
+    console.log('user: ', user);
+
+    // Guarda el usuario primero
+    const createdUser = await this.userRepository.save(user);
+
+    // Guarda los accesos en la base de datos
+    await this.UAMRepository.save(accesses);
+
+    return createdUser;
   }
 
   async findAll() {
