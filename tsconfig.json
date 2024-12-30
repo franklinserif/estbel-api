@@ -22,7 +22,7 @@
       "@modules/*": ["src/modules/*"],
       "@accesses/*": ["src/accesses/*"],
       "@users/*": ["src/users/*"],
-      "@seeds/*": ["src/seeds/*"],
+      "@seeds/*": ["src/common/seeds/*"],
       "@members/*": ["src/members/*"],
       "@fields/*": ["src/fields/*"],
       "@common/*": ["src/common/*"]
