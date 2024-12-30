@@ -28,7 +28,7 @@ export class FieldsService {
   async findOne(id: string) {
     const field = await this.fieldRepository.findOne({ where: { id } });
 
-    if (!field.id) {
+    if (!field?.id) {
       throw new NotFoundException(`field with id: ${id} not found`);
     }
 
