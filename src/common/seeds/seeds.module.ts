@@ -7,6 +7,8 @@ import { AccessesModule } from '@accesses/accesses.module';
 import { UsersModule } from '@users/users.module';
 import { AuthModule } from '@auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { MembersModule } from '@members/members.module';
+import { FieldsModule } from '@fields/fields.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { ConfigModule } from '@nestjs/config';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    MembersModule,
+    FieldsModule,
     ModulesModule,
     UsersModule,
     AccessesModule,
