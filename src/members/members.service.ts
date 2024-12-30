@@ -80,7 +80,6 @@ export class MembersService {
   async update(id: string, updateMemberDto: UpdateMemberDto) {
     const member = await this.findOne(id);
 
-    console.log('fields: ', updateMemberDto.fields);
     if (updateMemberDto.fields) {
       for (const fieldData of updateMemberDto.fields) {
         const fieldValue = member.fields.find((fv) => fv.id === fieldData.id);
