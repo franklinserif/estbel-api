@@ -4,13 +4,20 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToMany,
+  Column,
 } from 'typeorm';
-import { Field } from './field.entity';
+import { FieldValue } from '@fields/entities/field-value.entity';
 
 @Entity('members')
 export class Member {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column('text', {
+    unique: true,
+    nullable: true,
+  })
+  ci: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
@@ -18,6 +25,8 @@ export class Member {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @OneToMany(() => Field, (fields) => fields.member)
-  fields: Field[];
+  @OneToMany(() => FieldValue, (fieldsValue) => fieldsValue.member, {
+    eager: true,
+  })
+  fields: FieldValue[];
 }
