@@ -40,7 +40,7 @@ export class Accesses {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.accesses)
+  @ManyToOne(() => User, (user) => user.accesses, { onDelete: 'CASCADE' })
   user: User;
 
   @ManyToOne(() => Module, (module) => module.accesses)
