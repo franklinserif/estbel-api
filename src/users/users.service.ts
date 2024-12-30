@@ -23,7 +23,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto);
 
-    const modules = await this.moduleService.findAll();
+    const modules = await this.moduleService.findAll({ where: {}, order: {} });
 
     const accesses = modules.map((module) => ({
       canDelete: false,
@@ -42,8 +42,7 @@ export class UsersService {
   }
 
   async findAll(queryParams: IQueryParams) {
-    const { where, order } = queryParams;
-    const users = await this.userRepository.find({ where, order });
+    const users = await this.userRepository.find(queryParams);
 
     return users;
   }
