@@ -11,6 +11,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryParams } from './decorators/query-params.decorator';
+import { IQueryParams } from '@common/interfaces/decorators';
 
 @Controller('users')
 export class UsersController {
@@ -22,8 +23,11 @@ export class UsersController {
   }
 
   @Get()
-  findAll(@QueryParams() where: Record<string, any>) {
-    return this.usersService.findAll(where);
+  findAll(
+    @QueryParams()
+    queryParams: IQueryParams,
+  ) {
+    return this.usersService.findAll(queryParams);
   }
 
   @Get(':id')
