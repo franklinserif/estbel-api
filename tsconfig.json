@@ -22,7 +22,8 @@
       "@modules/*": ["src/modules/*"],
       "@accesses/*": ["src/accesses/*"],
       "@users/*": ["src/users/*"],
-      "@seeds/*": ["src/seeds/*"]
+      "@seeds/*": ["src/seeds/*"],
+      "@common/*": ["src/common/*"]
     }
   }
 }
