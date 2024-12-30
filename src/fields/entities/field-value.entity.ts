@@ -6,21 +6,16 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Member } from './member.entity';
+import { Member } from '@members/entities/member.entity';
+import { Field } from './field.entity';
 
-@Entity('fields')
-export class Field {
+@Entity('fields_value')
+export class FieldValue {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('text')
-  fieldName: string;
-
-  @Column('text')
   fieldValue: string;
-
-  @Column('text')
-  fieldType: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
@@ -30,4 +25,7 @@ export class Field {
 
   @ManyToOne(() => Member, (member) => member.fields)
   member: Member;
+
+  @ManyToOne(() => Field, (field) => field.fieldsValue, { onDelete: 'CASCADE' })
+  field: Field;
 }
