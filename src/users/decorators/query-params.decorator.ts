@@ -1,8 +1,4 @@
-import {
-  createParamDecorator,
-  ExecutionContext,
-  BadRequestException,
-} from '@nestjs/common';
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Like, MoreThan, LessThan } from 'typeorm';
 
 export const QueryParams = createParamDecorator(
@@ -11,16 +7,17 @@ export const QueryParams = createParamDecorator(
     const query = request.query;
 
     const where: Record<string, any> = {};
+    const order: Record<string, 'ASC' | 'DESC'> = {};
+
     Object.keys(query).forEach((key) => {
-      const value = query[key].toLowerCase().trim();
+      const value = query[key];
 
-      if (typeof value !== 'string') {
-        throw new BadRequestException(
-          `Invalid value for query parameter: ${key}`,
-        );
-      }
-
-      if (key.endsWith('_like')) {
+      if (key === 'orderBy') {
+        const [column, direction] = value.split(':');
+        if (['ASC', 'DESC'].includes(direction.toUpperCase())) {
+          order[column] = direction.toUpperCase() as 'ASC' | 'DESC';
+        }
+      } else if (key.endsWith('_like')) {
         const column = key.replace('_like', '');
         where[column] = Like(`%${value}%`);
       } else if (key.endsWith('_gt')) {
@@ -34,6 +31,6 @@ export const QueryParams = createParamDecorator(
       }
     });
 
-    return where;
+    return { where, order };
   },
 );
