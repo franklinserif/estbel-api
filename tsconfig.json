@@ -23,6 +23,7 @@
       "@accesses/*": ["src/accesses/*"],
       "@users/*": ["src/users/*"],
       "@seeds/*": ["src/seeds/*"],
+      "@members/*": ["src/members/*"],
       "@common/*": ["src/common/*"]
     }
   }
