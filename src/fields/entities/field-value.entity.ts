@@ -23,7 +23,7 @@ export class FieldValue {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @ManyToOne(() => Member, (member) => member.fields)
+  @ManyToOne(() => Member, (member) => member.fields, { onDelete: 'CASCADE' })
   member: Member;
 
   @ManyToOne(() => Field, (field) => field.fieldsValue, { onDelete: 'CASCADE' })
