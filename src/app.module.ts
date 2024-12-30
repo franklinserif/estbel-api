@@ -8,6 +8,7 @@ import { UsersModule } from '@users/users.module';
 import { AuthModule } from '@auth/auth.module';
 import { AccessesModule } from './accesses/accesses.module';
 import { MembersModule } from './members/members.module';
+import { FieldsModule } from './fields/fields.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { MembersModule } from './members/members.module';
     AuthModule,
     AccessesModule,
     MembersModule,
+    FieldsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
