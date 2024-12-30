@@ -27,6 +27,7 @@ export class Member {
 
   @OneToMany(() => FieldValue, (fieldsValue) => fieldsValue.member, {
     eager: true,
+    cascade: true,
   })
   fields: FieldValue[];
 }
