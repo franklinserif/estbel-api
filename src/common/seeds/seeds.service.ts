@@ -20,6 +20,10 @@ export class SeedsService {
     await queryRunner.query('DELETE FROM "modules"');
     await queryRunner.query('DELETE FROM "users"');
 
+    await queryRunner.query('DELETE FROM "fields"');
+    await queryRunner.query('DELETE FROM "members"');
+    await queryRunner.query('DELETE FROM "fields_value"');
+
     try {
       await queryRunner.connect();
       await queryRunner.startTransaction();
@@ -73,6 +77,10 @@ export class SeedsService {
       await queryRunner.query('DELETE FROM "access"');
       await queryRunner.query('DELETE FROM "modules"');
       await queryRunner.query('DELETE FROM "users"');
+
+      await queryRunner.query('DELETE FROM "fields"');
+      await queryRunner.query('DELETE FROM "members"');
+      await queryRunner.query('DELETE FROM "fields_value"');
     } catch (error) {
       this.logger.error('can drop the database, something went wrong1');
       throw error;
