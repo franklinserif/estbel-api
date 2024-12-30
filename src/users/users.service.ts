@@ -6,6 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Accesses } from '@accesses/entities/accesses.entity';
 import { ModulesService } from '@modules/modules.service';
+import { IQueryParams } from '@common/interfaces/decorators';
 
 @Injectable()
 export class UsersService {
@@ -40,8 +41,9 @@ export class UsersService {
     return createdUser;
   }
 
-  async findAll(where: Record<string, any>) {
-    const users = await this.userRepository.find({ where });
+  async findAll(queryParams: IQueryParams) {
+    const { where, order } = queryParams;
+    const users = await this.userRepository.find({ where, order });
 
     return users;
   }
