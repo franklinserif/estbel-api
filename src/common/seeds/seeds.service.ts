@@ -6,6 +6,10 @@ import { Module } from '@modules/entities/module.entity';
 import { modules } from './seed/modules';
 import { user_module_access } from './seed/user_module_access';
 import { Accesses } from '@accesses/entities/accesses.entity';
+import { Field } from '@fields/entities/field.entity';
+import { fields } from './seed/fields';
+import { Member } from '@members/entities/member.entity';
+import { members } from './seed/members';
 
 @Injectable()
 export class SeedsService {
@@ -28,6 +32,8 @@ export class SeedsService {
       await queryRunner.connect();
       await queryRunner.startTransaction();
 
+      // access, users and modules
+
       const modulesEntities = modules.map((moduleEntity) =>
         queryRunner.manager.create(Module, moduleEntity),
       );
@@ -38,7 +44,6 @@ export class SeedsService {
       );
       const usersResults = await queryRunner.manager.save(usersEntities);
 
-      // Crear y guardar accesos
       const userModuleAccessEntities = usersResults.flatMap((user) =>
         Array.from({ length: 3 }).map(() => {
           const userModuleAccessIndex = Math.floor(
@@ -58,6 +63,18 @@ export class SeedsService {
         }),
       );
       await queryRunner.manager.save(userModuleAccessEntities);
+
+      // fields, fields value and members
+
+      const fieldsEntities = fields.map((field) =>
+        queryRunner.manager.create(Field, field),
+      );
+
+      await queryRunner.manager.save(fieldsEntities);
+
+      const membersEntities = queryRunner.manager.create(Member, members);
+
+      const membersResults = await queryRunner.manager.save(membersEntities);
 
       await queryRunner.commitTransaction();
       this.logger.log('Seeds executed successfully');
