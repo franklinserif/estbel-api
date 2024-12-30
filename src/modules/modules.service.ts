@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Module } from './entities/module.entity';
 import { CreateModuleDto } from './dto/create-module.dto';
 import { UpdateModuleDto } from './dto/update-module.dto';
+import { IQueryParams } from '@common/interfaces/decorators';
 
 @Injectable()
 export class ModulesService {
@@ -18,8 +19,8 @@ export class ModulesService {
     return await this.moduleRepository.save(module);
   }
 
-  async findAll() {
-    const module = await this.moduleRepository.find();
+  async findAll(queryParams: IQueryParams) {
+    const module = await this.moduleRepository.find(queryParams);
 
     return module;
   }

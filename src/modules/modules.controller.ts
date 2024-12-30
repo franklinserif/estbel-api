@@ -10,6 +10,8 @@ import {
 import { ModulesService } from './modules.service';
 import { CreateModuleDto } from './dto/create-module.dto';
 import { UpdateModuleDto } from './dto/update-module.dto';
+import { QueryParams } from '@users/decorators/query-params.decorator';
+import { IQueryParams } from '@common/interfaces/decorators';
 
 @Controller('modules')
 export class ModulesController {
@@ -21,8 +23,8 @@ export class ModulesController {
   }
 
   @Get()
-  findAll() {
-    return this.modulesService.findAll();
+  findAll(@QueryParams() queryParams: IQueryParams) {
+    return this.modulesService.findAll(queryParams);
   }
 
   @Get(':id')
