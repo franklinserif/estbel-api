@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { In, Repository } from 'typeorm';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
@@ -85,6 +89,10 @@ export class EventsService {
 
     if (!attendance?.id) {
       throw new NotFoundException(`attendance with id: ${id} not found`);
+    }
+
+    if (!attendance.event.isActive) {
+      throw new BadRequestException(`the event has expired`);
     }
 
     return await this.attendanceRepository.update(id, { attended: true });
