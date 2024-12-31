@@ -101,4 +101,22 @@ export class EventsService {
 
     return await this.attendanceRepository.update(id, { attended: false });
   }
+
+  async findAllAttendances(queryParams: IQueryParams) {
+    const attendances = await this.attendanceRepository.find(queryParams);
+
+    return attendances;
+  }
+
+  async removeAttendance(id: string) {
+    const attendance = await this.attendanceRepository.findOne({
+      where: { id },
+    });
+
+    if (!attendance?.id) {
+      throw new NotFoundException(`attendance with id: ${id} not found`);
+    }
+
+    return await this.attendanceRepository.delete(id);
+  }
 }
