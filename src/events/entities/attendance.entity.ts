@@ -23,7 +23,7 @@ export class Attendance {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @ManyToOne(() => Event, (event) => event.attendances)
+  @ManyToOne(() => Event, (event) => event.attendances, { eager: true })
   event: Event;
 
   @ManyToOne(() => Member, (members) => members.attendances)
