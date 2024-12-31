@@ -127,4 +127,8 @@ export class EventsService {
 
     return await this.attendanceRepository.delete(id);
   }
+
+  private notifyUsers() {
+    console.log('notify users..');
+  }
 }
