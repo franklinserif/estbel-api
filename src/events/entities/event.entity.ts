@@ -23,8 +23,11 @@ export class Event {
   @Column('text')
   location: string;
 
-  @Column('bool')
-  permanent: boolean;
+  @Column('bool', { default: false })
+  repeat: boolean;
+
+  @Column('bool', { default: false })
+  isActive: boolean;
 
   @CreateDateColumn({ type: 'timestamp' })
   startTime: Date;
