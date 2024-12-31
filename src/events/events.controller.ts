@@ -42,12 +42,12 @@ export class EventsController {
     return this.eventsService.remove(id);
   }
 
-  @Post('register-attendance/:eventId/:memberId')
+  @Post('register-attendance/:eventId/:memberIds')
   registerAttendance(
     @Param('eventId') eventId: string,
-    @Param('memberId') memberId: string,
+    @Body('memberIds') memberIds: string[],
   ) {
-    return this.eventsService.registerAttendance(eventId, memberId);
+    return this.eventsService.registerAttendance(eventId, memberIds);
   }
 
   @Post('confirm-attendance/:id')
