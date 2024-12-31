@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { In, Repository } from 'typeorm';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Event } from './entities/event.entity';
-import { In, Repository } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { Attendance } from './entities/attendance.entity';
 import { Member } from '@members/entities/member.entity';
