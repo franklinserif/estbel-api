@@ -7,6 +7,7 @@ import {
   Column,
 } from 'typeorm';
 import { FieldValue } from '@fields/entities/field-value.entity';
+import { Attendance } from 'src/events/entities/attendance.entity';
 
 @Entity('members')
 export class Member {
@@ -30,4 +31,7 @@ export class Member {
     cascade: true,
   })
   fields: FieldValue[];
+
+  @OneToMany(() => Attendance, (attendaces) => attendaces.Member)
+  attendances: Attendance[];
 }
