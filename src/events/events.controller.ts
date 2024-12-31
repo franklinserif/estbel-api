@@ -27,6 +27,34 @@ export class EventsController {
     return this.eventsService.findAll(queryParams);
   }
 
+  @Get('attendances')
+  findAllAttendances(@QueryParams() queryParams: IQueryParams) {
+    return this.eventsService.findAllAttendances(queryParams);
+  }
+
+  @Post('attendances/register/:eventId')
+  registerAttendance(
+    @Param('eventId') eventId: string,
+    @Body('memberIds') memberIds: string[],
+  ) {
+    return this.eventsService.registerAttendance(eventId, memberIds);
+  }
+
+  @Patch('attendances/confirm/:id')
+  confirmAttendance(@Param('id') id: string) {
+    return this.eventsService.confirmAttendance(id);
+  }
+
+  @Patch('attendances/non-attendance/:id')
+  nonAttendance(@Param('id') id: string) {
+    return this.eventsService.nonAttendance(id);
+  }
+
+  @Delete('attendances/remove/:id')
+  removeAttendance(@Param('id') id: string) {
+    return this.eventsService.removeAttendance(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.eventsService.findOne(id);
@@ -40,23 +68,5 @@ export class EventsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.eventsService.remove(id);
-  }
-
-  @Post('register-attendance/:eventId/:memberIds')
-  registerAttendance(
-    @Param('eventId') eventId: string,
-    @Body('memberIds') memberIds: string[],
-  ) {
-    return this.eventsService.registerAttendance(eventId, memberIds);
-  }
-
-  @Post('confirm-attendance/:id')
-  confirmAttendance(@Param('id') id: string) {
-    return this.confirmAttendance(id);
-  }
-
-  @Post('non-attendance/:id')
-  nonAttendance(@Param('id') id: string) {
-    return this.nonAttendance(id);
   }
 }
