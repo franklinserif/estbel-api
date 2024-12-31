@@ -3,7 +3,7 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Event } from './entities/event.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { Attendance } from './entities/attendance.entity';
 import { Member } from '@members/entities/member.entity';
@@ -53,24 +53,29 @@ export class EventsService {
     return await this.eventRepository.delete(id);
   }
 
-  async registerAttendance(eventId: string, memberId: string) {
+  async registerAttendance(eventId: string, memberIds: string[]) {
     const event = await this.eventRepository.findOneBy({ id: eventId });
     if (!event) {
       throw new Error('Event not found');
     }
 
-    const member = await this.memberRepository.findOneBy({ id: memberId });
-    if (!member) {
-      throw new Error('Member not found');
-    }
-
-    const attendance = this.attendanceRepository.create({
-      attended: false,
-      event: event,
-      Member: member,
+    const members = await this.memberRepository.find({
+      where: { id: In(memberIds) },
     });
 
-    return this.attendanceRepository.save(attendance);
+    if (members.length !== memberIds.length) {
+      throw new Error('One or more members not found');
+    }
+
+    const attendances = members.map((member) =>
+      this.attendanceRepository.create({
+        attended: false,
+        event: event,
+        Member: member,
+      }),
+    );
+
+    return this.attendanceRepository.save(attendances);
   }
 
   async confirmAttendance(id: string) {
