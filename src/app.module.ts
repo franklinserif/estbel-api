@@ -9,6 +9,7 @@ import { AuthModule } from '@auth/auth.module';
 import { AccessesModule } from './accesses/accesses.module';
 import { MembersModule } from './members/members.module';
 import { FieldsModule } from './fields/fields.module';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { FieldsModule } from './fields/fields.module';
     AccessesModule,
     MembersModule,
     FieldsModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
