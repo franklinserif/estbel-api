@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -39,4 +40,11 @@ export class Event {
 
   @OneToMany(() => Attendance, (attendances) => attendances.event)
   attendances: Attendance[];
+
+  @BeforeInsert()
+  checkFieldBeforeInsert() {
+    this.name = this.name.toLowerCase().trim();
+    this.address = this.address.toLowerCase().trim();
+    this.location = this.location.toLowerCase().trim();
+  }
 }

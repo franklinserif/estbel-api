@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -29,4 +30,10 @@ export class Module {
 
   @OneToMany(() => Accesses, (accesses) => accesses.module)
   accesses: Accesses[];
+
+  @BeforeInsert()
+  checkFieldBeforeInsert() {
+    this.name = this.name.toLowerCase().trim();
+    this.description = this.description.toLowerCase().trim();
+  }
 }

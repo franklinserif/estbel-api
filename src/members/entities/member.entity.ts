@@ -5,6 +5,7 @@ import {
   UpdateDateColumn,
   OneToMany,
   Column,
+  BeforeInsert,
 } from 'typeorm';
 import { FieldValue } from '@fields/entities/field-value.entity';
 import { Attendance } from 'src/events/entities/attendance.entity';

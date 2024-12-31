@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -29,4 +30,10 @@ export class Field {
     cascade: true,
   })
   fieldsValue: FieldValue[];
+
+  @BeforeInsert()
+  checkFieldBeforeInsert() {
+    this.fieldName = this.fieldName.toLowerCase().trim();
+    this.fieldType = this.fieldType.toLowerCase().trim();
+  }
 }
