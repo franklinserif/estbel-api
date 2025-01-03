@@ -19,6 +19,7 @@ export class EventsController {
   constructor(
     private readonly eventsService: EventsService,
     private readonly attendancesService: AttendancesService,
+  ) {}
 
   @Post()
   create(@Body() createEventDto: CreateEventDto) {
