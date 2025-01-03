@@ -1,20 +1,24 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
+import { Event } from './entities/event.entity';
 
 @Injectable()
 export class ScheduleService {
   private readonly logger = new Logger(ScheduleService.name);
   constructor(private schedulerRegistry: SchedulerRegistry) {}
 
-  scheduleEventNotification(eventId: string, startTime: Date) {
-    const cronExpression = this.generateWeeklyCronExpression(startTime);
+  scheduleEventNotification(event: Event) {
+    const cronExpression = this.generateWeeklyCronExpression(
+      event.startTime,
+      event.repeat,
+    );
     const job = new CronJob(cronExpression, () => {
-      this.logger.log(`The repeating event ${eventId} has started.`);
-      this.notifyUsers(eventId);
+      this.logger.log(`The repeating event ${event.id} has started.`);
+      this.notifyUsers(event.id);
     });
 
-    this.schedulerRegistry.addCronJob(`event-${eventId}-weekly`, job);
+    this.schedulerRegistry.addCronJob(`event-${event.id}-weekly`, job);
     job.start();
   }
 
