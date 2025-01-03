@@ -18,12 +18,18 @@ export class ScheduleService {
     job.start();
   }
 
-  private generateWeeklyCronExpression(startTime: Date) {
+  private generateWeeklyCronExpression(startTime: Date, repeat: boolean) {
+    const minutes = startTime.getUTCMinutes();
+    const hours = startTime.getUTCHours();
+    const dayOfMonth = startTime.getUTCDate();
+    const month = startTime.getUTCMonth() + 1;
     const dayOfWeek = startTime.getUTCDay();
-    const hour = startTime.getUTCHours();
-    const minute = startTime.getUTCMinutes();
 
-    return `${minute} ${hour} * * ${dayOfWeek}`;
+    if (repeat) {
+      return `${minutes} ${hours} * * ${dayOfWeek}`;
+    } else {
+      return `${minutes} ${hours} ${dayOfMonth} ${month} *`;
+    }
   }
 
   cancelRepeatingEvent(eventId: number): void {
