@@ -40,13 +40,24 @@ export class EventsService {
   }
 
   async update(id: string, updateEventDto: UpdateEventDto) {
-    await this.findOne(id);
+    const event = await this.findOne(id);
 
-    return await this.eventRepository.update(id, updateEventDto);
+    if (
+      event.startTime != updateEventDto.startTime ||
+      event.endTime !== updateEventDto.endTime
+    ) {
+      this.scheduleService.updateCronJob(event);
+    }
+
+    const eventUpdated = await this.eventRepository.update(id, updateEventDto);
+
+    return eventUpdated;
   }
 
   async remove(id: string) {
-    await this.findOne(id);
+    const event = await this.findOne(id);
+
+    this.scheduleService.cancelEvent(event);
 
     return await this.eventRepository.delete(id);
   }
