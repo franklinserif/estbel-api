@@ -64,6 +64,12 @@ export class ScheduleService {
     newJob.start();
     this.logger.log(`Cron job for event ${event.id} updated with new time.`);
   }
+
+  cancelEvent(event: Event): void {
+    this.schedulerRegistry.deleteCronJob(
+      `event-${event.id}-${event.repeat ? 'weekly' : 'day'}`,
+    );
+    this.logger.log(`Repeating event ${event.id} has been canceled.`);
   }
 
   private notifyUsers(eventId: string) {
