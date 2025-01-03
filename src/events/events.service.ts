@@ -5,18 +5,24 @@ import { UpdateEventDto } from './dto/update-event.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Event } from './entities/event.entity';
 import { IQueryParams } from '@common/interfaces/decorators';
+import { ScheduleService } from './schedule.service';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectRepository(Event)
     private readonly eventRepository: Repository<Event>,
+    private readonly scheduleService: ScheduleService,
   ) {}
 
   async create(createEventDto: CreateEventDto) {
-    const event = this.eventRepository.create(createEventDto);
+    const eventCreated = this.eventRepository.create(createEventDto);
 
-    return await this.eventRepository.save(event);
+    const event = await this.eventRepository.save(eventCreated);
+
+    this.scheduleService.scheduleEventNotification(event);
+
+    return event;
   }
 
   async findAll(queryParams: IQueryParams) {
