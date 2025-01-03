@@ -12,10 +12,13 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { QueryParams } from '@users/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
+import { AttendancesService } from './attendances.service';
 
 @Controller('events')
 export class EventsController {
-  constructor(private readonly eventsService: EventsService) {}
+  constructor(
+    private readonly eventsService: EventsService,
+    private readonly attendancesService: AttendancesService,
 
   @Post()
   create(@Body() createEventDto: CreateEventDto) {
@@ -29,7 +32,7 @@ export class EventsController {
 
   @Get('attendances')
   findAllAttendances(@QueryParams() queryParams: IQueryParams) {
-    return this.eventsService.findAllAttendances(queryParams);
+    return this.attendancesService.findAll(queryParams);
   }
 
   @Post('attendances/register/:eventId')
@@ -37,22 +40,22 @@ export class EventsController {
     @Param('eventId') eventId: string,
     @Body('memberIds') memberIds: string[],
   ) {
-    return this.eventsService.registerAttendance(eventId, memberIds);
+    return this.attendancesService.registerAttendance(eventId, memberIds);
   }
 
   @Patch('attendances/confirm/:id')
   confirmAttendance(@Param('id') id: string) {
-    return this.eventsService.confirmAttendance(id);
+    return this.attendancesService.attended(id);
   }
 
   @Patch('attendances/non-attendance/:id')
   nonAttendance(@Param('id') id: string) {
-    return this.eventsService.nonAttendance(id);
+    return this.attendancesService.unattended(id);
   }
 
   @Delete('attendances/remove/:id')
   removeAttendance(@Param('id') id: string) {
-    return this.eventsService.removeAttendance(id);
+    return this.attendancesService.remove(id);
   }
 
   @Get(':id')
