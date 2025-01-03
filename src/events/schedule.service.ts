@@ -39,9 +39,31 @@ export class ScheduleService {
     }
   }
 
-  cancelRepeatingEvent(eventId: number): void {
-    this.schedulerRegistry.deleteCronJob(`event-${eventId}-weekly`);
-    this.logger.log(`Repeating event ${eventId} has been canceled.`);
+  updateCronJob(event: Event) {
+    const jobKey = `event-${event.id}-${event.repeat ? 'weekly' : 'day'}`;
+
+    // Check if the job exists
+    const existingJob = this.schedulerRegistry.getCronJob(jobKey);
+    if (existingJob) {
+      // Stop and delete the existing job
+      existingJob.stop();
+      this.schedulerRegistry.deleteCronJob(jobKey);
+      this.logger.log(`Cron job for event ${event.id} removed.`);
+    }
+
+    const newCronExpression = this.generateWeeklyCronExpression(
+      event.startTime,
+      event.repeat,
+    );
+    const newJob = new CronJob(newCronExpression, () => {
+      this.logger.log(`The updated repeating event ${event.id} has started.`);
+      this.notifyUsers(event.id);
+    });
+
+    this.schedulerRegistry.addCronJob(jobKey, newJob);
+    newJob.start();
+    this.logger.log(`Cron job for event ${event.id} updated with new time.`);
+  }
   }
 
   private notifyUsers(eventId: string) {
