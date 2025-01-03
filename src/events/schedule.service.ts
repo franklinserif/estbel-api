@@ -18,7 +18,10 @@ export class ScheduleService {
       this.notifyUsers(event.id);
     });
 
-    this.schedulerRegistry.addCronJob(`event-${event.id}-weekly`, job);
+    this.schedulerRegistry.addCronJob(
+      `event-${event.id}-${event.repeat ? 'weekly' : 'day'}`,
+      job,
+    );
     job.start();
   }
 
