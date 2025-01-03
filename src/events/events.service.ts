@@ -1,28 +1,16 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { In, Repository } from 'typeorm';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Repository } from 'typeorm';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Event } from './entities/event.entity';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { Attendance } from './entities/attendance.entity';
-import { Member } from '@members/entities/member.entity';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectRepository(Event)
     private readonly eventRepository: Repository<Event>,
-
-    @InjectRepository(Attendance)
-    private readonly attendanceRepository: Repository<Attendance>,
-
-    @InjectRepository(Member)
-    private readonly memberRepository: Repository<Member>,
   ) {}
 
   async create(createEventDto: CreateEventDto) {
@@ -55,80 +43,5 @@ export class EventsService {
     await this.findOne(id);
 
     return await this.eventRepository.delete(id);
-  }
-
-  async registerAttendance(eventId: string, memberIds: string[]) {
-    const event = await this.eventRepository.findOneBy({ id: eventId });
-    if (!event) {
-      throw new Error('Event not found');
-    }
-
-    const members = await this.memberRepository.find({
-      where: { id: In(memberIds) },
-    });
-
-    if (members.length !== memberIds.length) {
-      throw new Error('One or more members not found');
-    }
-
-    const attendances = members.map((member) =>
-      this.attendanceRepository.create({
-        attended: false,
-        event: event,
-        Member: member,
-      }),
-    );
-
-    return this.attendanceRepository.save(attendances);
-  }
-
-  async confirmAttendance(id: string) {
-    const attendance = await this.attendanceRepository.findOne({
-      where: { id },
-    });
-
-    if (!attendance?.id) {
-      throw new NotFoundException(`attendance with id: ${id} not found`);
-    }
-
-    if (!attendance.event.isActive) {
-      throw new BadRequestException(`the event has expired`);
-    }
-
-    return await this.attendanceRepository.update(id, { attended: true });
-  }
-
-  async nonAttendance(id: string) {
-    const attendance = await this.attendanceRepository.findOne({
-      where: { id },
-    });
-
-    if (!attendance?.id) {
-      throw new NotFoundException(`attendance with id: ${id} not found`);
-    }
-
-    return await this.attendanceRepository.update(id, { attended: false });
-  }
-
-  async findAllAttendances(queryParams: IQueryParams) {
-    const attendances = await this.attendanceRepository.find(queryParams);
-
-    return attendances;
-  }
-
-  async removeAttendance(id: string) {
-    const attendance = await this.attendanceRepository.findOne({
-      where: { id },
-    });
-
-    if (!attendance?.id) {
-      throw new NotFoundException(`attendance with id: ${id} not found`);
-    }
-
-    return await this.attendanceRepository.delete(id);
-  }
-
-  private notifyUsers() {
-    console.log('notify users..');
   }
 }
