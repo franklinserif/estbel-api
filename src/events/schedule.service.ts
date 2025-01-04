@@ -8,6 +8,14 @@ export class ScheduleService {
   private readonly logger = new Logger(ScheduleService.name);
   constructor(private schedulerRegistry: SchedulerRegistry) {}
 
+  findAll() {
+    const cronJobs = this.schedulerRegistry.getCronJobs();
+
+    console.log('con-jobs:  ', cronJobs);
+
+    return cronJobs;
+  }
+
   scheduleEventNotification(event: Event) {
     const cronExpression = this.generateWeeklyCronExpression(
       event.startTime,
@@ -40,30 +48,31 @@ export class ScheduleService {
     }
   }
 
-  updateCronJob(event: Event) {
-    const jobKey = `event-${event.id}-${event.repeat ? 'weekly' : 'day'}`;
+  updateCronJob(oldEvent: Event, newEvent: Event) {
+    const jobKey = `event-${oldEvent.id}-${oldEvent.repeat ? 'weekly' : 'day'}`;
 
-    // Check if the job exists
     const existingJob = this.schedulerRegistry.getCronJob(jobKey);
+
     if (existingJob) {
-      // Stop and delete the existing job
       existingJob.stop();
       this.schedulerRegistry.deleteCronJob(jobKey);
-      this.logger.log(`Cron job for event ${event.id} removed.`);
+      this.logger.log(`Cron job for event ${newEvent.id} removed.`);
     }
 
     const newCronExpression = this.generateWeeklyCronExpression(
-      event.startTime,
-      event.repeat,
+      newEvent.startTime,
+      newEvent.repeat,
     );
     const newJob = new CronJob(newCronExpression, () => {
-      this.logger.log(`The updated repeating event ${event.id} has started.`);
-      this.notifyUsers(event.id);
+      this.logger.log(
+        `The updated repeating event ${newEvent.id} has started.`,
+      );
+      this.notifyUsers(newEvent.id);
     });
 
     this.schedulerRegistry.addCronJob(jobKey, newJob);
     newJob.start();
-    this.logger.log(`Cron job for event ${event.id} updated with new time.`);
+    this.logger.log(`Cron job for event ${newEvent.id} updated with new time.`);
   }
 
   cancelEvent(event: Event): void {
