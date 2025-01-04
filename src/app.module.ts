@@ -11,6 +11,7 @@ import { MembersModule } from './members/members.module';
 import { FieldsModule } from './fields/fields.module';
 import { EventsModule } from './events/events.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     MembersModule,
     FieldsModule,
     EventsModule,
+    ReportsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -11,6 +11,7 @@ import { MembersModule } from '@members/members.module';
 import { FieldsModule } from '@fields/fields.module';
 import { EventsModule } from 'src/events/events.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ReportsModule } from 'src/reports/reports.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       synchronize: true,
     }),
     ScheduleModule.forRoot(),
+    ReportsModule,
     EventsModule,
     MembersModule,
     FieldsModule,
