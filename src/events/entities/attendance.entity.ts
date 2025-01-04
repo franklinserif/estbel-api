@@ -9,7 +9,7 @@ import {
 import { Event } from './event.entity';
 import { Member } from '@members/entities/member.entity';
 
-@Entity('Attendances')
+@Entity('attendances')
 export class Attendance {
   @PrimaryGeneratedColumn('uuid')
   id: string;
