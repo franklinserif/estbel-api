@@ -41,15 +41,16 @@ export class EventsService {
 
   async update(id: string, updateEventDto: UpdateEventDto) {
     const event = await this.findOne(id);
+    const eventUpdated = await this.eventRepository.update(id, updateEventDto);
 
     if (
       event.startTime != updateEventDto.startTime ||
-      event.endTime !== updateEventDto.endTime
+      event.endTime !== updateEventDto.endTime ||
+      event.repeat !== updateEventDto.repeat
     ) {
-      this.scheduleService.updateCronJob(event);
+      const newEvent = { ...event, ...updateEventDto };
+      this.scheduleService.updateCronJob(event, newEvent as Event);
     }
-
-    const eventUpdated = await this.eventRepository.update(id, updateEventDto);
 
     return eventUpdated;
   }
