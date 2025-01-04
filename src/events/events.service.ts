@@ -16,13 +16,24 @@ export class EventsService {
   ) {}
 
   async create(createEventDto: CreateEventDto) {
-    const eventCreated = this.eventRepository.create(createEventDto);
+    let jobInfo = null;
 
-    const event = await this.eventRepository.save(eventCreated);
+    try {
+      const eventCreated = this.eventRepository.create(createEventDto);
 
-    this.scheduleService.scheduleEventNotification(event);
+      jobInfo = this.scheduleService.scheduleEventNotification(eventCreated);
 
-    return event;
+      eventCreated.cronExpression = jobInfo.cronExpression;
+
+      const event = await this.eventRepository.save(eventCreated);
+
+      return event;
+    } catch (error) {
+      if (jobInfo?.jobKey) {
+        this.scheduleService.cancelEvent(jobInfo?.jobKey);
+      }
+      throw error;
+    }
   }
 
   async findAll(queryParams: IQueryParams) {
@@ -58,8 +69,10 @@ export class EventsService {
   async remove(id: string) {
     const event = await this.findOne(id);
 
+    const deletedResult = await this.eventRepository.delete(id);
+
     this.scheduleService.cancelEvent(event);
 
-    return await this.eventRepository.delete(id);
+    return deletedResult;
   }
 }
