@@ -16,6 +16,22 @@ export class ScheduleService {
     return cronJobs;
   }
 
+  addCronJobs(events: Event[]) {
+    for (const event of events) {
+      const cronJob = new CronJob(event.cronExpression, () => {
+        this.logger.log(`The repeating event ${event.id} has started.`);
+        this.notifyUsers(event.id);
+      });
+
+      this.schedulerRegistry.addCronJob(
+        `event-${event.id}-${event.repeat ? 'weekly' : 'day'}`,
+        cronJob,
+      );
+
+      cronJob.start();
+    }
+  }
+
   scheduleEventNotification(event: Event) {
     const cronExpression = this.generateWeeklyCronExpression(
       event.startTime,
