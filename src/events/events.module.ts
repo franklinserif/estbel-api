@@ -5,17 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Event } from './entities/event.entity';
 import { Attendance } from './entities/attendance.entity';
 import { MembersModule } from '@members/members.module';
-import { ScheduleModule } from '@nestjs/schedule';
 import { ScheduleService } from './schedule.service';
 import { AttendancesService } from './attendances.service';
 
 @Module({
   controllers: [EventsController],
-  imports: [
-    TypeOrmModule.forFeature([Event, Attendance]),
-    ScheduleModule.forRoot(),
-    MembersModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Event, Attendance]), MembersModule],
   providers: [EventsService, ScheduleService, AttendancesService],
   exports: [TypeOrmModule],
 })
