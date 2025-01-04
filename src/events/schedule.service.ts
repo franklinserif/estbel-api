@@ -26,12 +26,13 @@ export class ScheduleService {
       this.notifyUsers(event.id);
     });
 
-    this.schedulerRegistry.addCronJob(
-      `event-${event.id}-${event.repeat ? 'weekly' : 'day'}`,
-      job,
-    );
+    const jobKey = `event-${event.id}-${event.repeat ? 'weekly' : 'day'}`;
+
+    this.schedulerRegistry.addCronJob(jobKey, job);
 
     job.start();
+
+    return { cronExpression, jobKey };
   }
 
   private generateWeeklyCronExpression(startTime: Date, repeat: boolean) {
