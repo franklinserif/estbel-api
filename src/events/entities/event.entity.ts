@@ -27,7 +27,10 @@ export class Event {
   repeat: boolean;
 
   @Column('text', { nullable: true })
-  cronExpression: string;
+  startCronExpression: string;
+
+  @Column('text', { nullable: true })
+  endCronExpression: string;
 
   @Column('bool', { default: false })
   isActive: boolean;
