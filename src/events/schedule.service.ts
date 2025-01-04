@@ -22,6 +22,7 @@ export class ScheduleService {
       `event-${event.id}-${event.repeat ? 'weekly' : 'day'}`,
       job,
     );
+
     job.start();
   }
 
