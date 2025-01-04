@@ -9,6 +9,8 @@ import { AuthModule } from '@auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { MembersModule } from '@members/members.module';
 import { FieldsModule } from '@fields/fields.module';
+import { EventsModule } from 'src/events/events.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { FieldsModule } from '@fields/fields.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    ScheduleModule.forRoot(),
+    EventsModule,
     MembersModule,
     FieldsModule,
     ModulesModule,
