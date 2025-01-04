@@ -26,6 +26,9 @@ export class Event {
   @Column('bool', { default: false })
   repeat: boolean;
 
+  @Column('text', { nullable: true })
+  cronExpression: string;
+
   @Column('bool', { default: false })
   isActive: boolean;
 
