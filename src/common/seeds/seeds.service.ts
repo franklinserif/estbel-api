@@ -20,8 +20,8 @@ export class SeedsService {
   async run() {
     const queryRunner = this.dataSource.createQueryRunner();
 
-    await queryRunner.query('DELETE FROM "attendances"');
     await queryRunner.query('DELETE FROM "events"');
+    await queryRunner.query('DELETE FROM "attendances"');
 
     await queryRunner.query('DELETE FROM "access"');
     await queryRunner.query('DELETE FROM "modules"');
@@ -93,8 +93,8 @@ export class SeedsService {
   async drop() {
     try {
       const queryRunner = this.dataSource.createQueryRunner();
-      await queryRunner.query('DELETE FROM "Attendances"');
       await queryRunner.query('DELETE FROM "events"');
+      await queryRunner.query('DELETE FROM "attendances"');
 
       await queryRunner.query('DELETE FROM "access"');
       await queryRunner.query('DELETE FROM "modules"');
