@@ -24,24 +24,18 @@ export class EventsService {
   }
 
   async create(createEventDto: CreateEventDto) {
-    let jobInfo = null;
+    const eventCreated = this.eventRepository.create(createEventDto);
 
-    try {
-      const eventCreated = this.eventRepository.create(createEventDto);
+    const event = await this.eventRepository.save(eventCreated);
 
-      jobInfo = this.scheduleService.scheduleEventNotification(eventCreated);
+    const jobInfo = this.scheduleService.scheduleEventNotification(event);
 
-      eventCreated.cronExpression = jobInfo.cronExpression;
+    event.startCronExpression = jobInfo.start.cronExpression;
+    event.endCronExpression = jobInfo.end.cronExpression;
 
-      const event = await this.eventRepository.save(eventCreated);
+    await this.eventRepository.update(event.id, event);
 
-      return event;
-    } catch (error) {
-      if (jobInfo?.jobKey) {
-        this.scheduleService.cancelEvent(jobInfo?.jobKey);
-      }
-      throw error;
-    }
+    return event;
   }
 
   async findAll(queryParams: IQueryParams) {
