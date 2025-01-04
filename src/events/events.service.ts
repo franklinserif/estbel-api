@@ -15,6 +15,14 @@ export class EventsService {
     private readonly scheduleService: ScheduleService,
   ) {}
 
+  async onModuleInit() {
+    const events = await this.eventRepository.find();
+
+    if (events?.length > 0) {
+      this.scheduleService.addCronJobs(events);
+    }
+  }
+
   async create(createEventDto: CreateEventDto) {
     let jobInfo = null;
 
