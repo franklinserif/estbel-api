@@ -20,6 +20,9 @@ export class SeedsService {
   async run() {
     const queryRunner = this.dataSource.createQueryRunner();
 
+    await queryRunner.query('DELETE FROM "attendances"');
+    await queryRunner.query('DELETE FROM "events"');
+
     await queryRunner.query('DELETE FROM "access"');
     await queryRunner.query('DELETE FROM "modules"');
     await queryRunner.query('DELETE FROM "users"');
@@ -74,7 +77,7 @@ export class SeedsService {
 
       const membersEntities = queryRunner.manager.create(Member, members);
 
-      const membersResults = await queryRunner.manager.save(membersEntities);
+      await queryRunner.manager.save(membersEntities);
 
       await queryRunner.commitTransaction();
       this.logger.log('Seeds executed successfully');
@@ -90,6 +93,8 @@ export class SeedsService {
   async drop() {
     try {
       const queryRunner = this.dataSource.createQueryRunner();
+      await queryRunner.query('DELETE FROM "Attendances"');
+      await queryRunner.query('DELETE FROM "events"');
 
       await queryRunner.query('DELETE FROM "access"');
       await queryRunner.query('DELETE FROM "modules"');
@@ -99,7 +104,7 @@ export class SeedsService {
       await queryRunner.query('DELETE FROM "members"');
       await queryRunner.query('DELETE FROM "fields_value"');
     } catch (error) {
-      this.logger.error('can drop the database, something went wrong1');
+      this.logger.error('can drop the database, something went wrong');
       throw error;
     }
   }
