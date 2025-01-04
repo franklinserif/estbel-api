@@ -11,7 +11,7 @@ export class CreateEventDto {
   location: string;
 
   @IsBoolean()
-  permanent: boolean;
+  repeat: boolean;
 
   @IsDate()
   startTime: Date;
