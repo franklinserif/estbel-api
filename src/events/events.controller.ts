@@ -13,12 +13,14 @@ import { UpdateEventDto } from './dto/update-event.dto';
 import { QueryParams } from '@users/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { AttendancesService } from './attendances.service';
+import { ScheduleService } from './schedule.service';
 
 @Controller('events')
 export class EventsController {
   constructor(
     private readonly eventsService: EventsService,
     private readonly attendancesService: AttendancesService,
+    private readonly scheduleService: ScheduleService,
   ) {}
 
   @Post()
@@ -29,6 +31,11 @@ export class EventsController {
   @Get()
   findAll(@QueryParams() queryParams: IQueryParams) {
     return this.eventsService.findAll(queryParams);
+  }
+
+  @Get('cron-jobs')
+  findCronJobs() {
+    return this.scheduleService.findAll();
   }
 
   @Get('attendances')
