@@ -15,6 +15,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
