@@ -9,6 +9,6 @@ import { FieldsModule } from '@fields/fields.module';
   controllers: [MembersController],
   imports: [TypeOrmModule.forFeature([Member]), FieldsModule],
   providers: [MembersService],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, MembersService],
 })
 export class MembersModule {}
