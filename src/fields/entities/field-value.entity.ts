@@ -14,7 +14,7 @@ export class FieldValue {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('text')
+  @Column('text', { default: 'empty', nullable: true })
   fieldValue: string;
 
   @CreateDateColumn({ type: 'timestamp' })
