@@ -9,6 +9,6 @@ import { FieldValue } from './entities/field-value.entity';
   controllers: [FieldsController],
   imports: [TypeOrmModule.forFeature([Field, FieldValue])],
   providers: [FieldsService],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, FieldsService],
 })
 export class FieldsModule {}
