@@ -6,7 +6,6 @@ import { UsersService } from '@users/users.service';
 import { userReport } from './documents/users.report';
 import { MembersService } from '@members/members.service';
 import { membersReport } from './documents/members.report';
-import { FieldsService } from '@fields/fields.service';
 
 @Injectable()
 export class ReportsService {
@@ -14,7 +13,6 @@ export class ReportsService {
     private readonly printerService: PrinterService,
     private readonly usersService: UsersService,
     private readonly membersService: MembersService,
-    private readonly fieldsService: FieldsService,
   ) {}
 
   async test(): Promise<PDFKit.PDFDocument> {
@@ -29,15 +27,5 @@ export class ReportsService {
 
   async membersReport(queryParams: IQueryParams) {
     const members = await this.membersService.findAll(queryParams);
-
-    const fields = await this.fieldsService.findAll({ where: {}, order: {} });
-
-    console.log('members: ', members[0]);
-    console.log(
-      'fields: ',
-      fields.map((field) => field.fieldName),
-    );
-
-    return this.printerService.createPDF(membersReport(members, fields));
   }
 }

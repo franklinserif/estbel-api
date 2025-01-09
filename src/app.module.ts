@@ -8,7 +8,6 @@ import { UsersModule } from '@users/users.module';
 import { AuthModule } from '@auth/auth.module';
 import { AccessesModule } from './accesses/accesses.module';
 import { MembersModule } from './members/members.module';
-import { FieldsModule } from './fields/fields.module';
 import { EventsModule } from './events/events.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ReportsModule } from './reports/reports.module';
@@ -37,7 +36,6 @@ import { ReportsModule } from './reports/reports.module';
     AuthModule,
     AccessesModule,
     MembersModule,
-    FieldsModule,
     EventsModule,
     ReportsModule,
   ],

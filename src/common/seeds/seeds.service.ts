@@ -6,8 +6,6 @@ import { Module } from '@modules/entities/module.entity';
 import { modules } from './seed/modules';
 import { user_module_access } from './seed/user_module_access';
 import { Accesses } from '@accesses/entities/accesses.entity';
-import { Field } from '@fields/entities/field.entity';
-import { fields } from './seed/fields';
 import { Member } from '@members/entities/member.entity';
 import { members } from './seed/members';
 
@@ -27,9 +25,7 @@ export class SeedsService {
     await queryRunner.query('DELETE FROM "modules"');
     await queryRunner.query('DELETE FROM "users"');
 
-    await queryRunner.query('DELETE FROM "fields"');
     await queryRunner.query('DELETE FROM "members"');
-    await queryRunner.query('DELETE FROM "fields_value"');
 
     try {
       await queryRunner.connect();
@@ -69,12 +65,6 @@ export class SeedsService {
 
       // fields, fields value and members
 
-      const fieldsEntities = fields.map((field) =>
-        queryRunner.manager.create(Field, field),
-      );
-
-      await queryRunner.manager.save(fieldsEntities);
-
       const membersEntities = queryRunner.manager.create(Member, members);
 
       await queryRunner.manager.save(membersEntities);
@@ -100,9 +90,7 @@ export class SeedsService {
       await queryRunner.query('DELETE FROM "modules"');
       await queryRunner.query('DELETE FROM "users"');
 
-      await queryRunner.query('DELETE FROM "fields"');
       await queryRunner.query('DELETE FROM "members"');
-      await queryRunner.query('DELETE FROM "fields_value"');
     } catch (error) {
       this.logger.error('can drop the database, something went wrong');
       throw error;
