@@ -11,6 +11,7 @@ import {
 import { Attendance } from 'src/events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
 import { Group } from 'src/groups/entities/group.entity';
+import { MemberStatus } from './memberStatus.entity';
 
 @Entity('members')
 export class Member {
@@ -75,6 +76,9 @@ export class Member {
   @ManyToMany(() => Group, (groups) => groups.members)
   @JoinTable()
   groups: Group[];
+
+  @OneToMany(() => MemberStatus, (membersStatus) => membersStatus.member)
+  membersStatus: MemberStatus[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
