@@ -5,7 +5,6 @@ import { testReport } from './documents/test.report';
 import { UsersService } from '@users/users.service';
 import { userReport } from './documents/users.report';
 import { MembersService } from '@members/members.service';
-import { membersReport } from './documents/members.report';
 
 @Injectable()
 export class ReportsService {
