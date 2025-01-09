@@ -16,6 +16,9 @@ export class Group {
   @Column('text')
   name: string;
 
+  @Column('text')
+  location: string;
+
   @ManyToOne(() => Member, (member) => member.groups)
   member: Member;
 
