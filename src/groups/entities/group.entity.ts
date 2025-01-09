@@ -20,7 +20,7 @@ export class Group {
   @Column('text')
   location: string;
 
-  @ManyToOne(() => Member, (member) => member.groups)
+  @ManyToOne(() => Member, (member) => member.groupsLeader)
   leader: Member;
 
   @ManyToMany(() => Member, (member) => member.groups)
