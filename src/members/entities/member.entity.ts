@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Attendance } from 'src/events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
+import { Group } from 'src/groups/entities/group.entity';
 
 @Entity('members')
 export class Member {
@@ -65,6 +66,9 @@ export class Member {
 
   @Column({ type: 'timestamp' })
   firstVisitAt: Date;
+
+  @OneToMany(() => Group, (groups) => groups.member)
+  groups: Group[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
