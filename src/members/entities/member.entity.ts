@@ -5,6 +5,8 @@ import {
   UpdateDateColumn,
   OneToMany,
   Column,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Attendance } from 'src/events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
@@ -67,7 +69,11 @@ export class Member {
   @Column({ type: 'timestamp' })
   firstVisitAt: Date;
 
-  @OneToMany(() => Group, (groups) => groups.member)
+  @OneToMany(() => Group, (groups) => groups.leader)
+  groupsLeader: Group[];
+
+  @ManyToMany(() => Group, (groups) => groups.members)
+  @JoinTable()
   groups: Group[];
 
   @CreateDateColumn({ type: 'timestamp' })

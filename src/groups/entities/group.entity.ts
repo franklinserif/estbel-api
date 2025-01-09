@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -20,7 +21,10 @@ export class Group {
   location: string;
 
   @ManyToOne(() => Member, (member) => member.groups)
-  member: Member;
+  leader: Member;
+
+  @ManyToMany(() => Member, (member) => member.groups)
+  members: Member[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
