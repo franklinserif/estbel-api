@@ -11,6 +11,7 @@ import { MembersModule } from './members/members.module';
 import { EventsModule } from './events/events.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ReportsModule } from './reports/reports.module';
+import { GroupsModule } from './groups/groups.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { ReportsModule } from './reports/reports.module';
     MembersModule,
     EventsModule,
     ReportsModule,
+    GroupsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
