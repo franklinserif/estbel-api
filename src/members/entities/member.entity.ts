@@ -7,6 +7,8 @@ import {
   Column,
   ManyToMany,
   JoinTable,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
 import { Attendance } from 'src/events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
@@ -92,6 +94,25 @@ export class Member {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @OneToMany(() => Attendance, (attendaces) => attendaces.Member)
-  attendances: Attendance[];
+  @BeforeInsert()
+  checkFieldBeforeInsert() {
+    this.firstName = this.firstName.toLowerCase().trim();
+    this.lastName = this.lastName.toLowerCase().trim();
+    this.email = this.email.toLowerCase().trim();
+    this.phone = this.phone.toLowerCase().trim();
+    this.municipality = this.municipality.toLowerCase().trim();
+    this.parish = this.parish.toLowerCase().trim();
+    this.zone = this.zone.toLowerCase().trim();
+  }
+
+  @BeforeUpdate()
+  checkFieldBeforeUpdate() {
+    this.firstName = this.firstName.toLowerCase().trim();
+    this.lastName = this.lastName.toLowerCase().trim();
+    this.email = this.email.toLowerCase().trim();
+    this.phone = this.phone.toLowerCase().trim();
+    this.municipality = this.municipality.toLowerCase().trim();
+    this.parish = this.parish.toLowerCase().trim();
+    this.zone = this.zone.toLowerCase().trim();
+  }
 }
