@@ -30,12 +30,4 @@ export class User {
     cascade: true,
   })
   accesses: Accesses[];
-
-  @BeforeInsert()
-  checkFieldBeforeInsert() {
-    this.firstName = this.firstName.toLowerCase().trim();
-    this.lastName = this.lastName.toLowerCase().trim();
-    this.email = this.email.toLowerCase().trim();
-    this.phone = this.phone.toLowerCase().trim();
-  }
 }
