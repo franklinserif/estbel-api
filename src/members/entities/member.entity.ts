@@ -11,6 +11,7 @@ import {
   OneToOne,
   JoinColumn,
   BeforeUpdate,
+  ManyToOne,
 } from 'typeorm';
 import { Attendance } from 'src/events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
@@ -80,6 +81,24 @@ export class Member {
 
   @Column({ type: 'timestamp' })
   firstVisitAt: Date;
+
+  @Column({ nullable: true })
+  spouseId: number | null;
+
+  @ManyToOne(() => Member, (member) => member.children, { nullable: true })
+  parent: User | null;
+
+  @OneToMany(() => Member, (member) => member.parent, { eager: true })
+  children: User[];
+
+  @ManyToOne(() => Member, (member) => member.marriedTo, {
+    nullable: true,
+    eager: true,
+  })
+  spouse: Member | null;
+
+  @OneToMany(() => Member, (member) => member.spouse)
+  marriedTo: Member[];
 
   @OneToOne(() => User, { eager: true })
   @JoinColumn()
