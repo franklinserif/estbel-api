@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { GroupType } from './groupType.entity';
 
 @Entity('groups')
 export class Group {
@@ -20,11 +21,14 @@ export class Group {
   @Column('text')
   location: string;
 
-  @ManyToOne(() => Member, (member) => member.groupsLeader)
+  @ManyToOne(() => Member, (member) => member.groupsLeader, { eager: true })
   leader: Member;
 
-  @ManyToMany(() => Member, (member) => member.groups)
+  @ManyToMany(() => Member, (member) => member.groups, { eager: true })
   members: Member[];
+
+  @ManyToOne(() => GroupType, (groupTypes) => groupTypes.groups)
+  groupTypes: GroupType;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
