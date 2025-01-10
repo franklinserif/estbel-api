@@ -51,10 +51,6 @@ export const userReport = (users: User[]): TDocumentDefinitions => {
             tableHead,
             ...users.map((user, index) => [
               { text: index + 1, alignment: 'center', margin: [0, 5] },
-              { text: user.firstName, alignment: 'center', margin: [0, 5] },
-              { text: user.lastName, alignment: 'center', margin: [0, 5] },
-              { text: user.email, alignment: 'center', margin: [0, 5] },
-              { text: user.phone, alignment: 'center', margin: [0, 5] },
             ]),
           ],
         },
