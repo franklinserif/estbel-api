@@ -24,6 +24,12 @@ export class Member {
   })
   ci: string;
 
+  @Column('text')
+  firstName: string;
+
+  @Column('text')
+  lastName: string;
+
   @Column({ type: 'enum', enum: Gender, default: Gender.MALE })
   gender: Gender;
 
