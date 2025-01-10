@@ -8,12 +8,15 @@ import {
   ManyToMany,
   JoinTable,
   BeforeInsert,
+  OneToOne,
+  JoinColumn,
   BeforeUpdate,
 } from 'typeorm';
 import { Attendance } from 'src/events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
 import { Group } from 'src/groups/entities/group.entity';
 import { MemberStatus } from './memberStatus.entity';
+import { User } from '@users/entities/user.entity';
 
 @Entity('members')
 export class Member {
@@ -77,6 +80,10 @@ export class Member {
 
   @Column({ type: 'timestamp' })
   firstVisitAt: Date;
+
+  @OneToOne(() => User, { eager: true })
+  @JoinColumn()
+  user: User;
 
   @OneToMany(() => Group, (groups) => groups.leader)
   groupsLeader: Group[];
