@@ -88,6 +88,9 @@ export class Member {
   @OneToMany(() => MemberStatus, (membersStatus) => membersStatus.member)
   membersStatus: MemberStatus[];
 
+  @OneToMany(() => Attendance, (attendaces) => attendaces.Member)
+  attendances: Attendance[];
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
