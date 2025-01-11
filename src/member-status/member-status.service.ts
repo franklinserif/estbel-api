@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMemberStatusDto } from './dto/create-member-status.dto';
 import { UpdateMemberStatusDto } from './dto/update-member-status.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { MemberStatus } from './entities/member-status.entity';
+import { Repository } from 'typeorm';
+import { IQueryParams } from '@common/interfaces/decorators';
 
 @Injectable()
 export class MemberStatusService {
-  create(createMemberStatusDto: CreateMemberStatusDto) {
-    return 'This action adds a new memberStatus';
+  constructor(
+    @InjectRepository(MemberStatus)
+    private readonly memberStatuService: Repository<MemberStatus>,
+  ) {}
+
+  async create(createMemberStatusDto: CreateMemberStatusDto) {
+    const memberStatus = this.memberStatuService.create(createMemberStatusDto);
+
+    return await this.memberStatuService.save(memberStatus);
   }
 
-  findAll() {
-    return `This action returns all memberStatus`;
+  async findAll(queryParams: IQueryParams) {
+    const memberStatus = await this.memberStatuService.find(queryParams);
+    return memberStatus;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} memberStatus`;
+  async findOne(id: string) {
+    const memberStatus = await this.memberStatuService.findOne({
+      where: { id },
+    });
+
+    if (!memberStatus?.id) {
+      throw new NotFoundException(`member status with id :${id} not found`);
+    }
+
+    return memberStatus;
   }
 
-  update(id: number, updateMemberStatusDto: UpdateMemberStatusDto) {
-    return `This action updates a #${id} memberStatus`;
+  async update(id: string, updateMemberStatusDto: UpdateMemberStatusDto) {
+    await this.findOne(id);
+
+    return await this.memberStatuService.update(id, updateMemberStatusDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} memberStatus`;
+  async remove(id: string) {
+    await this.findOne(id);
+
+    return await this.memberStatuService.delete(id);
   }
 }
