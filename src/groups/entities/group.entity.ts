@@ -1,5 +1,7 @@
 import { Member } from '@members/entities/member.entity';
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -35,4 +37,16 @@ export class Group {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+
+  @BeforeInsert()
+  checkFieldBeforeInsert() {
+    this.name = this.name?.toLowerCase()?.trim();
+    this.location = this.location?.toLowerCase()?.trim();
+  }
+
+  @BeforeUpdate()
+  checkFieldBeforeUpdate() {
+    this.name = this.name?.toLowerCase()?.trim();
+    this.location = this.location?.toLowerCase()?.trim();
+  }
 }
