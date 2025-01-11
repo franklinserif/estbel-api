@@ -64,10 +64,7 @@ export class Member {
   @Column('text', { nullable: true })
   howTheyArrived: string;
 
-  @Column('boolean')
-  isBaptized: boolean;
-
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', nullable: true })
   baptizedAt: Date;
 
   @Column('text', { nullable: true })
