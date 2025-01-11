@@ -11,7 +11,7 @@ import { GroupTypesService } from './group-types.service';
 import { CreateGroupTypesDto } from './dto/create-group-types.dto';
 import { UpdateGroupTypesDto } from './dto/update-group-types.dto';
 
-@Controller('groups-type')
+@Controller('group-types')
 export class GroupTypesController {
   constructor(private readonly groupTypesService: GroupTypesService) {}
 
