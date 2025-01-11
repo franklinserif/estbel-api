@@ -18,7 +18,7 @@ export class Group {
   @Column('text')
   name: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   location: string;
 
   @ManyToOne(() => Member, (member) => member.groupsLeader, { eager: true })
