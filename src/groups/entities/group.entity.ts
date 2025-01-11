@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { GroupType } from './groupType.entity';
+import { GroupType } from '@groupTypes/entities/group-types.entity';
 
 @Entity('groups')
 export class Group {
