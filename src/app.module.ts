@@ -13,6 +13,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ReportsModule } from './reports/reports.module';
 import { GroupsModule } from './groups/groups.module';
 import { MemberStatusModule } from './member-status/member-status.module';
+import { GroupTypesModule } from './group-types/group-types.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { MemberStatusModule } from './member-status/member-status.module';
     ReportsModule,
     GroupsModule,
     MemberStatusModule,
+    GroupTypesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
