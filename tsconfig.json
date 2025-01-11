@@ -25,7 +25,7 @@
       "@users/*": ["src/users/*"],
       "@seeds/*": ["src/common/seeds/*"],
       "@members/*": ["src/members/*"],
-      "@fields/*": ["src/fields/*"],
+      "@memberStatus/*": ["src/member-status/*"],
       "@common/*": ["src/common/*"]
     }
   }
