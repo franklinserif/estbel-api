@@ -23,10 +23,10 @@ export class Group {
   @Column('text', { nullable: true })
   location: string;
 
-  @ManyToOne(() => Member, (member) => member.groupsLeader, { eager: true })
+  @ManyToOne(() => Member, (member) => member.groupsLeader)
   leader: Member;
 
-  @ManyToMany(() => Member, (member) => member.groups, { eager: true })
+  @ManyToMany(() => Member, (member) => member.groups)
   members: Member[];
 
   @ManyToOne(() => GroupType, (groupTypes) => groupTypes.groups)
