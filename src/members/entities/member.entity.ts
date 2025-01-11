@@ -16,7 +16,7 @@ import {
 import { Attendance } from 'src/events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
 import { Group } from 'src/groups/entities/group.entity';
-import { MemberStatus } from './memberStatus.entity';
+import { MemberStatus } from '@memberStatus/entities/member-status.entity';
 import { User } from '@users/entities/user.entity';
 
 @Entity('members')
