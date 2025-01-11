@@ -11,7 +11,6 @@ import {
   OneToOne,
   JoinColumn,
   BeforeUpdate,
-  ManyToOne,
 } from 'typeorm';
 import { Attendance } from 'src/events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
