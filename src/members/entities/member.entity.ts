@@ -82,23 +82,20 @@ export class Member {
   @Column({ type: 'timestamp' })
   firstVisitAt: Date;
 
-  @Column({ nullable: true })
-  spouseId: number | null;
-
-  @ManyToOne(() => Member, (member) => member.children, { nullable: true })
-  parent: User | null;
-
-  @OneToMany(() => Member, (member) => member.parent, { eager: true })
-  children: User[];
-
-  @ManyToOne(() => Member, (member) => member.marriedTo, {
-    nullable: true,
-    eager: true,
+  @ManyToMany(() => Member, (member) => member.children, { cascade: true })
+  @JoinTable({
+    name: 'member_parents',
+    joinColumn: { name: 'child_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'parent_id', referencedColumnName: 'id' },
   })
-  spouse: Member | null;
+  parents: Member[];
 
-  @OneToMany(() => Member, (member) => member.spouse)
-  marriedTo: Member[];
+  @ManyToMany(() => Member, (member) => member.parents)
+  children: Member[];
+
+  @OneToOne(() => Member, (member) => member.spouse)
+  @JoinColumn({ name: 'spouse_id' })
+  spouse: Member;
 
   @OneToOne(() => User, { eager: true })
   @JoinColumn()
