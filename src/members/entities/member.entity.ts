@@ -127,7 +127,7 @@ export class Member {
     this.email = this.email.toLowerCase().trim();
     this.phone = this.phone.toLowerCase().trim();
     this.municipality = this.municipality.toLowerCase().trim();
-    this.parish = this.parish.toLowerCase().trim();
+    this.location = this.location.toLowerCase().trim();
     this.zone = this.zone.toLowerCase().trim();
   }
 
