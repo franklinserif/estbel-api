@@ -1,5 +1,6 @@
 import {
   BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -55,5 +56,20 @@ export class Event {
     this.name = this.name.toLowerCase().trim();
     this.address = this.address.toLowerCase().trim();
     this.location = this.location.toLowerCase().trim();
+  }
+
+  @BeforeUpdate()
+  checkBeforeUpdate() {
+    if (this.name) {
+      this.name = this.name.toLowerCase().trim();
+    }
+
+    if (this.address) {
+      this.address = this.address.toLowerCase().trim();
+    }
+
+    if (this.location) {
+      this.location = this.location.toLowerCase().trim();
+    }
   }
 }
