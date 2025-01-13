@@ -8,7 +8,7 @@ import {
   IsEmail,
   MinLength,
 } from 'class-validator';
-import { Gender } from '@members/enum/options';
+import { CivilStatus, Gender } from '@members/enum/options';
 
 export class CreateMemberDto {
   @IsOptional()
@@ -74,8 +74,8 @@ export class CreateMemberDto {
   @MinLength(2)
   baptizedChurch?: string;
 
-  @IsBoolean()
-  civilStatus: boolean;
+  @IsEnum(CivilStatus)
+  civilStatus: CivilStatus;
 
   @IsOptional()
   @IsDateString()
