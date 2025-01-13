@@ -54,7 +54,7 @@ export class Member {
   location: string; // municipio
 
   @Column('text', { nullable: true })
-  zone: string;
+  zone: string; // sector
 
   @Column('text', { nullable: true })
   address: string;
