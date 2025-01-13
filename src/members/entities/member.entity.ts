@@ -14,6 +14,7 @@ import {
 } from 'typeorm';
 import { Attendance } from 'src/events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
+import { CivilStatus } from '@members/enum/options';
 import { Group } from 'src/groups/entities/group.entity';
 import { MemberStatus } from '@memberStatus/entities/member-status.entity';
 import { User } from '@users/entities/user.entity';
@@ -68,7 +69,11 @@ export class Member {
   @Column('text', { nullable: true })
   baptizedChurch: string;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({
+    type: 'enum',
+    enum: CivilStatus,
+    default: CivilStatus.SINGLE,
+  })
   civilStatus: boolean;
 
   @Column({ type: 'timestamp', nullable: true })
