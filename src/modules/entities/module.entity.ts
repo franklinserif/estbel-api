@@ -19,7 +19,7 @@ export class Module {
   })
   name: string;
 
-  @Column('text', {})
+  @Column('text')
   description: string;
 
   @CreateDateColumn({ type: 'timestamp' })
