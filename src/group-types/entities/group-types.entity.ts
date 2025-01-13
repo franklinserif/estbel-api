@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -24,4 +26,16 @@ export class GroupType {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+
+  @BeforeInsert()
+  checkBeforeInsert() {
+    this.name = this.name.toLowerCase().trim();
+  }
+
+  @BeforeUpdate()
+  checkBeforeUpdate() {
+    if (this.name) {
+      this.name = this.name.toLowerCase().trim();
+    }
+  }
 }
