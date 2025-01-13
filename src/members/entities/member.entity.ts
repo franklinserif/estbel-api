@@ -74,7 +74,7 @@ export class Member {
     enum: CivilStatus,
     default: CivilStatus.SINGLE,
   })
-  civilStatus: boolean;
+  civilStatus: CivilStatus;
 
   @Column({ type: 'timestamp', nullable: true })
   weddingAt: Date;
