@@ -6,6 +6,7 @@ import {
   IsDateString,
   IsUUID,
   IsEmail,
+  MinLength,
 } from 'class-validator';
 import { Gender } from '@members/enum/options';
 
@@ -16,6 +17,7 @@ export class CreateMemberDto {
 
   @IsOptional()
   @IsString()
+  @MinLength(5)
   ci?: string;
 
   @IsEnum(Gender)
@@ -23,6 +25,7 @@ export class CreateMemberDto {
 
   @IsOptional()
   @IsString()
+  @MinLength(5)
   phone?: string;
 
   @IsOptional()
@@ -31,26 +34,32 @@ export class CreateMemberDto {
 
   @IsOptional()
   @IsEmail()
+  @MinLength(4)
   email?: string;
 
   @IsOptional()
   @IsString()
+  @MinLength(2)
   municipality?: string;
 
   @IsOptional()
   @IsString()
-  parish?: string;
+  @MinLength(2)
+  location?: string;
 
   @IsOptional()
   @IsString()
+  @MinLength(2)
   zone?: string;
 
   @IsOptional()
   @IsString()
+  @MinLength(2)
   address?: string;
 
   @IsOptional()
   @IsString()
+  @MinLength(2)
   howTheyArrived?: string;
 
   @IsBoolean()
@@ -62,6 +71,7 @@ export class CreateMemberDto {
 
   @IsOptional()
   @IsString()
+  @MinLength(2)
   baptizedChurch?: string;
 
   @IsBoolean()
