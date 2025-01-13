@@ -46,7 +46,12 @@ export class Group {
 
   @BeforeUpdate()
   checkFieldBeforeUpdate() {
-    this.name = this.name?.toLowerCase()?.trim();
-    this.location = this.location?.toLowerCase()?.trim();
+    if (this.name) {
+      this.name = this.name.toLowerCase().trim();
+    }
+
+    if (this.location) {
+      this.location = this.location.toLowerCase().trim();
+    }
   }
 }
