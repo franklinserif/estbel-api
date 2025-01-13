@@ -51,9 +51,8 @@ export class Member {
   municipality: string;
 
   @Column('text', { nullable: true })
-  parish: string;
+  location: string; // municipio
 
-  // sector for spanish
   @Column('text', { nullable: true })
   zone: string;
 
