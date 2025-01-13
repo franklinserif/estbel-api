@@ -133,12 +133,32 @@ export class Member {
 
   @BeforeUpdate()
   checkFieldBeforeUpdate() {
-    this.firstName = this.firstName.toLowerCase().trim();
-    this.lastName = this.lastName.toLowerCase().trim();
-    this.email = this.email.toLowerCase().trim();
-    this.phone = this.phone.toLowerCase().trim();
-    this.municipality = this.municipality.toLowerCase().trim();
-    this.parish = this.parish.toLowerCase().trim();
-    this.zone = this.zone.toLowerCase().trim();
+    if (this.firstName) {
+      this.firstName = this.firstName.toLowerCase().trim();
+    }
+
+    if (this.lastName) {
+      this.lastName = this.lastName.toLowerCase().trim();
+    }
+
+    if (this.email) {
+      this.email = this.email.toLowerCase().trim();
+    }
+
+    if (this.phone) {
+      this.phone = this.phone.toLowerCase().trim();
+    }
+
+    if (this.municipality) {
+      this.municipality = this.municipality.toLowerCase().trim();
+    }
+
+    if (this.location) {
+      this.location = this.location.toLowerCase().trim();
+    }
+
+    if (this.zone) {
+      this.zone = this.zone.toLowerCase().trim();
+    }
   }
 }
