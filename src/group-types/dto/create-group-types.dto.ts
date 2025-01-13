@@ -1,7 +1,7 @@
-import { IsString, Length } from 'class-validator';
+import { IsString, MinLength } from 'class-validator';
 
 export class CreateGroupTypesDto {
   @IsString()
-  @Length(2)
+  @MinLength(2)
   name: string;
 }
