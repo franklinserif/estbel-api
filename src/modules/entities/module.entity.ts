@@ -1,5 +1,6 @@
 import {
   BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -35,5 +36,16 @@ export class Module {
   checkFieldBeforeInsert() {
     this.name = this.name.toLowerCase().trim();
     this.description = this.description.toLowerCase().trim();
+  }
+
+  @BeforeUpdate()
+  checkFieldBeforeUpdate() {
+    if (this.name) {
+      this.name = this.name.toLowerCase().trim();
+    }
+
+    if (this.description) {
+      this.description = this.description.toLowerCase().trim();
+    }
   }
 }
