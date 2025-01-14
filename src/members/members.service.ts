@@ -34,10 +34,9 @@ export class MembersService {
   }
 
   async update(id: string, updateMemberDto: UpdateMemberDto) {
-    const member = await this.findOne(id);
+    await this.findOne(id);
 
-    await this.memberRepository.update(id, member);
-    return member;
+    return await this.memberRepository.update(id, updateMemberDto);
   }
 
   async remove(id: string) {
