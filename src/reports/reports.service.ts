@@ -26,5 +26,7 @@ export class ReportsService {
 
   async membersReport(queryParams: IQueryParams) {
     const members = await this.membersService.findAll(queryParams);
+
+    return members;
   }
 }
