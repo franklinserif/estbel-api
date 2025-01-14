@@ -148,6 +148,8 @@ export class ScheduleService {
 
   private notifyUsers(eventId: string) {
     this.logger.log('notify users..');
+
+    console.log('eventId', eventId);
   }
 
   private job(
