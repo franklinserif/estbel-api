@@ -12,13 +12,9 @@ import { CivilStatus, Gender } from '@members/enum/options';
 
 export class CreateMemberDto {
   @IsOptional()
-  @IsUUID()
-  id?: string;
-
-  @IsOptional()
-  @IsString()
   @MinLength(5)
-  ci?: string;
+  @IsString()
+  id?: string;
 
   @IsEnum(Gender)
   gender: Gender;
