@@ -5,16 +5,35 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Member } from './entities/member.entity';
 import { Repository } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
+import { MemberStatus } from '@memberStatus/entities/member-status.entity';
 
 @Injectable()
 export class MembersService {
   constructor(
     @InjectRepository(Member)
     private readonly memberRepository: Repository<Member>,
+
+    @InjectRepository(MemberStatus)
+    private readonly memberStatusRepository: Repository<MemberStatus>,
   ) {}
 
   async create(createMemberDto: CreateMemberDto) {
-    const member = this.memberRepository.create(createMemberDto);
+    const { memberStatusId } = createMemberDto;
+
+    const memberStatus = await this.memberStatusRepository.findOne({
+      where: { id: memberStatusId },
+    });
+
+    if (!memberStatus?.id) {
+      throw new NotFoundException(
+        `member status with id: ${memberStatusId} not found`,
+      );
+    }
+
+    const member = this.memberRepository.create({
+      ...createMemberDto,
+      membersStatus: [memberStatus],
+    });
 
     return await this.memberRepository.save(member);
   }
@@ -35,6 +54,23 @@ export class MembersService {
 
   async update(id: string, updateMemberDto: UpdateMemberDto) {
     await this.findOne(id);
+
+    const { memberStatusId } = updateMemberDto;
+
+    const memberStatus = await this.memberStatusRepository.findOne({
+      where: { id: memberStatusId },
+    });
+
+    if (!memberStatus?.id) {
+      throw new NotFoundException(
+        `member status with id: ${memberStatusId} not found`,
+      );
+    }
+
+    updateMemberDto.membersStatus = [
+      memberStatus,
+      ...updateMemberDto.membersStatus,
+    ];
 
     return await this.memberRepository.update(id, updateMemberDto);
   }
