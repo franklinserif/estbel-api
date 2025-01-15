@@ -77,7 +77,10 @@ export class Member {
   @Column({ type: 'timestamp' })
   firstVisitAt: Date;
 
-  @ManyToMany(() => Member, (member) => member.children, { cascade: true })
+  @ManyToMany(() => Member, (member) => member.children, {
+    cascade: true,
+    nullable: true,
+  })
   @JoinTable({
     name: 'member_parents',
     joinColumn: { name: 'child_id', referencedColumnName: 'id' },
@@ -88,25 +91,27 @@ export class Member {
   @ManyToMany(() => Member, (member) => member.parents)
   children: Member[];
 
-  @OneToOne(() => Member, (member) => member.spouse)
+  @OneToOne(() => Member, (member) => member.spouse, { nullable: true })
   @JoinColumn({ name: 'spouse_id' })
   spouse: Member;
 
-  @OneToOne(() => User, { eager: true })
+  @OneToOne(() => User, { eager: true, nullable: true })
   @JoinColumn()
   user: User;
 
-  @OneToMany(() => Group, (groups) => groups.leader)
+  @OneToMany(() => Group, (groups) => groups.leader, { nullable: true })
   groupsLeader: Group[];
 
-  @ManyToMany(() => Group, (groups) => groups.members)
+  @ManyToMany(() => Group, (groups) => groups.members, { nullable: true })
   @JoinTable()
   groups: Group[];
 
   @OneToMany(() => MemberStatus, (membersStatus) => membersStatus.member)
   membersStatus: MemberStatus[];
 
-  @OneToMany(() => Attendance, (attendaces) => attendaces.Member)
+  @OneToMany(() => Attendance, (attendaces) => attendaces.Member, {
+    nullable: true,
+  })
   attendances: Attendance[];
 
   @CreateDateColumn({ type: 'timestamp' })
