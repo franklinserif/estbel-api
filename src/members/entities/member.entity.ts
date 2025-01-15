@@ -18,17 +18,12 @@ import { CivilStatus } from '@members/enum/options';
 import { Group } from 'src/groups/entities/group.entity';
 import { MemberStatus } from '@memberStatus/entities/member-status.entity';
 import { User } from '@users/entities/user.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity('members')
 export class Member {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column('text', {
-    unique: true,
-    nullable: true,
-  })
-  ci: string;
 
   @Column('text')
   firstName: string;
@@ -122,6 +117,12 @@ export class Member {
 
   @BeforeInsert()
   checkFieldBeforeInsert() {
+    if (!this?.id) {
+      this.id = uuidv4();
+    } else {
+      this.id = this.id.toLowerCase().trim();
+    }
+
     this.firstName = this.firstName.toLowerCase().trim();
     this.lastName = this.lastName.toLowerCase().trim();
     this.email = this.email.toLowerCase().trim();
@@ -133,6 +134,10 @@ export class Member {
 
   @BeforeUpdate()
   checkFieldBeforeUpdate() {
+    if (this.id) {
+      this.id = this.id.toLowerCase().trim();
+    }
+
     if (this.firstName) {
       this.firstName = this.firstName.toLowerCase().trim();
     }
