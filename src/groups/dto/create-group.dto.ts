@@ -1,4 +1,4 @@
-import { IsOptional, IsString, MinLength } from 'class-validator';
+import { IsOptional, IsString, IsUUID, MinLength } from 'class-validator';
 
 export class CreateGroupDto {
   @IsString()
@@ -9,4 +9,8 @@ export class CreateGroupDto {
   @IsString()
   @MinLength(2)
   location: string;
+
+  @IsUUID()
+  @IsString()
+  groupTypeId: string;
 }
