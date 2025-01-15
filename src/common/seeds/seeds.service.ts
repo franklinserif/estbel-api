@@ -6,8 +6,6 @@ import { Module } from '@modules/entities/module.entity';
 import { modules } from './seed/modules';
 import { user_module_access } from './seed/user_module_access';
 import { Accesses } from '@accesses/entities/accesses.entity';
-import { Member } from '@members/entities/member.entity';
-import { members } from './seed/members';
 
 @Injectable()
 export class SeedsService {
@@ -64,11 +62,11 @@ export class SeedsService {
       await queryRunner.manager.save(userModuleAccessEntities);
 
       // fields, fields value and members
-
+      /* 
       const membersEntities = queryRunner.manager.create(Member, members);
 
       await queryRunner.manager.save(membersEntities);
-
+ */
       await queryRunner.commitTransaction();
       this.logger.log('Seeds executed successfully');
     } catch (error) {
