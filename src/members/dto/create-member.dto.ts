@@ -83,4 +83,8 @@ export class CreateMemberDto {
 
   @IsDateString()
   firstVisitAt: Date;
+
+  @IsUUID()
+  @IsString()
+  memberStatusId: string;
 }
