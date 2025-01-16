@@ -1,7 +1,6 @@
 import {
   Entity,
   CreateDateColumn,
-  PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToMany,
   Column,
@@ -22,7 +21,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Entity('members')
 export class Member {
-  @PrimaryGeneratedColumn('uuid')
+  @Column('text', { primary: true, unique: true })
   id: string;
 
   @Column('text')
@@ -44,7 +43,10 @@ export class Member {
   email: string;
 
   @Column('text', { nullable: true })
-  municipality: string;
+  country: string;
+
+  @Column('text', { nullable: true })
+  city: string;
 
   @Column('text', { nullable: true })
   location: string; // municipio
@@ -74,7 +76,7 @@ export class Member {
   @Column({ type: 'timestamp', nullable: true })
   weddingAt: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', nullable: true })
   firstVisitAt: Date;
 
   @ManyToMany(() => Member, (member) => member.children, {
@@ -132,7 +134,8 @@ export class Member {
     this.lastName = this.lastName.toLowerCase().trim();
     this.email = this.email.toLowerCase().trim();
     this.phone = this.phone.toLowerCase().trim();
-    this.municipality = this.municipality.toLowerCase().trim();
+    this.country = this.country.toLowerCase().trim();
+    this.city = this.city.toLowerCase().trim();
     this.location = this.location.toLowerCase().trim();
     this.zone = this.zone.toLowerCase().trim();
   }
@@ -159,8 +162,12 @@ export class Member {
       this.phone = this.phone.toLowerCase().trim();
     }
 
-    if (this.municipality) {
-      this.municipality = this.municipality.toLowerCase().trim();
+    if (this.country) {
+      this.country = this.country.toLowerCase().trim();
+    }
+
+    if (this.city) {
+      this.city = this.city.toLowerCase().trim();
     }
 
     if (this.location) {
