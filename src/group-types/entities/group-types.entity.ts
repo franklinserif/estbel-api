@@ -18,7 +18,7 @@ export class GroupType {
   @Column('text')
   name: string;
 
-  @OneToMany(() => Group, (groups) => groups.groupTypes, { eager: true })
+  @OneToMany(() => Group, (groups) => groups.groupTypes)
   groups: Group[];
 
   @CreateDateColumn({ type: 'timestamp' })
