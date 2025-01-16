@@ -32,6 +32,7 @@ import { GroupTypesModule } from './group-types/group-types.module';
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: true,
+      dropSchema: true,
     }),
     ScheduleModule.forRoot(),
     ModulesModule,
