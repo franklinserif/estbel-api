@@ -36,7 +36,12 @@ export class CreateMemberDto {
   @IsOptional()
   @IsString()
   @MinLength(2)
-  municipality?: string;
+  country?: string;
+
+  @IsOptional()
+  @IsString()
+  @MinLength(2)
+  city?: string;
 
   @IsOptional()
   @IsString()
