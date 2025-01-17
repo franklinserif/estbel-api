@@ -18,6 +18,9 @@ export class GroupType {
   @Column('text')
   name: string;
 
+  @Column('text')
+  description: string;
+
   @OneToMany(() => Group, (groups) => groups.groupTypes)
   groups: Group[];
 
