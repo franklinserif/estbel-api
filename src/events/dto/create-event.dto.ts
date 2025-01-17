@@ -6,6 +6,10 @@ export class CreateEventDto {
   name: string;
 
   @IsString()
+  @MinLength(8)
+  description: string;
+
+  @IsString()
   @MinLength(2)
   address: string;
 

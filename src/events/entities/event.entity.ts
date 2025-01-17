@@ -19,6 +19,9 @@ export class Event {
   name: string;
 
   @Column('text')
+  description: string;
+
+  @Column('text')
   address: string;
 
   @Column('text')
