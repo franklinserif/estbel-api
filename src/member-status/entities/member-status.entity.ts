@@ -18,6 +18,9 @@ export class MemberStatus {
   @Column('text')
   name: string;
 
+  @Column('text')
+  description: string;
+
   @ManyToOne(() => Member, (members) => members.membersStatus)
   member: Member;
 
