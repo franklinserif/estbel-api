@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { Group } from '@groups/entities/group.entity';
 
-@Entity('group_type')
+@Entity('group_types')
 export class GroupType {
   @PrimaryGeneratedColumn('uuid')
   id: string;
