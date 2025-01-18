@@ -1,4 +1,4 @@
-export const MEMBER_STATUS = [
+export const MEMBERS_STATUS = [
   {
     name: 'baptized',
     description:
