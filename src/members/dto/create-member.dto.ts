@@ -7,8 +7,11 @@ import {
   IsUUID,
   IsEmail,
   MinLength,
+  IsArray,
+  ArrayNotEmpty,
 } from 'class-validator';
 import { CivilStatus, Gender } from '@members/enum/options';
+import { IsUUIDOrCI } from '@members/decorators/is-uuidor-ci.decorator';
 
 export class CreateMemberDto {
   @IsOptional()
@@ -88,4 +91,20 @@ export class CreateMemberDto {
   @IsUUID()
   @IsString()
   memberStatusId: string;
+
+  @IsOptional()
+  @IsUUIDOrCI()
+  spouseId?: string;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsUUIDOrCI({ each: true })
+  parentIds?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsUUIDOrCI({ each: true })
+  childIds?: string[];
 }
