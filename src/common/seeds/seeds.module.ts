@@ -11,6 +11,8 @@ import { MembersModule } from '@members/members.module';
 import { EventsModule } from 'src/events/events.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ReportsModule } from 'src/reports/reports.module';
+import { GroupsModule } from '@groups/groups.module';
+import { GroupTypesModule } from '@groupTypes/group-types.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { ReportsModule } from 'src/reports/reports.module';
       synchronize: true,
     }),
     ScheduleModule.forRoot(),
+    GroupTypesModule,
+    GroupsModule,
     ReportsModule,
     EventsModule,
     MembersModule,
