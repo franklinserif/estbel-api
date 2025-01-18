@@ -1,11 +1,7 @@
 import { DataSource } from 'typeorm';
 import { Injectable, Logger } from '@nestjs/common';
-import { User } from '@users/entities/user.entity';
-import { users } from './seed/users';
-import { Module } from '@modules/entities/module.entity';
-import { modules } from './seed/modules';
-import { user_module_access } from './seed/user_module_access';
-import { Accesses } from '@accesses/entities/accesses.entity';
+import { GROUP_TYPES } from './seed/group-types';
+import { GROUPS } from './seed/groups';
 
 @Injectable()
 export class SeedsService {
@@ -21,52 +17,32 @@ export class SeedsService {
 
     await queryRunner.query('DELETE FROM "access"');
     await queryRunner.query('DELETE FROM "modules"');
-    await queryRunner.query('DELETE FROM "users"');
 
+    await queryRunner.query('DELETE FROM "members_status"');
+    await queryRunner.query('DELETE FROM "groups"');
+    await queryRunner.query('DELETE FROM "group_types"');
     await queryRunner.query('DELETE FROM "members"');
+    await queryRunner.query('DELETE FROM "users"');
+    await queryRunner.query('DELETE FROM "members_groups_groups"');
+    await queryRunner.query('DELETE FROM "member_parents"');
 
     try {
       await queryRunner.connect();
       await queryRunner.startTransaction();
 
-      // access, users and modules
+      await queryRunner.manager.save('GroupType', GROUP_TYPES);
 
-      const modulesEntities = modules.map((moduleEntity) =>
-        queryRunner.manager.create(Module, moduleEntity),
-      );
-      const modulesResults = await queryRunner.manager.save(modulesEntities);
+      const ministeries = await queryRunner.manager.find('GroupType', {
+        where: { name: 'Ministerios' },
+      });
 
-      const usersEntities = users.map((userEntity) =>
-        queryRunner.manager.create(User, userEntity),
-      );
-      const usersResults = await queryRunner.manager.save(usersEntities);
+      const groupsWithTypes = GROUPS.map((group) => ({
+        ...group,
+        groupTypes: ministeries[0],
+      }));
 
-      const userModuleAccessEntities = usersResults.flatMap((user) =>
-        Array.from({ length: 3 }).map(() => {
-          const userModuleAccessIndex = Math.floor(
-            Math.random() * user_module_access.length,
-          );
-          const moduleIndex = Math.floor(Math.random() * modulesResults.length);
+      await queryRunner.manager.save('Group', groupsWithTypes);
 
-          const UMA = new Accesses();
-          UMA.canEdit = user_module_access[userModuleAccessIndex].canEdit;
-          UMA.canDelete = user_module_access[userModuleAccessIndex].canDelete;
-          UMA.canRead = user_module_access[userModuleAccessIndex].canRead;
-          UMA.canPrint = user_module_access[userModuleAccessIndex].canPrint;
-          UMA.module = modulesResults[moduleIndex];
-          UMA.user = user;
-
-          return queryRunner.manager.create(Accesses, UMA);
-        }),
-      );
-      await queryRunner.manager.save(userModuleAccessEntities);
-
-      // fields, fields value and members
-      /* 
-      const membersEntities = queryRunner.manager.create(Member, members);
-
-      await queryRunner.manager.save(membersEntities);
- */
       await queryRunner.commitTransaction();
       this.logger.log('Seeds executed successfully');
     } catch (error) {
@@ -86,9 +62,14 @@ export class SeedsService {
 
       await queryRunner.query('DELETE FROM "access"');
       await queryRunner.query('DELETE FROM "modules"');
-      await queryRunner.query('DELETE FROM "users"');
 
+      await queryRunner.query('DELETE FROM "members_status"');
+      await queryRunner.query('DELETE FROM "groups"');
+      await queryRunner.query('DELETE FROM "group_types"');
       await queryRunner.query('DELETE FROM "members"');
+      await queryRunner.query('DELETE FROM "users"');
+      await queryRunner.query('DELETE FROM "members_groups_groups"');
+      await queryRunner.query('DELETE FROM "member_parents"');
     } catch (error) {
       this.logger.error('can drop the database, something went wrong');
       throw error;
