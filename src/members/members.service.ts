@@ -3,7 +3,7 @@ import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Member } from './entities/member.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { MemberStatus } from '@memberStatus/entities/member-status.entity';
 
@@ -18,7 +18,8 @@ export class MembersService {
   ) {}
 
   async create(createMemberDto: CreateMemberDto) {
-    const { memberStatusId } = createMemberDto;
+    const { memberStatusId, spouseId, childIds, parentIds, ...memberData } =
+      createMemberDto;
 
     const memberStatus = await this.memberStatusRepository.findOne({
       where: { id: memberStatusId },
@@ -31,9 +32,27 @@ export class MembersService {
     }
 
     const member = this.memberRepository.create({
-      ...createMemberDto,
+      ...memberData,
       membersStatus: [memberStatus],
     });
+
+    if (spouseId) {
+      member.spouse = await this.memberRepository.findOne({
+        where: { id: spouseId },
+      });
+    }
+
+    if (parentIds) {
+      member.parents = await this.memberRepository.findBy({
+        id: In(parentIds),
+      });
+    }
+
+    if (childIds) {
+      member.children = await this.memberRepository.findBy({
+        id: In(childIds),
+      });
+    }
 
     return await this.memberRepository.save(member);
   }
