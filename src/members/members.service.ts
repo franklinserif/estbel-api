@@ -37,9 +37,15 @@ export class MembersService {
     });
 
     if (spouseId) {
-      member.spouse = await this.memberRepository.findOne({
+      const spouse = await this.memberRepository.findOne({
         where: { id: spouseId },
       });
+
+      if (spouse?.id) {
+        throw new NotFoundException(`spouse with id ${spouseId} not found`);
+      }
+
+      member.spouse = spouse;
     }
 
     if (parentIds) {
@@ -62,7 +68,10 @@ export class MembersService {
   }
 
   async findOne(id: string) {
-    const member = await this.memberRepository.findOne({ where: { id } });
+    const member = await this.memberRepository.findOne({
+      where: { id },
+      relations: ['parents', 'children', 'spouse'],
+    });
 
     if (!member?.id) {
       throw new NotFoundException(`member with id: ${id} not found`);
@@ -70,11 +79,11 @@ export class MembersService {
 
     return member;
   }
-
   async update(id: string, updateMemberDto: UpdateMemberDto) {
     await this.findOne(id);
 
-    const { memberStatusId } = updateMemberDto;
+    const { memberStatusId, spouseId, childIds, parentIds, ...memberData } =
+      updateMemberDto;
 
     const memberStatus = await this.memberStatusRepository.findOne({
       where: { id: memberStatusId },
@@ -82,13 +91,47 @@ export class MembersService {
 
     if (!memberStatus?.id) {
       throw new NotFoundException(
-        `member status with id: ${memberStatusId} not found`,
+        `Member status with id: ${memberStatusId} not found`,
       );
     }
 
-    updateMemberDto.memberStatus = updateMemberDto.memberStatus;
+    const member = this.memberRepository.create({
+      ...memberData,
+      memberStatus,
+    });
 
-    return await this.memberRepository.update(id, updateMemberDto);
+    if (spouseId) {
+      const spouse = await this.memberRepository.findOne({
+        where: { id: spouseId },
+      });
+
+      if (!spouse?.id) {
+        throw new NotFoundException(`Spouse with id ${spouseId} not found`);
+      }
+
+      member.spouse = spouse;
+    }
+
+    await this.memberRepository.update(id, member);
+
+    const currentMember = await this.memberRepository.findOne({
+      where: { id },
+      relations: ['children', 'parents'],
+    });
+
+    if (parentIds) {
+      const parents = await this.memberRepository.findBy({ id: In(parentIds) });
+      currentMember.parents = parents;
+    }
+
+    if (childIds) {
+      const children = await this.memberRepository.findBy({ id: In(childIds) });
+      currentMember.children = children;
+    }
+
+    await this.memberRepository.save(currentMember);
+
+    return currentMember;
   }
 
   async remove(id: string) {
