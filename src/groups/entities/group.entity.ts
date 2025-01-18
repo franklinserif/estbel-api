@@ -32,10 +32,10 @@ export class Group {
   @ManyToMany(() => Member, (member) => member.groups)
   members: Member[];
 
-  @ManyToOne(() => GroupType, (groupTypes) => groupTypes.groups, {
+  @ManyToOne(() => GroupType, (groupType) => groupType.groups, {
     eager: true,
   })
-  groupTypes: GroupType;
+  groupType: GroupType;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
