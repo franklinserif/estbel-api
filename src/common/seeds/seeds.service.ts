@@ -41,7 +41,7 @@ export class SeedsService {
 
       const groupsWithTypes = GROUPS.map((group) => ({
         ...group,
-        groupTypes: ministeries[0],
+        groupType: ministeries[0],
       }));
 
       // create and save groups with 'ministerios' group-type relation
