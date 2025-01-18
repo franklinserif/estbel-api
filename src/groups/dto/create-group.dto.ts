@@ -10,6 +10,11 @@ export class CreateGroupDto {
   @MinLength(2)
   location: string;
 
+  @IsOptional()
+  @IsString()
+  @MinLength(8)
+  description: string;
+
   @IsUUID()
   @IsString()
   groupTypeId: string;

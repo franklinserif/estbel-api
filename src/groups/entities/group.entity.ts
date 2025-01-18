@@ -20,6 +20,9 @@ export class Group {
   @Column('text')
   name: string;
 
+  @Column('text')
+  description: string;
+
   @Column('text', { nullable: true })
   location: string;
 
@@ -44,6 +47,7 @@ export class Group {
   checkFieldBeforeInsert() {
     this.name = this.name?.toLowerCase()?.trim();
     this.location = this.location?.toLowerCase()?.trim();
+    this.description = this.description?.toLowerCase()?.trim();
   }
 
   @BeforeUpdate()
@@ -54,6 +58,10 @@ export class Group {
 
     if (this.location) {
       this.location = this.location.toLowerCase().trim();
+    }
+
+    if (this.description) {
+      this.description = this.description.toLowerCase().trim();
     }
   }
 }
