@@ -94,7 +94,9 @@ export class Member {
   @ManyToMany(() => Member, (member) => member.parents)
   children: Member[];
 
-  @OneToOne(() => Member, (member) => member.spouse, { nullable: true })
+  @OneToOne(() => Member, (member) => member.spouse, {
+    nullable: true,
+  })
   @JoinColumn({ name: 'spouse_id' })
   spouse: Member;
 
