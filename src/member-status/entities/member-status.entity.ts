@@ -4,7 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -21,8 +21,8 @@ export class MemberStatus {
   @Column('text')
   description: string;
 
-  @ManyToOne(() => Member, (members) => members.membersStatus)
-  member: Member;
+  @OneToMany(() => Member, (members) => members.memberStatus)
+  member: Member[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

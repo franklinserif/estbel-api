@@ -10,6 +10,7 @@ import {
   OneToOne,
   JoinColumn,
   BeforeUpdate,
+  ManyToOne,
 } from 'typeorm';
 import { Attendance } from 'src/events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
@@ -108,8 +109,10 @@ export class Member {
   @JoinTable()
   groups: Group[];
 
-  @OneToMany(() => MemberStatus, (membersStatus) => membersStatus.member)
-  membersStatus: MemberStatus[];
+  @ManyToOne(() => MemberStatus, (membersStatus) => membersStatus.member, {
+    eager: true,
+  })
+  memberStatus: MemberStatus;
 
   @OneToMany(() => Attendance, (attendaces) => attendaces.Member, {
     nullable: true,
