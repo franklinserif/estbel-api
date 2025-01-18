@@ -33,7 +33,7 @@ export class MembersService {
 
     const member = this.memberRepository.create({
       ...memberData,
-      membersStatus: [memberStatus],
+      memberStatus: memberStatus,
     });
 
     if (spouseId) {
@@ -86,10 +86,7 @@ export class MembersService {
       );
     }
 
-    updateMemberDto.membersStatus = [
-      memberStatus,
-      ...updateMemberDto.membersStatus,
-    ];
+    updateMemberDto.memberStatus = updateMemberDto.memberStatus;
 
     return await this.memberRepository.update(id, updateMemberDto);
   }
