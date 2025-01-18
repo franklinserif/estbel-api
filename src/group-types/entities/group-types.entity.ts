@@ -33,12 +33,17 @@ export class GroupType {
   @BeforeInsert()
   checkBeforeInsert() {
     this.name = this.name.toLowerCase().trim();
+    this.description = this.description.toLowerCase().trim();
   }
 
   @BeforeUpdate()
   checkBeforeUpdate() {
     if (this.name) {
       this.name = this.name.toLowerCase().trim();
+    }
+
+    if (this.description) {
+      this.description = this.description.toLowerCase().trim();
     }
   }
 }
