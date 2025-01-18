@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Migration1737218261874 implements MigrationInterface {
-    name = 'Migration1737218261874'
+export class Migration1737228263124 implements MigrationInterface {
+    name = 'Migration1737228263124'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "modules" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" text NOT NULL, "description" text NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_8cd1abde4b70e59644c98668c06" UNIQUE ("name"), CONSTRAINT "PK_7dbefd488bd96c5bf31f0ce0c95" PRIMARY KEY ("id"))`);
@@ -11,8 +11,8 @@ export class Migration1737218261874 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "attendances" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "attended" boolean DEFAULT false, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "eventId" uuid, "memberId" text, CONSTRAINT "PK_483ed97cd4cd43ab4a117516b69" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "group_types" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" text NOT NULL, "description" text NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_85094e79a5443171e2e9d401acd" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "groups" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" text NOT NULL, "description" text NOT NULL, "location" text, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "leaderId" text, "groupTypesId" uuid, CONSTRAINT "PK_659d1483316afb28afd3a90646e" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "members_status" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" text NOT NULL, "description" text NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "memberId" text, CONSTRAINT "PK_762e67789052d3224b01b466a39" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "members" ("id" text NOT NULL, "firstName" text NOT NULL, "lastName" text NOT NULL, "gender" "public"."members_gender_enum" NOT NULL DEFAULT 'male', "phone" text, "birthdate" text, "email" text, "country" text, "city" text, "location" text, "zone" text, "address" text, "howTheyArrived" text, "baptizedAt" TIMESTAMP, "baptizedChurch" text, "civilStatus" "public"."members_civilstatus_enum" NOT NULL DEFAULT 'single', "weddingAt" TIMESTAMP, "firstVisitAt" TIMESTAMP, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "spouse_id" text, "userId" uuid, CONSTRAINT "UQ_28b53062261b996d9c99fa12404" UNIQUE ("id"), CONSTRAINT "UQ_2714af51e3f7dd42cf66eeb08d6" UNIQUE ("email"), CONSTRAINT "REL_cd342ec38ad3d15fc3955532df" UNIQUE ("spouse_id"), CONSTRAINT "REL_839756572a2c38eb5a3b563126" UNIQUE ("userId"), CONSTRAINT "PK_28b53062261b996d9c99fa12404" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "members_status" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" text NOT NULL, "description" text NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_762e67789052d3224b01b466a39" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "members" ("id" text NOT NULL, "firstName" text NOT NULL, "lastName" text NOT NULL, "gender" "public"."members_gender_enum" NOT NULL DEFAULT 'male', "phone" text, "birthdate" text, "email" text, "country" text, "city" text, "location" text, "zone" text, "address" text, "howTheyArrived" text, "baptizedAt" TIMESTAMP, "baptizedChurch" text, "civilStatus" "public"."members_civilstatus_enum" NOT NULL DEFAULT 'single', "weddingAt" TIMESTAMP, "firstVisitAt" TIMESTAMP, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "spouse_id" text, "userId" uuid, "memberStatusId" uuid, CONSTRAINT "UQ_28b53062261b996d9c99fa12404" UNIQUE ("id"), CONSTRAINT "UQ_2714af51e3f7dd42cf66eeb08d6" UNIQUE ("email"), CONSTRAINT "REL_cd342ec38ad3d15fc3955532df" UNIQUE ("spouse_id"), CONSTRAINT "REL_839756572a2c38eb5a3b563126" UNIQUE ("userId"), CONSTRAINT "PK_28b53062261b996d9c99fa12404" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "member_parents" ("child_id" text NOT NULL, "parent_id" text NOT NULL, CONSTRAINT "PK_6c7b9accafb493ea8ebc8d033e5" PRIMARY KEY ("child_id", "parent_id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_d43dce2dea6e9b2970fed527e1" ON "member_parents" ("child_id") `);
         await queryRunner.query(`CREATE INDEX "IDX_1580c15a938b7b8db72daf1916" ON "member_parents" ("parent_id") `);
@@ -25,9 +25,9 @@ export class Migration1737218261874 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "attendances" ADD CONSTRAINT "FK_f59d261f923c4bce57fa9c96f85" FOREIGN KEY ("memberId") REFERENCES "members"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "groups" ADD CONSTRAINT "FK_24fc38b81b44b41ea1c9d0719a8" FOREIGN KEY ("leaderId") REFERENCES "members"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "groups" ADD CONSTRAINT "FK_8975af855d053cba511f34dbd47" FOREIGN KEY ("groupTypesId") REFERENCES "group_types"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "members_status" ADD CONSTRAINT "FK_acf6df9c992d1712da79669661e" FOREIGN KEY ("memberId") REFERENCES "members"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "members" ADD CONSTRAINT "FK_cd342ec38ad3d15fc3955532df3" FOREIGN KEY ("spouse_id") REFERENCES "members"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "members" ADD CONSTRAINT "FK_839756572a2c38eb5a3b563126e" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "members" ADD CONSTRAINT "FK_0bc4a7f5492f6165fa016271c08" FOREIGN KEY ("memberStatusId") REFERENCES "members_status"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "member_parents" ADD CONSTRAINT "FK_d43dce2dea6e9b2970fed527e18" FOREIGN KEY ("child_id") REFERENCES "members"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "member_parents" ADD CONSTRAINT "FK_1580c15a938b7b8db72daf1916f" FOREIGN KEY ("parent_id") REFERENCES "members"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "members_groups_groups" ADD CONSTRAINT "FK_bc4a937afeb80c8b15ddd690243" FOREIGN KEY ("membersId") REFERENCES "members"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
@@ -39,9 +39,9 @@ export class Migration1737218261874 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "members_groups_groups" DROP CONSTRAINT "FK_bc4a937afeb80c8b15ddd690243"`);
         await queryRunner.query(`ALTER TABLE "member_parents" DROP CONSTRAINT "FK_1580c15a938b7b8db72daf1916f"`);
         await queryRunner.query(`ALTER TABLE "member_parents" DROP CONSTRAINT "FK_d43dce2dea6e9b2970fed527e18"`);
+        await queryRunner.query(`ALTER TABLE "members" DROP CONSTRAINT "FK_0bc4a7f5492f6165fa016271c08"`);
         await queryRunner.query(`ALTER TABLE "members" DROP CONSTRAINT "FK_839756572a2c38eb5a3b563126e"`);
         await queryRunner.query(`ALTER TABLE "members" DROP CONSTRAINT "FK_cd342ec38ad3d15fc3955532df3"`);
-        await queryRunner.query(`ALTER TABLE "members_status" DROP CONSTRAINT "FK_acf6df9c992d1712da79669661e"`);
         await queryRunner.query(`ALTER TABLE "groups" DROP CONSTRAINT "FK_8975af855d053cba511f34dbd47"`);
         await queryRunner.query(`ALTER TABLE "groups" DROP CONSTRAINT "FK_24fc38b81b44b41ea1c9d0719a8"`);
         await queryRunner.query(`ALTER TABLE "attendances" DROP CONSTRAINT "FK_f59d261f923c4bce57fa9c96f85"`);
