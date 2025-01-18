@@ -3,9 +3,10 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from './entities/group.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { GroupType } from '@groupTypes/entities/group-types.entity';
+import { Member } from '@members/entities/member.entity';
 
 @Injectable()
 export class GroupsService {
@@ -15,6 +16,9 @@ export class GroupsService {
 
     @InjectRepository(GroupType)
     private readonly groupTypeService: Repository<GroupType>,
+
+    @InjectRepository(Member)
+    private readonly membersService: Repository<Member>,
   ) {}
 
   async create(createGroupDto: CreateGroupDto) {
@@ -30,7 +34,7 @@ export class GroupsService {
 
     const group = this.groupService.create({
       ...createGroupDto,
-      groupTypes: groupType,
+      groupType: groupType,
     });
 
     return await this.groupService.save(group);
@@ -53,9 +57,14 @@ export class GroupsService {
   }
 
   async update(id: string, updateGroupDto: UpdateGroupDto) {
-    await this.findOne(id);
+    let group: any = await this.findOne(id);
 
-    const { groupTypeId, ...restUpdateGroupDto } = updateGroupDto;
+    const { groupTypeId, membersIds, ...restUpdateGroupDto } = updateGroupDto;
+
+    group = {
+      ...group,
+      ...restUpdateGroupDto,
+    };
 
     if (groupTypeId) {
       const groupType = await this.groupTypeService.findOne({
@@ -68,10 +77,19 @@ export class GroupsService {
         );
       }
 
-      restUpdateGroupDto.groupTypes = groupType;
+      group.groupTypes = groupType;
+    }
+    await this.groupService.update(id, group);
+
+    if (membersIds) {
+      const members = await this.membersService.findBy({
+        id: In(membersIds),
+      });
+
+      group.members = members;
     }
 
-    return await this.groupService.update(id, restUpdateGroupDto);
+    return await this.groupService.save(group);
   }
 
   async remove(id: string) {
