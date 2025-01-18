@@ -2,6 +2,8 @@ import { DataSource } from 'typeorm';
 import { Injectable, Logger } from '@nestjs/common';
 import { GROUP_TYPES } from './seed/group-types';
 import { GROUPS } from './seed/groups';
+import { MEMBERS_STATUS } from './seed/member-types';
+import { MEMBERS } from './seed/members';
 
 @Injectable()
 export class SeedsService {
@@ -30,6 +32,7 @@ export class SeedsService {
       await queryRunner.connect();
       await queryRunner.startTransaction();
 
+      // create and save group-types
       await queryRunner.manager.save('GroupType', GROUP_TYPES);
 
       const ministeries = await queryRunner.manager.find('GroupType', {
@@ -41,7 +44,22 @@ export class SeedsService {
         groupTypes: ministeries[0],
       }));
 
+      // create and save groups with 'ministerios' group-type relation
       await queryRunner.manager.save('Group', groupsWithTypes);
+
+      // create and save members_status
+      const membersStatusCreated = await queryRunner.manager.save(
+        'members_status',
+        MEMBERS_STATUS,
+      );
+
+      const membersWithStatus = MEMBERS.map((member) => ({
+        ...member,
+        memberStatus: membersStatusCreated[Math.floor(Math.random() * 3)],
+      }));
+
+      // create and save members with 'baptized' member-status relation
+      await queryRunner.manager.save('members', membersWithStatus);
 
       await queryRunner.commitTransaction();
       this.logger.log('Seeds executed successfully');
