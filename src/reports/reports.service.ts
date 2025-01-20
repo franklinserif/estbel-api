@@ -6,6 +6,8 @@ import { AdminsService } from '@admins/admins.service';
 import { adminsDoc } from './documents/admins.report';
 import { MembersService } from '@members/members.service';
 import { membersDoc } from './documents/members.report';
+import { GroupsService } from '@groups/groups.service';
+import { groupsDoc } from './documents/groups.report';
 
 @Injectable()
 export class ReportsService {
@@ -13,6 +15,7 @@ export class ReportsService {
     private readonly printerService: PrinterService,
     private readonly adminsService: AdminsService,
     private readonly membersService: MembersService,
+    private readonly groupsService: GroupsService,
   ) {}
 
   async test(): Promise<PDFKit.PDFDocument> {
@@ -29,5 +32,11 @@ export class ReportsService {
     const members = await this.membersService.findAll(queryParams);
 
     return this.printerService.createPDF(membersDoc(members));
+  }
+
+  async groupsReport(queryParams: IQueryParams) {
+    const groups = await this.groupsService.findAll(queryParams);
+
+    return this.printerService.createPDF(groupsDoc(groups));
   }
 }
