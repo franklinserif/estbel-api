@@ -10,7 +10,7 @@ import {
 import { ModulesService } from './modules.service';
 import { CreateModuleDto } from './dto/create-module.dto';
 import { UpdateModuleDto } from './dto/update-module.dto';
-import { QueryParams } from 'src/admins/decorators/query-params.decorator';
+import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
 
 @Controller('modules')
