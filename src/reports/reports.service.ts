@@ -3,9 +3,9 @@ import { IQueryParams } from '@common/interfaces/decorators';
 import { PrinterService } from './printer.service';
 import { testReport } from './documents/test.report';
 import { AdminsService } from '@admins/admins.service';
-import { adminsReport } from './documents/admins.report';
+import { adminsDoc } from './documents/admins.report';
 import { MembersService } from '@members/members.service';
-import { membersReport } from './documents/members.report';
+import { membersDoc } from './documents/members.report';
 
 @Injectable()
 export class ReportsService {
@@ -22,12 +22,12 @@ export class ReportsService {
   async adminsReport(queryParams: IQueryParams) {
     const users = await this.adminsService.findAll(queryParams);
 
-    return this.printerService.createPDF(adminsReport(users));
+    return this.printerService.createPDF(adminsDoc(users));
   }
 
   async membersReport(queryParams: IQueryParams) {
     const members = await this.membersService.findAll(queryParams);
 
-    return this.printerService.createPDF(membersReport(members));
+    return this.printerService.createPDF(membersDoc(members));
   }
 }

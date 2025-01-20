@@ -15,7 +15,7 @@ const tableHead = [
   { text: 'Teléfono', margin: [5, 5] },
 ];
 
-export const adminsReport = (admins: Admin[]): TDocumentDefinitions => {
+export const adminsDoc = (admins: Admin[]): TDocumentDefinitions => {
   return {
     pageOrientation: 'landscape',
     pageSize: 'LETTER',

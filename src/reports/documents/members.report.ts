@@ -25,7 +25,7 @@ const tableHead = [
   { text: 'Fec. Boda' },
 ];
 
-export const membersReport = (members: Member[]): TDocumentDefinitions => {
+export const membersDoc = (members: Member[]): TDocumentDefinitions => {
   return {
     pageOrientation: 'landscape',
     pageSize: 'LEGAL',
