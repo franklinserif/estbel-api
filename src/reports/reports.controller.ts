@@ -43,4 +43,17 @@ export class ReportsController {
     pdfDoc.pipe(response);
     pdfDoc.end();
   }
+
+  @Get('groups')
+  async groupsReport(
+    @QueryParams() queryParams: IQueryParams,
+    @Res() response: Response,
+  ) {
+    const pdfDoc = await this.reportsService.groupsReport(queryParams);
+
+    response.setHeader('Content-type', 'application/pdf');
+    pdfDoc.info.Title = 'reporte de grupos';
+    pdfDoc.pipe(response);
+    pdfDoc.end();
+  }
 }
