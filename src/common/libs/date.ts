@@ -1,5 +1,9 @@
-export const getFormatterDate = () => {
-  const currentDate = new Date();
+export const getFormatterDate = (date: Date | string = new Date()) => {
+  let currentDate = date;
+
+  if (typeof date === 'string') {
+    currentDate = new Date(date);
+  }
 
   const opciones: Intl.DateTimeFormatOptions = {
     weekday: 'short',
@@ -13,5 +17,5 @@ export const getFormatterDate = () => {
 
   const formatter = new Intl.DateTimeFormat('es-ES', opciones);
 
-  return formatter.format(currentDate);
+  return formatter.format(currentDate as Date);
 };
