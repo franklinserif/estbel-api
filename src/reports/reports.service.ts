@@ -5,6 +5,7 @@ import { testReport } from './documents/test.report';
 import { AdminsService } from '@admins/admins.service';
 import { adminsReport } from './documents/admins.report';
 import { MembersService } from '@members/members.service';
+import { membersReport } from './documents/members.report';
 
 @Injectable()
 export class ReportsService {
@@ -27,6 +28,6 @@ export class ReportsService {
   async membersReport(queryParams: IQueryParams) {
     const members = await this.membersService.findAll(queryParams);
 
-    return members;
+    return this.printerService.createPDF(membersReport(members));
   }
 }
