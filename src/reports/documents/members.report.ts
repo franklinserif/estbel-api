@@ -59,10 +59,10 @@ export const membersDoc = (members: Member[]): TDocumentDefinitions => {
           body: [
             tableHead,
             ...members.map((member, index) => [
-              { text: `${index}`, alignment: 'center' },
+              { text: `${index + 1}`, alignment: 'center' },
               { text: member.firstName, alignment: 'center' },
               { text: member.lastName, alignment: 'center' },
-              { text: member.birthdate, alignment: 'center' },
+              { text: getFormatterDate(member.birthdate), alignment: 'center' },
               { text: member.gender, alignment: 'center' },
               { text: member.phone || '---', alignment: 'center' },
               { text: member.country || '---', alignment: 'center' },
@@ -70,10 +70,16 @@ export const membersDoc = (members: Member[]): TDocumentDefinitions => {
               { text: member.location || '---', alignment: 'center' },
               { text: member.zone || '---', alignment: 'center' },
               { text: member.address || '---', alignment: 'center' },
-              { text: member.baptizedAt || '---', alignment: 'center' },
+              {
+                text: getFormatterDate(member.baptizedAt) || '---',
+                alignment: 'center',
+              },
               { text: member.baptizedChurch || '---', alignment: 'center' },
               { text: member.civilStatus || '---', alignment: 'center' },
-              { text: member.weddingAt || '---', alignment: 'center' },
+              {
+                text: getFormatterDate(member.weddingAt) || '---',
+                alignment: 'center',
+              },
             ]),
           ],
         },
