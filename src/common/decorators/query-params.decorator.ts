@@ -26,6 +26,8 @@ export const QueryParams = createParamDecorator(
       } else if (key.endsWith('_lt')) {
         const column = key.replace('_lt', '');
         where[column] = LessThan(value);
+      } else if (value === 'true' || value === 'false') {
+        where[key] = value === 'true';
       } else {
         where[key] = value;
       }
