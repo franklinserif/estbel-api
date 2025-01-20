@@ -30,4 +30,17 @@ export class ReportsController {
     pdfDoc.pipe(response);
     pdfDoc.end();
   }
+
+  @Get('members')
+  async membersReport(
+    @QueryParams() queryParams: IQueryParams,
+    @Res() response: Response,
+  ) {
+    const pdfDoc = await this.reportsService.membersReport(queryParams);
+
+    response.setHeader('Content-type', 'application/pdf');
+    pdfDoc.info.Title = 'reporte de miembros';
+    pdfDoc.pipe(response);
+    pdfDoc.end();
+  }
 }
