@@ -6,6 +6,7 @@ import { Member } from './entities/member.entity';
 import { In, Repository } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { MemberStatus } from '@memberStatus/entities/member-status.entity';
+import { CivilStatus } from './enum/options';
 
 @Injectable()
 export class MembersService {
@@ -46,6 +47,10 @@ export class MembersService {
       }
 
       member.spouse = spouse;
+      member.civilStatus =
+        memberData.civilStatus === CivilStatus.WIDOWER
+          ? CivilStatus.WIDOWER
+          : CivilStatus.MARRIED;
     }
 
     if (parentIds) {
@@ -79,6 +84,7 @@ export class MembersService {
 
     return member;
   }
+
   async update(id: string, updateMemberDto: UpdateMemberDto) {
     await this.findOne(id);
 
@@ -110,6 +116,14 @@ export class MembersService {
       }
 
       member.spouse = spouse;
+      member.civilStatus =
+        memberData.civilStatus === CivilStatus.WIDOWER
+          ? CivilStatus.WIDOWER
+          : CivilStatus.MARRIED;
+    }
+
+    if (member.civilStatus === CivilStatus.DIVORCED) {
+      member.spouse = null;
     }
 
     await this.memberRepository.update(id, member);
