@@ -10,6 +10,6 @@ import { MembersModule } from '@members/members.module';
   controllers: [GroupsController],
   imports: [TypeOrmModule.forFeature([Group]), GroupTypesModule, MembersModule],
   providers: [GroupsService],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, GroupsService],
 })
 export class GroupsModule {}
