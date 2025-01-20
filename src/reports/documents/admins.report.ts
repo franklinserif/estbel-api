@@ -39,9 +39,7 @@ export const adminsDoc = (admins: Admin[]): TDocumentDefinitions => {
       {
         style: 'table',
         layout: {
-          fillColor: function (rowIndex, node, columnIndex) {
-            console.log('node', node);
-            console.log('columnIndex', columnIndex);
+          fillColor: function (rowIndex) {
             return rowIndex % 2 === 0 && rowIndex !== 0 ? '#ebebeb' : null;
           },
         },
