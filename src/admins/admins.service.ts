@@ -1,18 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { CreateAdminDto } from './dto/create-admin.dto';
+import { UpdateAdminDto } from './dto/update-admin.dto';
+import { Admin } from './entities/admin.entity';
 import { Accesses } from '@accesses/entities/accesses.entity';
 import { ModulesService } from '@modules/modules.service';
 import { IQueryParams } from '@common/interfaces/decorators';
 
 @Injectable()
-export class UsersService {
+export class AdminsService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(Admin)
+    private readonly adminsRepository: Repository<Admin>,
 
     @InjectRepository(Accesses)
     private readonly UAMRepository: Repository<Accesses>,
@@ -20,8 +20,8 @@ export class UsersService {
     private readonly moduleService: ModulesService,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
-    const user = this.userRepository.create(createUserDto);
+  async create(createAdminDto: CreateAdminDto) {
+    const admin = this.adminsRepository.create(createAdminDto);
 
     const modules = await this.moduleService.findAll({ where: {}, order: {} });
 
@@ -31,43 +31,41 @@ export class UsersService {
       canRead: false,
       canPrint: false,
       module,
-      user,
+      admin,
     }));
 
-    const createdUser = await this.userRepository.save(user);
+    const createdAdmin = await this.adminsRepository.save(admin);
 
     await this.UAMRepository.save(accesses);
 
-    return createdUser;
+    return createdAdmin;
   }
 
   async findAll(queryParams: IQueryParams) {
-    const users = await this.userRepository.find(queryParams);
+    const users = await this.adminsRepository.find(queryParams);
 
     return users;
   }
 
   async findOne(id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
+    const admin = await this.adminsRepository.findOne({ where: { id } });
 
-    if (!user?.id) {
-      throw new NotFoundException(`user with id: ${id} not found`);
+    if (!admin?.id) {
+      throw new NotFoundException(`admin with id: ${id} not found`);
     }
 
-    return user;
+    return admin;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateAdminDto: UpdateAdminDto) {
     await this.findOne(id);
 
-    const updatedUser = await this.userRepository.update(id, updateUserDto);
-
-    return updatedUser;
+    return await this.adminsRepository.update(id, updateAdminDto);
   }
 
   async remove(id: string) {
     await this.findOne(id);
 
-    return await this.userRepository.delete(id);
+    return await this.adminsRepository.delete(id);
   }
 }

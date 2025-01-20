@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ModulesModule } from '@modules/modules.module';
-import { UsersModule } from '@users/users.module';
+import { AdminsModule } from '@admins/admins.module';
 import { AuthModule } from '@auth/auth.module';
 import { AccessesModule } from './accesses/accesses.module';
 import { MembersModule } from './members/members.module';
@@ -36,7 +36,7 @@ import { GroupTypesModule } from './group-types/group-types.module';
     }),
     ScheduleModule.forRoot(),
     ModulesModule,
-    UsersModule,
+    AdminsModule,
     AuthModule,
     AccessesModule,
     MembersModule,

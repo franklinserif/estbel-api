@@ -2,15 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { PrinterService } from './printer.service';
 import { testReport } from './documents/test.report';
-import { UsersService } from '@users/users.service';
-import { userReport } from './documents/users.report';
+import { AdminsService } from '@admins/admins.service';
+import { adminsReport } from './documents/admins.report';
 import { MembersService } from '@members/members.service';
 
 @Injectable()
 export class ReportsService {
   constructor(
     private readonly printerService: PrinterService,
-    private readonly usersService: UsersService,
+    private readonly adminsService: AdminsService,
     private readonly membersService: MembersService,
   ) {}
 
@@ -18,10 +18,10 @@ export class ReportsService {
     return this.printerService.createPDF(testReport());
   }
 
-  async usersReport(queryParams: IQueryParams) {
-    const users = await this.usersService.findAll(queryParams);
+  async adminsReport(queryParams: IQueryParams) {
+    const users = await this.adminsService.findAll(queryParams);
 
-    return this.printerService.createPDF(userReport(users));
+    return this.printerService.createPDF(adminsReport(users));
   }
 
   async membersReport(queryParams: IQueryParams) {

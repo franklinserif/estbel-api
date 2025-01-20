@@ -17,7 +17,7 @@ import { Gender } from '@members/enum/options';
 import { CivilStatus } from '@members/enum/options';
 import { Group } from 'src/groups/entities/group.entity';
 import { MemberStatus } from '@memberStatus/entities/member-status.entity';
-import { User } from '@users/entities/user.entity';
+import { Admin } from '@admins/entities/admin.entity';
 import { v4 as uuidv4 } from 'uuid';
 
 @Entity('members')
@@ -100,9 +100,9 @@ export class Member {
   @JoinColumn({ name: 'spouse_id' })
   spouse: Member;
 
-  @OneToOne(() => User, { eager: true, nullable: true })
+  @OneToOne(() => Admin, { eager: true, nullable: true })
   @JoinColumn()
-  user: User;
+  admin: Admin;
 
   @OneToMany(() => Group, (groups) => groups.leader, { nullable: true })
   groupsLeader: Group[];

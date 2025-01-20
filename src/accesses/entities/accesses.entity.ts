@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from '@users/entities/user.entity';
+import { Admin } from '@admins/entities/admin.entity';
 import { Module } from '@modules/entities/module.entity';
 
 @Entity('access')
@@ -40,8 +40,8 @@ export class Accesses {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.accesses, { onDelete: 'CASCADE' })
-  user: User;
+  @ManyToOne(() => Admin, (admin) => admin.accesses, { onDelete: 'CASCADE' })
+  admin: Admin;
 
   @ManyToOne(() => Module, (module) => module.accesses)
   module: Module;

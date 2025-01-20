@@ -1,6 +1,6 @@
 import { IsString, MinLength, IsUUID, Matches } from 'class-validator';
 
-export class CreateUserDto {
+export class CreateAdminDto {
   @IsString()
   @IsUUID()
   id: string;

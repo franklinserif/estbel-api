@@ -1,6 +1,6 @@
 import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
 import { getFormatterDate } from '@common/libs/date';
-import { User } from '@users/entities/user.entity';
+import { Admin } from '@admins/entities/admin.entity';
 
 const styles: StyleDictionary = {
   header: { margin: [40, 20], fontSize: 14, alignment: 'right' },
@@ -15,7 +15,7 @@ const tableHead = [
   { text: 'Teléfono', margin: [5, 5] },
 ];
 
-export const userReport = (users: User[]): TDocumentDefinitions => {
+export const adminsReport = (admins: Admin[]): TDocumentDefinitions => {
   return {
     pageOrientation: 'landscape',
     pageSize: 'LETTER',
@@ -51,7 +51,7 @@ export const userReport = (users: User[]): TDocumentDefinitions => {
           headerRows: 1,
           body: [
             tableHead,
-            ...users.map((user, index) => [
+            ...admins.map((user, index) => [
               { text: index + 1, alignment: 'center', margin: [0, 5] },
             ]),
           ],

@@ -10,7 +10,7 @@ import {
 import { GroupTypesService } from './group-types.service';
 import { CreateGroupTypesDto } from './dto/create-group-types.dto';
 import { UpdateGroupTypesDto } from './dto/update-group-types.dto';
-import { QueryParams } from '@users/decorators/query-params.decorator';
+import { QueryParams } from 'src/admins/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
 
 @Controller('group-types')

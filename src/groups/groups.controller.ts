@@ -10,7 +10,7 @@ import {
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
-import { QueryParams } from '@users/decorators/query-params.decorator';
+import { QueryParams } from 'src/admins/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
 
 @Controller('groups')

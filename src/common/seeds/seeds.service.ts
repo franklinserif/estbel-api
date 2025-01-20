@@ -24,7 +24,7 @@ export class SeedsService {
     await queryRunner.query('DELETE FROM "groups"');
     await queryRunner.query('DELETE FROM "group_types"');
     await queryRunner.query('DELETE FROM "members"');
-    await queryRunner.query('DELETE FROM "users"');
+    await queryRunner.query('DELETE FROM "admins"');
     await queryRunner.query('DELETE FROM "members_groups_groups"');
     await queryRunner.query('DELETE FROM "member_parents"');
 
@@ -85,7 +85,7 @@ export class SeedsService {
       await queryRunner.query('DELETE FROM "groups"');
       await queryRunner.query('DELETE FROM "group_types"');
       await queryRunner.query('DELETE FROM "members"');
-      await queryRunner.query('DELETE FROM "users"');
+      await queryRunner.query('DELETE FROM "admins"');
       await queryRunner.query('DELETE FROM "members_groups_groups"');
       await queryRunner.query('DELETE FROM "member_parents"');
     } catch (error) {

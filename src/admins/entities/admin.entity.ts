@@ -8,8 +8,8 @@ import {
 } from 'typeorm';
 import { Accesses } from '@accesses/entities/accesses.entity';
 
-@Entity('users')
-export class User {
+@Entity('admins')
+export class Admin {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -24,7 +24,7 @@ export class User {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @OneToMany(() => Accesses, (accesses) => accesses.user, {
+  @OneToMany(() => Accesses, (accesses) => accesses.admin, {
     eager: true,
     cascade: true,
   })
