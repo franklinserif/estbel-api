@@ -8,6 +8,11 @@ import { IQueryParams } from '@common/interfaces/decorators';
 export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
+  /**
+   * Endpoint to generate a test PDF document.
+   *
+   * @param {Response} response - The HTTP response object.
+   */
   @Get('test')
   async test(@Res() response: Response) {
     const pdfDoc = await this.reportsService.test();
@@ -18,6 +23,12 @@ export class ReportsController {
     pdfDoc.end();
   }
 
+  /**
+   * Endpoint to generate a PDF report for admins based on query parameters.
+   *
+   * @param {IQueryParams} queryParams - The query parameters for fetching admins.
+   * @param {Response} response - The HTTP response object.
+   */
   @Get('admins')
   async adminsReport(
     @QueryParams() queryParams: IQueryParams,
@@ -31,6 +42,12 @@ export class ReportsController {
     pdfDoc.end();
   }
 
+  /**
+   * Endpoint to generate a PDF report for members based on query parameters.
+   *
+   * @param {IQueryParams} queryParams - The query parameters for fetching members.
+   * @param {Response} response - The HTTP response object.
+   */
   @Get('members')
   async membersReport(
     @QueryParams() queryParams: IQueryParams,
@@ -44,6 +61,12 @@ export class ReportsController {
     pdfDoc.end();
   }
 
+  /**
+   * Endpoint to generate a PDF report for groups based on query parameters.
+   *
+   * @param {IQueryParams} queryParams - The query parameters for fetching groups.
+   * @param {Response} response - The HTTP response object.
+   */
   @Get('groups')
   async groupsReport(
     @QueryParams() queryParams: IQueryParams,

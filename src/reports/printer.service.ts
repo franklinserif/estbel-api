@@ -7,7 +7,13 @@ import { TDocumentDefinitions } from 'pdfmake/interfaces';
 export class PrinterService {
   private readonly pdfmake = new PdfPrinter(fonts);
 
-  createPDF(docDefinition: TDocumentDefinitions) {
+  /**
+   * Creates a PDF document using the provided document definition.
+   *
+   * @param {TDocumentDefinitions} docDefinition - The definition of the document to be created.
+   * @returns {PDFKit.PDFDocument} - The generated PDF document.
+   */
+  createPDF(docDefinition: TDocumentDefinitions): PDFKit.PDFDocument {
     return this.pdfmake.createPdfKitDocument(docDefinition);
   }
 }

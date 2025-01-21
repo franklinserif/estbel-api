@@ -18,25 +18,45 @@ export class ReportsService {
     private readonly groupsService: GroupsService,
   ) {}
 
+  /**
+   * Generates a test PDF document.
+   *
+   * @returns {Promise<PDFKit.PDFDocument>} - The generated PDF document.
+   */
   async test(): Promise<PDFKit.PDFDocument> {
     return this.printerService.createPDF(testReport());
   }
 
-  async adminsReport(queryParams: IQueryParams) {
+  /**
+   * Generates a PDF report for admins based on the provided query parameters.
+   *
+   * @param {IQueryParams} queryParams - The query parameters for fetching admins.
+   * @returns {Promise<PDFKit.PDFDocument>} - The generated PDF document.
+   */
+  async adminsReport(queryParams: IQueryParams): Promise<PDFKit.PDFDocument> {
     const users = await this.adminsService.findAll(queryParams);
-
     return this.printerService.createPDF(adminsDoc(users));
   }
 
-  async membersReport(queryParams: IQueryParams) {
+  /**
+   * Generates a PDF report for members based on the provided query parameters.
+   *
+   * @param {IQueryParams} queryParams - The query parameters for fetching members.
+   * @returns {Promise<PDFKit.PDFDocument>} - The generated PDF document.
+   */
+  async membersReport(queryParams: IQueryParams): Promise<PDFKit.PDFDocument> {
     const members = await this.membersService.findAll(queryParams);
-
     return this.printerService.createPDF(membersDoc(members));
   }
 
-  async groupsReport(queryParams: IQueryParams) {
+  /**
+   * Generates a PDF report for groups based on the provided query parameters.
+   *
+   * @param {IQueryParams} queryParams - The query parameters for fetching groups.
+   * @returns {Promise<PDFKit.PDFDocument>} - The generated PDF document.
+   */
+  async groupsReport(queryParams: IQueryParams): Promise<PDFKit.PDFDocument> {
     const groups = await this.groupsService.findAll(queryParams);
-
     return this.printerService.createPDF(groupsDoc(groups));
   }
 }
