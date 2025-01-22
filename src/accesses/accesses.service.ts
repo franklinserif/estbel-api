@@ -3,51 +3,82 @@ import { CreateAccessDto } from './dto/createAccesses.dto';
 import { UpdateAccessDto } from './dto/updateAccesses.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Accesses } from './entities/accesses.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class AccessesService {
   constructor(
     @InjectRepository(Accesses)
-    private readonly AccessesRepository: Repository<Accesses>,
+    private readonly accessesRepository: Repository<Accesses>,
   ) {}
 
-  async create(createUserModuleAccessDto: CreateAccessDto) {
-    const UMA = this.AccessesRepository.create(createUserModuleAccessDto);
+  /**
+   * Creates a new access record.
+   *
+   * @param {CreateAccessDto} createAccessDto - The data to create the access record.
+   * @returns {Promise<Accesses>} The created access record.
+   */
+  async create(createAccessDto: CreateAccessDto): Promise<Accesses> {
+    const access = this.accessesRepository.create(createAccessDto);
 
-    return await this.AccessesRepository.save(UMA);
+    return await this.accessesRepository.save(access);
   }
 
-  async findAll() {
-    const UAMS = await this.AccessesRepository.find();
-
-    return UAMS;
+  /**
+   * Retrieves all access records.
+   *
+   * @returns {Promise<Accesses[]>} A list of all access records.
+   */
+  async findAll(): Promise<Accesses[]> {
+    return await this.accessesRepository.find();
   }
 
-  async findOne(id: string) {
-    const UAM = await this.AccessesRepository.findOne({ where: { id } });
+  /**
+   * Retrieves a single access record by its ID.
+   *
+   * @param {string} id - The ID of the access record to retrieve.
+   * @returns {Promise<Accesses>} The found access record.
+   * @throws {NotFoundException} If the access record is not found.
+   */
+  async findOne(id: string): Promise<Accesses> {
+    const access = await this.accessesRepository.findOne({ where: { id } });
 
-    if (!UAM?.id) {
-      throw new NotFoundException(`UAM with id: ${id} not found`);
+    if (!access?.id) {
+      throw new NotFoundException(`Access record with id: ${id} not found`);
     }
 
-    return UAM;
+    return access;
   }
 
-  async update(id: string, updateUserModuleAccessDto: UpdateAccessDto) {
+  /**
+   * Updates an existing access record.
+   *
+   * @param {string} id - The ID of the access record to update.
+   * @param {UpdateAccessDto} updateAccessDto - The data to update the access record.
+   * @returns {Promise<Access>} The updated accesses.
+   * @throws {NotFoundException} If the access record is not found.
+   */
+  async update(
+    id: string,
+    updateAccessDto: UpdateAccessDto,
+  ): Promise<Accesses> {
     await this.findOne(id);
 
-    const updatedUAM = await this.AccessesRepository.update(
-      id,
-      updateUserModuleAccessDto,
-    );
+    await this.accessesRepository.update(id, updateAccessDto);
 
-    return updatedUAM;
+    return await this.findOne(id);
   }
 
-  async remove(id: string) {
+  /**
+   * Removes an access record by its ID.
+   *
+   * @param {string} id - The ID of the access record to remove.
+   * @returns {Promise<DeleteResult>} The result of the deletion.
+   * @throws {NotFoundException} If the access record is not found.
+   */
+  async remove(id: string): Promise<DeleteResult> {
     await this.findOne(id);
 
-    return await this.AccessesRepository.delete(id);
+    return await this.accessesRepository.delete(id);
   }
 }
