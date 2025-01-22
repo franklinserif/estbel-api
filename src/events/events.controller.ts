@@ -115,10 +115,10 @@ export class EventsController {
    * Removes a specific attendance record.
    *
    * @param {string} id - The ID of the attendance record to remove.
-   * @returns {Promise<any>} The result of the removal.
+   * @returns {Promise<DeleteResult>} The result of the removal.
    */
   @Delete('attendances/remove/:id')
-  removeAttendance(@Param('id') id: string) {
+  removeAttendance(@Param('id') id: string): Promise<DeleteResult> {
     return this.attendancesService.remove(id);
   }
 
