@@ -1,12 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DeleteResult, In, Repository } from 'typeorm';
+
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Member } from './entities/member.entity';
-import { In, Repository } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { MemberStatus } from '@memberStatus/entities/member-status.entity';
+import { Member } from './entities/member.entity';
 import { CivilStatus } from './enum/options';
+import { MemberStatusService } from '@memberStatus/member-status.service';
 
 @Injectable()
 export class MembersService {
@@ -14,8 +15,7 @@ export class MembersService {
     @InjectRepository(Member)
     private readonly memberRepository: Repository<Member>,
 
-    @InjectRepository(MemberStatus)
-    private readonly memberStatusRepository: Repository<MemberStatus>,
+    private readonly memberStatusService: MemberStatusService,
   ) {}
 
   /**
@@ -28,50 +28,24 @@ export class MembersService {
     const { memberStatusId, spouseId, childIds, parentIds, ...memberData } =
       createMemberDto;
 
-    const memberStatus = await this.memberStatusRepository.findOne({
-      where: { id: memberStatusId },
-    });
+    const member = this.memberRepository.create(memberData);
 
-    if (!memberStatus?.id) {
-      throw new NotFoundException(
-        `member status with id: ${memberStatusId} not found`,
-      );
-    }
-
-    const member = this.memberRepository.create({
-      ...memberData,
-      memberStatus: memberStatus,
-    });
+    member.memberStatus =
+      await this.memberStatusService.findOne(memberStatusId);
 
     if (spouseId) {
-      const spouse = await this.memberRepository.findOne({
-        where: { id: spouseId },
-      });
-
-      if (spouse?.id) {
-        throw new NotFoundException(`spouse with id ${spouseId} not found`);
-      }
-
-      member.spouse = spouse;
-      member.civilStatus =
-        memberData.civilStatus === CivilStatus.WIDOWER
-          ? CivilStatus.WIDOWER
-          : CivilStatus.MARRIED;
+      member.spouse = await this.findMember(spouseId, 'Spouse');
     }
 
     if (parentIds) {
-      member.parents = await this.memberRepository.findBy({
-        id: In(parentIds),
-      });
+      member.parents = await this.findMembersByIds(parentIds);
     }
 
     if (childIds) {
-      member.children = await this.memberRepository.findBy({
-        id: In(childIds),
-      });
+      member.children = await this.findMembersByIds(childIds);
     }
 
-    return await this.memberRepository.save(member);
+    return this.memberRepository.save(member);
   }
 
   /**
@@ -81,6 +55,8 @@ export class MembersService {
    * @returns {Promise<Member>} An array of the members.
    */
   async findAll(queryParams: IQueryParams): Promise<Member[]> {
+    return this.memberRepository.find(queryParams);
+  }
 
   /**
    * Retrieves all the members that match the provided query parameters.
@@ -93,8 +69,8 @@ export class MembersService {
       relations: ['parents', 'children', 'spouse'],
     });
 
-    if (!member?.id) {
-      throw new NotFoundException(`member with id: ${id} not found`);
+    if (!member) {
+      throw new NotFoundException(`Member with id: ${id} not found`);
     }
 
     return member;
@@ -109,58 +85,36 @@ export class MembersService {
    * @returns {Promise<Member>} The result of the update operation.
    */
   async update(id: string, updateMemberDto: UpdateMemberDto): Promise<Member> {
+    const member = await this.findOne(id);
 
     const { memberStatusId, spouseId, childIds, parentIds, ...memberData } =
       updateMemberDto;
 
-    const memberStatus = await this.memberStatusRepository.findOne({
-      where: { id: memberStatusId },
-    });
+    Object.assign(member, memberData);
 
-    if (!memberStatus?.id) {
-      throw new NotFoundException(
-        `Member status with id: ${memberStatusId} not found`,
-      );
+    if (memberStatusId) {
+      member.memberStatus =
+        await this.memberStatusService.findOne(memberStatusId);
     }
 
-    const member = this.memberRepository.create({
-      ...memberData,
-      memberStatus,
-    });
-
     if (spouseId) {
-      const spouse = await this.memberRepository.findOne({
-        where: { id: spouseId },
-      });
-
-      if (!spouse?.id) {
-        throw new NotFoundException(`Spouse with id ${spouseId} not found`);
-      }
-
-      member.spouse = spouse;
-      member.civilStatus =
-        memberData.civilStatus === CivilStatus.WIDOWER
-          ? CivilStatus.WIDOWER
-          : CivilStatus.MARRIED;
+      member.spouse = await this.findMember(spouseId, 'Spouse');
     }
 
     if (member.civilStatus === CivilStatus.DIVORCED) {
       member.spouse = null;
     }
 
-    await this.memberRepository.update(id, member);
-
-    const currentMember = await this.memberRepository.findOne({
-      where: { id },
-      relations: ['children', 'parents'],
-    });
-
     if (parentIds) {
-      const parents = await this.memberRepository.findBy({ id: In(parentIds) });
-      currentMember.parents = parents;
+      member.parents = await this.findMembersByIds(parentIds);
     }
 
     if (childIds) {
+      member.children = await this.findMembersByIds(childIds);
+    }
+
+    return this.memberRepository.save(member);
+  }
 
   /**
    * Deletes a member by its ID.
@@ -171,9 +125,9 @@ export class MembersService {
    */
   async remove(id: string): Promise<DeleteResult> {
     await this.findOne(id);
-
     return await this.memberRepository.delete(id);
   }
+
   /**
    * Retrieves a single member by its ID
    *
@@ -182,6 +136,13 @@ export class MembersService {
    * @returns {Promise<Member>} The retrieved member
    */
   private async findMember(id: string, relation: string): Promise<Member> {
+    const member = await this.memberRepository.findOne({ where: { id } });
+    if (!member) {
+      throw new NotFoundException(`${relation} with id: ${id} not found`);
+    }
+    return member;
+  }
+
   /**
    * Retrieves members that match the IDs.
    *
@@ -189,4 +150,6 @@ export class MembersService {
    * @returns {Promise<Member>} An array of member.
    */
   private async findMembersByIds(ids: string[]): Promise<Member[]> {
+    return this.memberRepository.findBy({ id: In(ids) });
+  }
 }
