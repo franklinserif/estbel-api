@@ -18,7 +18,13 @@ export class MembersService {
     private readonly memberStatusRepository: Repository<MemberStatus>,
   ) {}
 
-  async create(createMemberDto: CreateMemberDto) {
+  /**
+   * Creates a new member and saves it in the database.
+   *
+   * @param {CreateMemberDto} createMemberDto - the data transfer object for creating a member.
+   * @returns {CreateMemberDto} the created member.
+   */
+  async create(createMemberDto: CreateMemberDto): Promise<Member> {
     const { memberStatusId, spouseId, childIds, parentIds, ...memberData } =
       createMemberDto;
 
@@ -68,11 +74,20 @@ export class MembersService {
     return await this.memberRepository.save(member);
   }
 
-  async findAll(queryParams: IQueryParams) {
-    return await this.memberRepository.find(queryParams);
-  }
+  /**
+   * Finds all members based on query parameters.
+   *
+   * @param {IQueryParams} queryParams - Query parameters for filtering and sorting members.
+   * @returns {Promise<Member>} An array of the members.
+   */
+  async findAll(queryParams: IQueryParams): Promise<Member[]> {
 
-  async findOne(id: string) {
+  /**
+   * Retrieves all the members that match the provided query parameters.
+   *
+   * @param {string} id - The ID of the member to retrieve.
+   */
+  async findOne(id: string): Promise<Member> {
     const member = await this.memberRepository.findOne({
       where: { id },
       relations: ['parents', 'children', 'spouse'],
@@ -85,8 +100,15 @@ export class MembersService {
     return member;
   }
 
-  async update(id: string, updateMemberDto: UpdateMemberDto) {
-    await this.findOne(id);
+  /**
+   * Updates an existing module by its ID
+   *
+   * @param {string} id - The ID of the member to update
+   * @param {UpdateMemberDto} updateMemberDto - the data transfer object for update a member.
+   * @throws {NotFoundException} if no member with the given ID is found.
+   * @returns {Promise<Member>} The result of the update operation.
+   */
+  async update(id: string, updateMemberDto: UpdateMemberDto): Promise<Member> {
 
     const { memberStatusId, spouseId, childIds, parentIds, ...memberData } =
       updateMemberDto;
@@ -139,18 +161,32 @@ export class MembersService {
     }
 
     if (childIds) {
-      const children = await this.memberRepository.findBy({ id: In(childIds) });
-      currentMember.children = children;
-    }
 
-    await this.memberRepository.save(currentMember);
-
-    return currentMember;
-  }
-
-  async remove(id: string) {
+  /**
+   * Deletes a member by its ID.
+   *
+   * @param {string} id - The ID of the member to delete.
+   * @throws {NotFoundException} if no member with the given ID is found.
+   * @returns {Promise<DeleteResult>} A promise indicating the completion of the delete operation.
+   */
+  async remove(id: string): Promise<DeleteResult> {
     await this.findOne(id);
 
     return await this.memberRepository.delete(id);
   }
+  /**
+   * Retrieves a single member by its ID
+   *
+   * @param {string} id - The ID of the member to retrieve.
+   * @throws {NotFoundException} If no module with the given ID is found with an relation information.
+   * @returns {Promise<Member>} The retrieved member
+   */
+  private async findMember(id: string, relation: string): Promise<Member> {
+  /**
+   * Retrieves members that match the IDs.
+   *
+   * @param {string[]} ids - The ids of the members to retrieve.
+   * @returns {Promise<Member>} An array of member.
+   */
+  private async findMembersByIds(ids: string[]): Promise<Member[]> {
 }
