@@ -1,23 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, In } from 'typeorm';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from './entities/group.entity';
-import { In, Repository } from 'typeorm';
-import { IQueryParams } from '@common/interfaces/decorators';
-import { GroupType } from '@groupTypes/entities/group-types.entity';
 import { Member } from '@members/entities/member.entity';
+import { GroupTypesService } from '@groupTypes/group-types.service';
+import { IQueryParams } from '@common/interfaces/decorators';
 
 @Injectable()
 export class GroupsService {
   constructor(
     @InjectRepository(Group)
-    private readonly groupService: Repository<Group>,
-
-    @InjectRepository(GroupType)
-    private readonly groupTypeService: Repository<GroupType>,
+    private readonly groupRepository: Repository<Group>,
 
     @InjectRepository(Member)
+    private readonly memberRepository: Repository<Member>,
+
+    private readonly groupTypesService: GroupTypesService,
+  ) {}
 
   /**
    * Creates a new group.
@@ -26,14 +27,15 @@ export class GroupsService {
    * @returns {Promise<Group>} The created group.
    */
   async create(createGroupDto: CreateGroupDto): Promise<Group> {
-    }
+    const { groupTypeId, ...groupData } = createGroupDto;
+    const groupType = await this.groupTypesService.findOne(groupTypeId);
 
-    const group = this.groupService.create({
-      ...createGroupDto,
-      groupType: groupType,
+    const group = this.groupRepository.create({
+      ...groupData,
+      groupType,
     });
 
-    return await this.groupService.save(group);
+    return this.groupRepository.save(group);
   }
 
   /**
@@ -43,6 +45,9 @@ export class GroupsService {
    * @returns {Promise<Group[]>} A list of groups.
    */
   async findAll(queryParams: IQueryParams): Promise<Group[]> {
+    return this.groupRepository.find(queryParams);
+  }
+
   /**
    * Retrieves a single group by its ID.
    * @param {string} id - The ID of the group to retrieve.
@@ -50,8 +55,9 @@ export class GroupsService {
    * @throws {NotFoundException} If the group is not found.
    */
   async findOne(id: string): Promise<Group> {
+    const group = await this.groupRepository.findOne({ where: { id } });
 
-    if (!group?.id) {
+    if (!group) {
       throw new NotFoundException(`Group with id ${id} not found`);
     }
 
@@ -66,37 +72,22 @@ export class GroupsService {
    * @returns {Promise<Group>} The updated group.
    */
   async update(id: string, updateGroupDto: UpdateGroupDto): Promise<Group> {
+    const group = await this.findOne(id);
     const { groupTypeId, membersIds, ...restUpdateGroupDto } = updateGroupDto;
 
-    group = {
-      ...group,
-      ...restUpdateGroupDto,
-    };
+    Object.assign(group, restUpdateGroupDto);
 
     if (groupTypeId) {
-      const groupType = await this.groupTypeService.findOne({
-        where: { id: groupTypeId },
-      });
-
-      if (!groupType?.id) {
-        throw new NotFoundException(
-          `GroupType with id ${groupTypeId} not found`,
-        );
-      }
-
-      group.groupTypes = groupType;
+      group.groupType = await this.groupTypesService.findOne(groupTypeId);
     }
-    await this.groupService.update(id, group);
 
     if (membersIds) {
-      const members = await this.membersService.findBy({
+      group.members = await this.memberRepository.findBy({
         id: In(membersIds),
       });
-
-      group.members = members;
     }
 
-    return await this.groupService.save(group);
+    return this.groupRepository.save(group);
   }
 
   /**
@@ -106,5 +97,7 @@ export class GroupsService {
    * @returns {Promise<void>}
    */
   async remove(id: string): Promise<void> {
+    const group = await this.findOne(id);
+    await this.groupRepository.remove(group);
   }
 }
