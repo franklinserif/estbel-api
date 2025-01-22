@@ -1,47 +1,52 @@
-import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
-import { getFormatterDate } from '@common/libs/date';
+import type {
+  StyleDictionary,
+  TDocumentDefinitions,
+  TableCell,
+} from 'pdfmake/interfaces';
 import { Admin } from '@admins/entities/admin.entity';
+import { fillColorTable } from './styles/fillColorTable';
+import { docHeader } from './styles/header';
 
+/**
+ * Predefined styles for the PDF document.
+ *
+ * @type {StyleDictionary}
+ */
 const styles: StyleDictionary = {
   header: { margin: [40, 20], fontSize: 14, alignment: 'right' },
   table: { margin: [0, 10, 0, 0], alignment: 'center' },
 };
 
-const tableHead = [
+/**
+ * Table headers for the PDF document.
+ *
+ * @type {Array<TableCell>}
+ */
+const tableHead: TableCell[] = [
   { text: 'N°', margin: [5, 5] },
-  { text: 'Nombre', margin: [5, 5] },
-  { text: 'Apellido', margin: [5, 5] },
+  { text: 'Name', margin: [5, 5] },
+  { text: 'Last Name', margin: [5, 5] },
   { text: 'Email', margin: [5, 5] },
-  { text: 'Teléfono', margin: [5, 5] },
+  { text: 'Phone', margin: [5, 5] },
 ];
 
+/**
+ * Generates a PDF document definition for the list of admins.
+ *
+ * @param {Admin[]} admins - List of admins to include in the PDF.
+ * @returns {TDocumentDefinitions} The PDF document definition.
+ */
 export const adminsDoc = (admins: Admin[]): TDocumentDefinitions => {
   return {
     pageOrientation: 'landscape',
     pageSize: 'LETTER',
     pageMargins: [20, 50, 20, 20],
-    header: (currentPage, pageCount) => {
-      return {
-        style: 'header',
-        columns: [
-          {
-            text: `Página ${currentPage} de ${pageCount}`,
-            alignment: 'left',
-          },
-          {
-            text: getFormatterDate(),
-            alignment: 'right',
-          },
-        ],
-      };
-    },
+    header: docHeader,
     content: [
       {
         style: 'table',
         layout: {
-          fillColor: function (rowIndex) {
-            return rowIndex % 2 === 0 && rowIndex !== 0 ? '#ebebeb' : null;
-          },
+          fillColor: fillColorTable,
         },
         table: {
           dontBreakRows: true,
@@ -56,6 +61,7 @@ export const adminsDoc = (admins: Admin[]): TDocumentDefinitions => {
         },
       },
     ],
+
     styles: styles,
   };
 };
