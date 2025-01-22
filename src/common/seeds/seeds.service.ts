@@ -11,28 +11,21 @@ export class SeedsService {
 
   constructor(private readonly dataSource: DataSource) {}
 
-  async run() {
+  /**
+   * Runs the seeding process to populate the database with initial data.
+   *
+   * @returns {Promise<void>}
+   * @throws {Error} If the seeding process fails.
+   */
+  async run(): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
-
-    await queryRunner.query('DELETE FROM "events"');
-    await queryRunner.query('DELETE FROM "attendances"');
-
-    await queryRunner.query('DELETE FROM "access"');
-    await queryRunner.query('DELETE FROM "modules"');
-
-    await queryRunner.query('DELETE FROM "members_status"');
-    await queryRunner.query('DELETE FROM "groups"');
-    await queryRunner.query('DELETE FROM "group_types"');
-    await queryRunner.query('DELETE FROM "members"');
-    await queryRunner.query('DELETE FROM "admins"');
-    await queryRunner.query('DELETE FROM "members_groups_groups"');
-    await queryRunner.query('DELETE FROM "member_parents"');
 
     try {
       await queryRunner.connect();
       await queryRunner.startTransaction();
 
-      // create and save group-types
+      await this.clearDatabase(queryRunner);
+
       await queryRunner.manager.save('GroupType', GROUP_TYPES);
 
       const ministeries = await queryRunner.manager.find('GroupType', {
@@ -44,10 +37,8 @@ export class SeedsService {
         groupType: ministeries[0],
       }));
 
-      // create and save groups with 'ministerios' group-type relation
       await queryRunner.manager.save('Group', groupsWithTypes);
 
-      // create and save members_status
       const membersStatusCreated = await queryRunner.manager.save(
         'members_status',
         MEMBERS_STATUS,
@@ -58,7 +49,6 @@ export class SeedsService {
         memberStatus: membersStatusCreated[Math.floor(Math.random() * 3)],
       }));
 
-      // create and save members with 'baptized' member-status relation
       await queryRunner.manager.save('members', membersWithStatus);
 
       await queryRunner.commitTransaction();
@@ -72,25 +62,49 @@ export class SeedsService {
     }
   }
 
-  async drop() {
+  /**
+   * Clears all data from the database.
+   * @returns {Promise<void>}
+   * @throws {Error} If the database clearing process fails.
+   */
+  async drop(): Promise<void> {
+    const queryRunner = this.dataSource.createQueryRunner();
+
     try {
-      const queryRunner = this.dataSource.createQueryRunner();
-      await queryRunner.query('DELETE FROM "events"');
-      await queryRunner.query('DELETE FROM "attendances"');
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
 
-      await queryRunner.query('DELETE FROM "access"');
-      await queryRunner.query('DELETE FROM "modules"');
+      // Clear existing data
+      await this.clearDatabase(queryRunner);
 
-      await queryRunner.query('DELETE FROM "members_status"');
-      await queryRunner.query('DELETE FROM "groups"');
-      await queryRunner.query('DELETE FROM "group_types"');
-      await queryRunner.query('DELETE FROM "members"');
-      await queryRunner.query('DELETE FROM "admins"');
-      await queryRunner.query('DELETE FROM "members_groups_groups"');
-      await queryRunner.query('DELETE FROM "member_parents"');
+      await queryRunner.commitTransaction();
+      this.logger.log('Database cleared successfully');
     } catch (error) {
-      this.logger.error('can drop the database, something went wrong');
+      this.logger.error('Failed to clear the database', error.message);
+      await queryRunner.rollbackTransaction();
       throw error;
+    } finally {
+      await queryRunner.release();
     }
+  }
+
+  /**
+   * Clears all data from the database tables.
+   *
+   * @param {QueryRunner} queryRunner - The query runner instance.
+   * @returns {Promise<void>}
+   */
+  private async clearDatabase(queryRunner: any): Promise<void> {
+    await queryRunner.query('DELETE FROM "events"');
+    await queryRunner.query('DELETE FROM "attendances"');
+    await queryRunner.query('DELETE FROM "access"');
+    await queryRunner.query('DELETE FROM "modules"');
+    await queryRunner.query('DELETE FROM "members_status"');
+    await queryRunner.query('DELETE FROM "groups"');
+    await queryRunner.query('DELETE FROM "group_types"');
+    await queryRunner.query('DELETE FROM "members"');
+    await queryRunner.query('DELETE FROM "admins"');
+    await queryRunner.query('DELETE FROM "members_groups_groups"');
+    await queryRunner.query('DELETE FROM "member_parents"');
   }
 }
