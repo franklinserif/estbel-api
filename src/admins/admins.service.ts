@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
@@ -20,7 +20,13 @@ export class AdminsService {
     private readonly moduleService: ModulesService,
   ) {}
 
-  async create(createAdminDto: CreateAdminDto) {
+  /**
+   * Creates a new admin and assigns default access permissions to all modules.
+   *
+   * @param {CreateAdminDto} createAdminDto - The data to create the admin.
+   * @returns {Promise<Admin>} The created admin.
+   */
+  async create(createAdminDto: CreateAdminDto): Promise<Admin> {
     const admin = this.adminsRepository.create(createAdminDto);
 
     const modules = await this.moduleService.findAll({ where: {}, order: {} });
@@ -41,31 +47,57 @@ export class AdminsService {
     return createdAdmin;
   }
 
-  async findAll(queryParams: IQueryParams) {
-    const users = await this.adminsRepository.find(queryParams);
-
-    return users;
+  /**
+   * Retrieves all admins based on the provided query parameters.
+   *
+   * @param {IQueryParams} queryParams - The query parameters for filtering admins.
+   * @returns {Promise<Admin[]>} A list of admins.
+   */
+  async findAll(queryParams: IQueryParams): Promise<Admin[]> {
+    return await this.adminsRepository.find(queryParams);
   }
 
-  async findOne(id: string) {
+  /**
+   * Retrieves a single admin by their ID.
+   *
+   * @param {string} id - The ID of the admin to retrieve.
+   * @returns {Promise<Admin>} The found admin.
+   * @throws {NotFoundException} If the admin is not found.
+   */
+  async findOne(id: string): Promise<Admin> {
     const admin = await this.adminsRepository.findOne({ where: { id } });
 
     if (!admin?.id) {
-      throw new NotFoundException(`admin with id: ${id} not found`);
+      throw new NotFoundException(`Admin with id: ${id} not found`);
     }
 
     return admin;
   }
 
-  async update(id: string, updateAdminDto: UpdateAdminDto) {
+  /**
+   * Updates an existing admin.
+   *
+   * @param {string} id - The ID of the admin to update.
+   * @param {UpdateAdminDto} updateAdminDto - The data to update the admin.
+   * @returns {Promise<Admin>} The updated admin.
+   * @throws {NotFoundException} If the admin is not found.
+   */
+  async update(id: string, updateAdminDto: UpdateAdminDto): Promise<Admin> {
     await this.findOne(id);
+    await this.adminsRepository.update(id, updateAdminDto);
 
-    return await this.adminsRepository.update(id, updateAdminDto);
+    return await this.findOne(id);
   }
 
-  async remove(id: string) {
+  /**
+   * Removes an admin by their ID.
+   *
+   * @param {string} id - The ID of the admin to remove.
+   * @returns {Promise<DeleteResult>} The result of the deletion operation.
+   * @throws {NotFoundException} If the admin is not found.
+   */
+  async remove(id: string): Promise<DeleteResult> {
     await this.findOne(id);
-
     return await this.adminsRepository.delete(id);
   }
 }
