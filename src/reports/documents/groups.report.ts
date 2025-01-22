@@ -1,27 +1,46 @@
-import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
+import type {
+  StyleDictionary,
+  TableCell,
+  TDocumentDefinitions,
+} from 'pdfmake/interfaces';
 import { getFormatterDate } from '@common/libs/date';
 import { Group } from '@groups/entities/group.entity';
 
+/**
+ * Predefined styles for the PDF document.
+ *
+ * @type {StyleDictionary}
+ */
 const styles: StyleDictionary = {
   header: { margin: [40, 20], fontSize: 14, alignment: 'right' },
   table: { margin: [10, 20] },
 };
 
-const tableHead = [
+/**
+ * Table headers for the PDF document.
+ *
+ * @type {TableCell[]}
+ */
+const tableHead: TableCell[] = [
   { text: 'N°', alignment: 'center' },
-  { text: 'Descripción', alignment: 'center' },
-  { text: 'Dirección', alignment: 'center' },
-  { text: 'Tipo de grupo', alignment: 'center' },
-  { text: 'Fec. Creación', alignment: 'center' },
-  { text: 'Fec. Actualización', alignment: 'center' },
+  { text: 'Description', alignment: 'center' },
+  { text: 'Address', alignment: 'center' },
+  { text: 'Group Type', alignment: 'center' },
+  { text: 'Creation Date', alignment: 'center' },
+  { text: 'Update Date', alignment: 'center' },
 ];
 
+/**
+ * Generates a PDF document definition for the list of groups.
+ *
+ * @param {Group[]} groups - List of groups to include in the PDF.
+ * @returns {TDocumentDefinitions} The PDF document definition.
+ */
 export const groupsDoc = (groups: Group[]): TDocumentDefinitions => {
   return {
     pageOrientation: 'landscape',
     header: {
       text: getFormatterDate(),
-
       style: 'header',
     },
     content: [
@@ -45,7 +64,10 @@ export const groupsDoc = (groups: Group[]): TDocumentDefinitions => {
                 text: getFormatterDate(group.createdAt),
                 alignment: 'center',
               },
-              { text: getFormatterDate(group.updatedAt), alignment: 'center' },
+              {
+                text: getFormatterDate(group.updatedAt),
+                alignment: 'center',
+              },
             ]),
           ],
         },
