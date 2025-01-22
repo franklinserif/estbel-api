@@ -149,7 +149,7 @@ export class MembersService {
    * @param {string[]} ids - The ids of the members to retrieve.
    * @returns {Promise<Member>} An array of member.
    */
-  private async findMembersByIds(ids: string[]): Promise<Member[]> {
+  async findMembersByIds(ids: string[]): Promise<Member[]> {
     return this.memberRepository.findBy({ id: In(ids) });
   }
 }
