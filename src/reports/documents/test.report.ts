@@ -1,16 +1,26 @@
 import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
 import { getFormatterDate } from '@common/libs/date';
+import { fillColorTable } from './styles/fillColorTable';
 
+/**
+ * Predefined styles for the PDF document.
+ *
+ * @type {StyleDictionary}
+ */
 const styles: StyleDictionary = {
   header: { margin: [40, 20], fontSize: 14, alignment: 'right' },
   table: { margin: [10, 20] },
 };
 
+/**
+ * Generates a test report PDF document definition.
+ *
+ * @returns {TDocumentDefinitions} The PDF document definition.
+ */
 export const testReport = (): TDocumentDefinitions => {
   return {
     header: {
       text: getFormatterDate(),
-
       style: 'header',
     },
     content: [
@@ -26,13 +36,10 @@ export const testReport = (): TDocumentDefinitions => {
           },
         ],
       },
-
       {
         style: 'table',
         layout: {
-          fillColor: function (rowIndex) {
-            return rowIndex % 2 === 0 && rowIndex !== 0 ? '#ebebeb' : null;
-          },
+          fillColor: fillColorTable,
         },
         table: {
           body: [
@@ -46,6 +53,7 @@ export const testReport = (): TDocumentDefinitions => {
         },
       },
     ],
+
     styles: styles,
   };
 };
