@@ -3,45 +3,86 @@ import { CreateGroupTypesDto } from './dto/create-group-types.dto';
 import { UpdateGroupTypesDto } from './dto/update-group-types.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GroupType } from './entities/group-types.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
 
 @Injectable()
 export class GroupTypesService {
   constructor(
     @InjectRepository(GroupType)
-    private readonly groupTypesService: Repository<GroupType>,
+    private readonly groupTypesRepository: Repository<GroupType>,
   ) {}
 
-  async create(createGroupTypesDto: CreateGroupTypesDto) {
-    const groupType = this.groupTypesService.create(createGroupTypesDto);
+  /**
+   * Creates a new group type.
+   *
+   * @param {CreateGroupTypesDto} createGroupTypesDto - The data to create a new group type.
+   * @returns {Promise<GroupType>} - The created group type.
+   */
+  async create(createGroupTypesDto: CreateGroupTypesDto): Promise<GroupType> {
+    const groupType = this.groupTypesRepository.create(createGroupTypesDto);
 
-    return await this.groupTypesService.save(groupType);
+    return await this.groupTypesRepository.save(groupType);
   }
 
-  async findAll(queryParams: IQueryParams) {
-    const groupTypes = await this.groupTypesService.find(queryParams);
-    return groupTypes;
+  /**
+   * Retrieves all group types based on the provided query parameters.
+   *
+   * @param {IQueryParams} queryParams - The query parameters for filtering.
+   * @returns {Promise<GroupType[]>} - A list of group types.
+   */
+  async findAll(queryParams: IQueryParams): Promise<GroupType[]> {
+    return await this.groupTypesRepository.find(queryParams);
   }
 
-  async findOne(id: string) {
-    const groupType = await this.groupTypesService.findOne({ where: { id } });
+  /**
+   * Retrieves a single group type by its ID.
+   *
+   * @param {string} id - The ID of the group type to retrieve.
+   * @returns {Promise<GroupType>} - The found group type.
+   * @throws {NotFoundException} - If the group type with the specified ID is not found.
+   */
+  async findOne(id: string): Promise<GroupType> {
+    const groupType = await this.groupTypesRepository.findOne({
+      where: { id },
+    });
 
     if (!groupType?.id) {
-      throw new NotFoundException(`group type with id: ${id} not found`);
+      throw new NotFoundException(`Group type with id: ${id} not found`);
     }
 
     return groupType;
   }
 
-  async update(id: string, updateGroupTypesDto: UpdateGroupTypesDto) {
+  /**
+   * Updates a group type by its ID.
+   *
+   * @param {string} id - The ID of the group type to update.
+   * @param {UpdateGroupTypesDto} updateGroupTypesDto - The data to update the group type.
+   * @returns {Promise<GroupType>} - The updated group type.
+   * @throws {NotFoundException} - If the group type with the specified ID is not found.
+   */
+  async update(
+    id: string,
+    updateGroupTypesDto: UpdateGroupTypesDto,
+  ): Promise<GroupType> {
     await this.findOne(id);
 
-    return await this.groupTypesService.update(id, updateGroupTypesDto);
+    await this.groupTypesRepository.update(id, updateGroupTypesDto);
+
+    return this.findOne(id);
   }
 
-  async remove(id: string) {
+  /**
+   * Deletes a group type by its ID.
+   *
+   * @param {string} id - The ID of the group type to delete.
+   * @returns {Promise<DeleteResult>} The result of the delete operation
+   * @throws {NotFoundException} - If the group type with the specified ID is not found.
+   */
+  async remove(id: string): Promise<DeleteResult> {
     await this.findOne(id);
-    return await this.groupTypesService.delete(id);
+
+    return await this.groupTypesRepository.delete(id);
   }
 }
