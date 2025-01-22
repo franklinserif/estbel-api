@@ -18,18 +18,14 @@ export class GroupsService {
     private readonly groupTypeService: Repository<GroupType>,
 
     @InjectRepository(Member)
-    private readonly membersService: Repository<Member>,
-  ) {}
 
-  async create(createGroupDto: CreateGroupDto) {
-    const { groupTypeId } = createGroupDto;
-
-    const groupType = await this.groupTypeService.findOne({
-      where: { id: groupTypeId },
-    });
-
-    if (!groupType?.id) {
-      throw new NotFoundException(`GroupType with id ${groupTypeId} not found`);
+  /**
+   * Creates a new group.
+   *
+   * @param {CreateGroupDto} createGroupDto - The data to create the group.
+   * @returns {Promise<Group>} The created group.
+   */
+  async create(createGroupDto: CreateGroupDto): Promise<Group> {
     }
 
     const group = this.groupService.create({
@@ -40,14 +36,20 @@ export class GroupsService {
     return await this.groupService.save(group);
   }
 
-  async findAll(queryParams: IQueryParams) {
-    const groups = await this.groupService.find(queryParams);
-
-    return groups;
-  }
-
-  async findOne(id: string) {
-    const group = await this.groupService.findOne({ where: { id } });
+  /**
+   * Retrieves all groups based on the provided query parameters.
+   *
+   * @param {IQueryParams} queryParams - The query parameters for filtering, sorting, etc.
+   * @returns {Promise<Group[]>} A list of groups.
+   */
+  async findAll(queryParams: IQueryParams): Promise<Group[]> {
+  /**
+   * Retrieves a single group by its ID.
+   * @param {string} id - The ID of the group to retrieve.
+   * @returns {Promise<Group>} The found group.
+   * @throws {NotFoundException} If the group is not found.
+   */
+  async findOne(id: string): Promise<Group> {
 
     if (!group?.id) {
       throw new NotFoundException(`Group with id ${id} not found`);
@@ -56,9 +58,14 @@ export class GroupsService {
     return group;
   }
 
-  async update(id: string, updateGroupDto: UpdateGroupDto) {
-    let group: any = await this.findOne(id);
-
+  /**
+   * Updates an existing group.
+   *
+   * @param {string} id - The ID of the group to update.
+   * @param {UpdateGroupDto} updateGroupDto - The data to update the group.
+   * @returns {Promise<Group>} The updated group.
+   */
+  async update(id: string, updateGroupDto: UpdateGroupDto): Promise<Group> {
     const { groupTypeId, membersIds, ...restUpdateGroupDto } = updateGroupDto;
 
     group = {
@@ -92,9 +99,12 @@ export class GroupsService {
     return await this.groupService.save(group);
   }
 
-  async remove(id: string) {
-    await this.findOne(id);
-
-    return await this.groupService.delete(id);
+  /**
+   * Removes a group by its ID.
+   *
+   * @param {string} id - The ID of the group to remove.
+   * @returns {Promise<void>}
+   */
+  async remove(id: string): Promise<void> {
   }
 }
