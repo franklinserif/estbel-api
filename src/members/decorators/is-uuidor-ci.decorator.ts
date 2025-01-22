@@ -1,6 +1,18 @@
-import { registerDecorator, ValidationOptions } from 'class-validator';
+import {
+  registerDecorator,
+  ValidationOptions,
+  ValidationArguments,
+} from 'class-validator';
 
-export function IsUUIDOrCI(validationOptions?: ValidationOptions) {
+/**
+ * Custom decorator to validate if a value is either a valid UUID or a CI (Cedula de Identidad).
+ *
+ * @param {ValidationOptions} [validationOptions] - Optional validation options.
+ * @returns {Function} - The decorator function.
+ */
+export function IsUUIDOrCI(
+  validationOptions?: ValidationOptions,
+): PropertyDecorator {
   return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'IsUUIDOrCI',
@@ -24,8 +36,8 @@ export function IsUUIDOrCI(validationOptions?: ValidationOptions) {
 
           return false;
         },
-        defaultMessage() {
-          return `$property must be a valid UUID or CI`;
+        defaultMessage(args: ValidationArguments) {
+          return `${args.property} must be a valid UUID or CI`;
         },
       },
     });
