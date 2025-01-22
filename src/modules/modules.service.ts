@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Module } from './entities/module.entity';
 import { CreateModuleDto } from './dto/create-module.dto';
@@ -64,10 +64,11 @@ export class ModulesService {
   async update(id: string, updateModuleDto: UpdateModuleDto): Promise<Module> {
     await this.findOne(id);
 
-    const updatedModule = await this.moduleRepository.update(
-      id,
-      updateModuleDto,
-    );
+    await this.moduleRepository.update(id, updateModuleDto);
+
+    const updatedModule = await this.moduleRepository.findOne({
+      where: { id },
+    });
 
     return updatedModule;
   }
