@@ -46,6 +46,7 @@ export class ReportsService {
    */
   async membersReport(queryParams: IQueryParams): Promise<PDFKit.PDFDocument> {
     const members = await this.membersService.findAll(queryParams);
+
     return this.printerService.createPDF(membersDoc(members));
   }
 
@@ -57,6 +58,7 @@ export class ReportsService {
    */
   async groupsReport(queryParams: IQueryParams): Promise<PDFKit.PDFDocument> {
     const groups = await this.groupsService.findAll(queryParams);
+
     return this.printerService.createPDF(groupsDoc(groups));
   }
 }
