@@ -51,7 +51,7 @@
     "@types/cron": "^2.4.3",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.0",
-    "@types/jest": "^29.5.2",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20.3.1",
     "@types/pdfmake": "^0.2.11",
     "@types/supertest": "^6.0.0",
