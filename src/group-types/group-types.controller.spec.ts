@@ -8,10 +8,22 @@ describe('GroupTypesController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [GroupTypesController],
-      providers: [GroupTypesService],
+      providers: [
+        {
+          provide: GroupTypesService,
+          useValue: {
+            create: jest.fn(),
+            findAll: jest.fn(),
+            findOne: jest.fn(),
+            update: jest.fn(),
+            remove: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     controller = module.get<GroupTypesController>(GroupTypesController);
+    module.get<GroupTypesService>(GroupTypesService);
   });
 
   it('should be defined', () => {
