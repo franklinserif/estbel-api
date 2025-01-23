@@ -8,6 +8,7 @@ import { MembersService } from '@members/members.service';
 import { membersDoc } from './documents/members.report';
 import { GroupsService } from '@groups/groups.service';
 import { groupsDoc } from './documents/groups.report';
+import { groupMembersDoc } from './documents/groupMembers.report';
 
 @Injectable()
 export class ReportsService {
@@ -60,5 +61,17 @@ export class ReportsService {
     const groups = await this.groupsService.findAll(queryParams);
 
     return this.printerService.createPDF(groupsDoc(groups));
+  }
+
+  /**
+   *  Generates a PDF report with the group members information
+   *
+   * @param {string} id - the id of the group
+   * @returns {Promise<PDFKit.DocumentInfo>} - The generated PDF Document
+   */
+  async groupMembersReport(id: string): Promise<PDFKit.PDFDocument> {
+    const group = await this.groupsService.findOne(id);
+
+    return this.printerService.createPDF(groupMembersDoc(group));
   }
 }
