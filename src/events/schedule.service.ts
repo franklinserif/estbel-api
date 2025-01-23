@@ -13,6 +13,7 @@ export class ScheduleService {
 
   constructor(
     private schedulerRegistry: SchedulerRegistry,
+
     @InjectRepository(Event)
     private readonly eventRepository: Repository<Event>,
   ) {}
