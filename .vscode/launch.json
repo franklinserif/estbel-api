@@ -3,13 +3,21 @@
   "configurations": [
     {
       "type": "node",
-      "request": "launch",
-      "name": "Debug NestJS",
+      "request": "attach",
+      "name": "Debug NestJS (Attach)",
+      "port": 9229,
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/src/main.ts",
-      "preLaunchTask": "tsc: build - tsconfig.json",
       "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "sourceMaps": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug NestJS (Launch)",
+      "runtimeExecutable": "pnpm",
+      "args": ["run", "start:debug"],
       "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true
     }
   ]
