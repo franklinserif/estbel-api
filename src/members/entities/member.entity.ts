@@ -12,13 +12,13 @@ import {
   BeforeUpdate,
   ManyToOne,
 } from 'typeorm';
-import { Attendance } from 'src/events/entities/attendance.entity';
+import { v4 as uuidv4 } from 'uuid';
+import { Attendance } from '@events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
 import { CivilStatus } from '@members/enum/options';
-import { Group } from 'src/groups/entities/group.entity';
+import { Group } from '@groups/entities/group.entity';
 import { MemberStatus } from '@memberStatus/entities/member-status.entity';
 import { Admin } from '@admins/entities/admin.entity';
-import { v4 as uuidv4 } from 'uuid';
 
 @Entity('members')
 export class Member {
