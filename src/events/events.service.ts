@@ -9,10 +9,12 @@ import { ScheduleService } from './schedule.service';
 
 @Injectable()
 export class EventsService {
+  private readonly logger: Logger = new Logger(EventsService.name);
+
   constructor(
     @InjectRepository(Event)
-    private readonly logger: Logger,
     private readonly eventRepository: Repository<Event>,
+
     private readonly scheduleService: ScheduleService,
   ) {}
 
