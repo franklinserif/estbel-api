@@ -49,13 +49,17 @@ export class GroupsService {
   }
 
   /**
-   * Retrieves a single group by its ID.
+   * Retrieves a single group by its ID with all he's members
+   * .
    * @param {string} id - The ID of the group to retrieve.
    * @returns {Promise<Group>} The found group.
    * @throws {NotFoundException} If the group is not found.
    */
   async findOne(id: string): Promise<Group> {
-    const group = await this.groupRepository.findOne({ where: { id } });
+    const group = await this.groupRepository.findOne({
+      where: { id },
+      relations: ['members'],
+    });
 
     if (!group) {
       throw new NotFoundException(`Group with id ${id} not found`);
