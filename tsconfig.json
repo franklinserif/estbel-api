@@ -28,7 +28,8 @@
       "@memberStatus/*": ["src/member-status/*"],
       "@groups/*": ["src/groups/*"],
       "@groupTypes/*": ["src/group-types/*"],
-      "@common/*": ["src/common/*"]
+      "@common/*": ["src/common/*"],
+      "@events/*": ["src/events/*"]
     }
   }
 }
