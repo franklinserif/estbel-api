@@ -1,4 +1,4 @@
-import { Controller, Get, Res } from '@nestjs/common';
+import { Controller, Get, Param, Res } from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { Response } from 'express';
 import { QueryParams } from '@common/decorators/query-params.decorator';
@@ -76,6 +76,25 @@ export class ReportsController {
 
     response.setHeader('Content-type', 'application/pdf');
     pdfDoc.info.Title = 'reporte de grupos';
+    pdfDoc.pipe(response);
+    pdfDoc.end();
+  }
+
+  /**
+   * Endpoint to generate a PDF report for members of  the group.
+   *
+   * @param {string} id - The id of the group.
+   * @param {Response} response - The HTTP response object.
+   */
+  @Get('groups/:id/members')
+  async groupsMembersReport(
+    @Param('id') id: string,
+    @Res() response: Response,
+  ) {
+    const pdfDoc = await this.reportsService.groupMembersReport(id);
+
+    response.setHeader('Content-type', 'application/pdf');
+    pdfDoc.info.Title = 'reporte de miembros de grupo';
     pdfDoc.pipe(response);
     pdfDoc.end();
   }
