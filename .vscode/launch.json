@@ -15,7 +15,7 @@
       "request": "launch",
       "name": "Debug NestJS (Launch)",
       "runtimeExecutable": "pnpm",
-      "args": ["run", "start:debug"],
+      "args": ["start:debug"],
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true
