@@ -14,6 +14,7 @@ import { ReportsModule } from './reports/reports.module';
 import { GroupsModule } from './groups/groups.module';
 import { MemberStatusModule } from './member-status/member-status.module';
 import { GroupTypesModule } from './group-types/group-types.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { GroupTypesModule } from './group-types/group-types.module';
     GroupsModule,
     MemberStatusModule,
     GroupTypesModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
