@@ -5,7 +5,11 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: [
+    '@typescript-eslint/eslint-plugin',
+    'plugin:react/jsx-runtime',
+    'plugin:react/recommended',
+  ],
   extends: [
     'plugin:security/recommended-legacy',
     'plugin:@typescript-eslint/recommended',
