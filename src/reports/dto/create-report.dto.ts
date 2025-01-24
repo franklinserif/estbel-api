@@ -1,6 +1,7 @@
-import { IsArray, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class CreateReportDto {
+  @IsOptional()
   @IsArray()
   @IsString()
   rows: string[];
