@@ -18,7 +18,6 @@ import { Gender } from '@members/enum/options';
 import { CivilStatus } from '@members/enum/options';
 import { Group } from '@groups/entities/group.entity';
 import { MemberStatus } from '@memberStatus/entities/member-status.entity';
-import { Admin } from '@admins/entities/admin.entity';
 
 @Entity('members')
 export class Member {
@@ -99,10 +98,6 @@ export class Member {
   })
   @JoinColumn({ name: 'spouse_id' })
   spouse: Member;
-
-  @OneToOne(() => Admin, { eager: true, nullable: true })
-  @JoinColumn()
-  admin: Admin;
 
   @OneToMany(() => Group, (groups) => groups.leader, { nullable: true })
   groupsLeader: Group[];
