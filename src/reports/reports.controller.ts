@@ -1,8 +1,9 @@
-import { Controller, Get, Param, Res } from '@nestjs/common';
+import { Body, Controller, Param, Post, Res } from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { Response } from 'express';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
+import { CreateReportDto } from './dto/create-report.dto';
 
 @Controller('reports')
 export class ReportsController {
@@ -13,7 +14,7 @@ export class ReportsController {
    *
    * @param {Response} response - The HTTP response object.
    */
-  @Get('test')
+  @Post('test')
   async test(@Res() response: Response) {
     const pdfDoc = await this.reportsService.test();
 
@@ -29,7 +30,7 @@ export class ReportsController {
    * @param {IQueryParams} queryParams - The query parameters for fetching admins.
    * @param {Response} response - The HTTP response object.
    */
-  @Get('admins')
+  @Post('admins')
   async adminsReport(
     @QueryParams() queryParams: IQueryParams,
     @Res() response: Response,
@@ -48,7 +49,7 @@ export class ReportsController {
    * @param {IQueryParams} queryParams - The query parameters for fetching members.
    * @param {Response} response - The HTTP response object.
    */
-  @Get('members')
+  @Post('members')
   async membersReport(
     @QueryParams() queryParams: IQueryParams,
     @Res() response: Response,
@@ -67,7 +68,7 @@ export class ReportsController {
    * @param {IQueryParams} queryParams - The query parameters for fetching groups.
    * @param {Response} response - The HTTP response object.
    */
-  @Get('groups')
+  @Post('groups')
   async groupsReport(
     @QueryParams() queryParams: IQueryParams,
     @Res() response: Response,
@@ -86,12 +87,16 @@ export class ReportsController {
    * @param {string} id - The id of the group.
    * @param {Response} response - The HTTP response object.
    */
-  @Get('groups/:id/members')
+  @Post('groups/:id/members')
   async groupsMembersReport(
     @Param('id') id: string,
+    @Body() createReport: CreateReportDto,
     @Res() response: Response,
   ) {
-    const pdfDoc = await this.reportsService.groupMembersReport(id);
+    const pdfDoc = await this.reportsService.groupMembersReport(
+      id,
+      createReport,
+    );
 
     response.setHeader('Content-type', 'application/pdf');
     pdfDoc.info.Title = 'reporte de miembros de grupo';
