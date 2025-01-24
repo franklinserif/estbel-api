@@ -8,6 +8,67 @@ import { Member } from '@members/entities/member.entity';
 import { fillColorTable } from './styles/fillColorTable';
 import { docHeader } from './styles/header';
 
+const COLUMN_CONFIG: Record<
+  string,
+  {
+    header: string;
+    accessor: (member: any, index: number) => string | number;
+  }
+> = {
+  'N°': {
+    header: 'N°',
+    accessor: (_, index: number) => index + 1,
+  },
+  'First Name': {
+    header: 'Nombre',
+    accessor: (member) => member.firstName,
+  },
+  'Last Name': {
+    header: 'Apellido',
+    accessor: (member) => member.lastName,
+  },
+  Gender: {
+    header: 'Sexo',
+    accessor: (member) => member.gender,
+  },
+  Phone: {
+    header: 'Teléfono',
+    accessor: (member) => member.phone || '---',
+  },
+  Country: {
+    header: 'Páis',
+    accessor: (member) => member.country || '---',
+  },
+  City: {
+    header: 'Ciudad',
+    accessor: (member) => member.city || '---',
+  },
+  Sector: {
+    header: 'Municipio',
+    accessor: (member) => member.location || '---',
+  },
+  Zone: {
+    header: 'Estado',
+    accessor: (member) => member.zone || '---',
+  },
+  Address: {
+    header: 'Dirección',
+    accessor: (member) => member.address || '---',
+  },
+  'Baptism Date': {
+    header: 'Fec. Bautismo',
+    accessor: (member) => getFormatterDate(member.baptizedAt) || '---',
+  },
+  'Baptism Church': {
+    header: 'Iglesia',
+    accessor: (member) => member.baptizedChurch || '---',
+  },
+  'Civil Status': {
+    header: 'Estado Civil',
+    accessor: (member) => member.civilStatus || '---',
+  },
+};
+
 /**
  * Predefined styles for the PDF document.
  *
@@ -19,35 +80,33 @@ const styles: StyleDictionary = {
 };
 
 /**
- * Table headers for the PDF document.
- *
- * @type {Array<TableCell>}
- */
-const tableHead: TableCell[] = [
-  { text: 'N°' },
-  { text: 'Name' },
-  { text: 'Last Name' },
-  { text: 'Birthdate' },
-  { text: 'Gender' },
-  { text: 'Phone' },
-  { text: 'Country' },
-  { text: 'City' },
-  { text: 'Sector' },
-  { text: 'Zone' },
-  { text: 'Address' },
-  { text: 'Baptism Date' },
-  { text: 'Baptism Church' },
-  { text: 'Civil Status' },
-  { text: 'Wedding Date' },
-];
-
-/**
  * Generates a PDF document definition for the list of members.
  *
  * @param {Member[]} members - List of members to include in the PDF.
  * @returns {TDocumentDefinitions} The PDF document definition.
  */
-export const membersDoc = (members: Member[]): TDocumentDefinitions => {
+export const membersDoc = (
+  members: Member[],
+  rows: string[] = Object.keys(COLUMN_CONFIG),
+): TDocumentDefinitions => {
+  const filteredColumns = rows
+    // eslint-disable-next-line security/detect-object-injection
+    .filter((row) => COLUMN_CONFIG[row])
+    // eslint-disable-next-line security/detect-object-injection
+    .map((row) => COLUMN_CONFIG[row]);
+
+  const tableHead: TableCell[] = filteredColumns.map((col) => ({
+    text: col.header,
+    style: 'tableHeader',
+  }));
+
+  const tableBody = members.map((member, index) =>
+    filteredColumns.map((col) => ({
+      text: col.accessor(member, index)?.toString() || '---',
+      alignment: 'center',
+    })),
+  );
+
   return {
     pageOrientation: 'landscape',
     pageSize: 'LEGAL',
@@ -62,41 +121,7 @@ export const membersDoc = (members: Member[]): TDocumentDefinitions => {
         table: {
           dontBreakRows: true,
           headerRows: 1,
-          body: [
-            tableHead,
-            ...members.map((member, index) => [
-              { text: `${index + 1}`, alignment: 'center' },
-              { text: member.firstName, alignment: 'center' },
-              { text: member.lastName, alignment: 'center' },
-              {
-                text: getFormatterDate(member.birthdate),
-                alignment: 'center',
-              },
-              { text: member.gender, alignment: 'center' },
-              { text: member.phone || '---', alignment: 'center' },
-              { text: member.country || '---', alignment: 'center' },
-              { text: member.city || '---', alignment: 'center' },
-              { text: member.location || '---', alignment: 'center' },
-              { text: member.zone || '---', alignment: 'center' },
-              { text: member.address || '---', alignment: 'center' },
-              {
-                text: getFormatterDate(member.baptizedAt) || '---',
-                alignment: 'center',
-              },
-              {
-                text: member.baptizedChurch || '---',
-                alignment: 'center',
-              },
-              {
-                text: member.civilStatus || '---',
-                alignment: 'center',
-              },
-              {
-                text: getFormatterDate(member.weddingAt) || '---',
-                alignment: 'center',
-              },
-            ]),
-          ],
+          body: [tableHead, ...tableBody],
         },
       },
     ],

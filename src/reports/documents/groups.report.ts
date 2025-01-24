@@ -5,6 +5,32 @@ import type {
 } from 'pdfmake/interfaces';
 import { getFormatterDate } from '@common/libs/date';
 import { Group } from '@groups/entities/group.entity';
+import { docHeader } from './styles/header';
+import { fillColorTable } from './styles/fillColorTable';
+const COLUMN_CONFIG: Record<
+  string,
+  {
+    header: string;
+    accessor: (group: Group, index: number) => string | number;
+  }
+> = {
+  n: {
+    header: 'N°',
+    accessor: (_, index: number) => index + 1,
+  },
+  name: {
+    header: 'Nombre',
+    accessor: (group) => group.name,
+  },
+  description: {
+    header: 'Descripción',
+    accessor: (group) => group.description,
+  },
+  'created at': {
+    header: 'Fec. Creación',
+    accessor: (group) => getFormatterDate(group.createdAt) || '---',
+  },
+};
 
 /**
  * Predefined styles for the PDF document.
@@ -17,59 +43,48 @@ const styles: StyleDictionary = {
 };
 
 /**
- * Table headers for the PDF document.
- *
- * @type {TableCell[]}
- */
-const tableHead: TableCell[] = [
-  { text: 'N°', alignment: 'center' },
-  { text: 'Description', alignment: 'center' },
-  { text: 'Address', alignment: 'center' },
-  { text: 'Group Type', alignment: 'center' },
-  { text: 'Creation Date', alignment: 'center' },
-  { text: 'Update Date', alignment: 'center' },
-];
-
-/**
  * Generates a PDF document definition for the list of groups.
  *
  * @param {Group[]} groups - List of groups to include in the PDF.
  * @returns {TDocumentDefinitions} The PDF document definition.
  */
-export const groupsDoc = (groups: Group[]): TDocumentDefinitions => {
+export const groupsDoc = (
+  groups: Group[],
+  rows: string[] = Object.keys(COLUMN_CONFIG),
+): TDocumentDefinitions => {
+  const filteredColumns = rows
+    // eslint-disable-next-line security/detect-object-injection
+    .filter((row) => COLUMN_CONFIG[row])
+    // eslint-disable-next-line security/detect-object-injection
+    .map((row) => COLUMN_CONFIG[row]);
+
+  const tableHead: TableCell[] = filteredColumns.map((col) => ({
+    text: col.header,
+    style: 'tableHeader',
+  }));
+
+  const tableBody = groups.map((group, index) =>
+    filteredColumns.map((col) => ({
+      text: col.accessor(group, index)?.toString() || '---',
+      alignment: 'center',
+    })),
+  );
+
   return {
     pageOrientation: 'landscape',
-    header: {
-      text: getFormatterDate(),
-      style: 'header',
-    },
+    pageSize: 'LEGAL',
+    pageMargins: [20, 50, 20, 20],
+    header: docHeader,
     content: [
       {
         style: 'table',
         layout: {
-          fillColor: function (rowIndex) {
-            return rowIndex % 2 === 0 && rowIndex !== 0 ? '#ebebeb' : null;
-          },
+          fillColor: fillColorTable,
         },
         table: {
-          widths: [15, 100, '*', 120, 100, 100],
-          body: [
-            tableHead,
-            ...groups.map((group, index) => [
-              { text: index + 1, alignment: 'center' },
-              { text: group.name, alignment: 'center' },
-              { text: group.description },
-              { text: group.groupType.name, alignment: 'center' },
-              {
-                text: getFormatterDate(group.createdAt),
-                alignment: 'center',
-              },
-              {
-                text: getFormatterDate(group.updatedAt),
-                alignment: 'center',
-              },
-            ]),
-          ],
+          dontBreakRows: true,
+          headerRows: 1,
+          body: [tableHead, ...tableBody],
         },
       },
     ],
