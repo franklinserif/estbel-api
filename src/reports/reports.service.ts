@@ -35,9 +35,15 @@ export class ReportsService {
    * @param {IQueryParams} queryParams - The query parameters for fetching admins.
    * @returns {Promise<PDFKit.PDFDocument>} - The generated PDF document.
    */
-  async adminsReport(queryParams: IQueryParams): Promise<PDFKit.PDFDocument> {
-    const users = await this.adminsService.findAll(queryParams);
-    return this.printerService.createPDF(adminsDoc(users));
+  async adminsReport(
+    queryParams: IQueryParams,
+    createReport: CreateReportDto,
+  ): Promise<PDFKit.PDFDocument> {
+    const admins = await this.adminsService.findAll(queryParams);
+
+    const { rows } = createReport;
+
+    return this.printerService.createPDF(adminsDoc(admins, rows));
   }
 
   /**
@@ -46,10 +52,15 @@ export class ReportsService {
    * @param {IQueryParams} queryParams - The query parameters for fetching members.
    * @returns {Promise<PDFKit.PDFDocument>} - The generated PDF document.
    */
-  async membersReport(queryParams: IQueryParams): Promise<PDFKit.PDFDocument> {
+  async membersReport(
+    queryParams: IQueryParams,
+    createReport: CreateReportDto,
+  ): Promise<PDFKit.PDFDocument> {
     const members = await this.membersService.findAll(queryParams);
 
-    return this.printerService.createPDF(membersDoc(members));
+    const { rows } = createReport;
+
+    return this.printerService.createPDF(membersDoc(members, rows));
   }
 
   /**
@@ -58,10 +69,15 @@ export class ReportsService {
    * @param {IQueryParams} queryParams - The query parameters for fetching groups.
    * @returns {Promise<PDFKit.PDFDocument>} - The generated PDF document.
    */
-  async groupsReport(queryParams: IQueryParams): Promise<PDFKit.PDFDocument> {
+  async groupsReport(
+    queryParams: IQueryParams,
+    createReport: CreateReportDto,
+  ): Promise<PDFKit.PDFDocument> {
     const groups = await this.groupsService.findAll(queryParams);
 
-    return this.printerService.createPDF(groupsDoc(groups));
+    const { rows } = createReport;
+
+    return this.printerService.createPDF(groupsDoc(groups, rows));
   }
 
   /**
