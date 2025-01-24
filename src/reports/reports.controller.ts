@@ -33,9 +33,13 @@ export class ReportsController {
   @Post('admins')
   async adminsReport(
     @QueryParams() queryParams: IQueryParams,
+    @Body() createReport: CreateReportDto,
     @Res() response: Response,
   ) {
-    const pdfDoc = await this.reportsService.adminsReport(queryParams);
+    const pdfDoc = await this.reportsService.adminsReport(
+      queryParams,
+      createReport,
+    );
 
     response.setHeader('Content-type', 'application/pdf');
     pdfDoc.info.Title = 'reporte de administradores';
@@ -52,9 +56,13 @@ export class ReportsController {
   @Post('members')
   async membersReport(
     @QueryParams() queryParams: IQueryParams,
+    @Body() createReport: CreateReportDto,
     @Res() response: Response,
   ) {
-    const pdfDoc = await this.reportsService.membersReport(queryParams);
+    const pdfDoc = await this.reportsService.membersReport(
+      queryParams,
+      createReport,
+    );
 
     response.setHeader('Content-type', 'application/pdf');
     pdfDoc.info.Title = 'reporte de miembros';
@@ -71,9 +79,13 @@ export class ReportsController {
   @Post('groups')
   async groupsReport(
     @QueryParams() queryParams: IQueryParams,
+    @Body() createReport: CreateReportDto,
     @Res() response: Response,
   ) {
-    const pdfDoc = await this.reportsService.groupsReport(queryParams);
+    const pdfDoc = await this.reportsService.groupsReport(
+      queryParams,
+      createReport,
+    );
 
     response.setHeader('Content-type', 'application/pdf');
     pdfDoc.info.Title = 'reporte de grupos';
