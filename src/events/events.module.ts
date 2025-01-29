@@ -8,6 +8,8 @@ import { Event } from './entities/event.entity';
 import { Attendance } from './entities/attendance.entity';
 import { ScheduleService } from './schedule.service';
 import { AttendancesService } from './attendances.service';
+import { NotificationService } from './notification.service';
+import { JobsService } from './jobs.service';
 
 @Module({
   controllers: [EventsController],
@@ -16,7 +18,13 @@ import { AttendancesService } from './attendances.service';
     EventEmitterModule.forRoot(),
     MembersModule,
   ],
-  providers: [EventsService, ScheduleService, AttendancesService],
+  providers: [
+    EventsService,
+    ScheduleService,
+    AttendancesService,
+    NotificationService,
+    JobsService,
+  ],
   exports: [TypeOrmModule],
 })
 export class EventsModule {}
