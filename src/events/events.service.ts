@@ -6,6 +6,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Event } from './entities/event.entity';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { ScheduleService } from './schedule.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { EEvent } from './enum/eventName';
+import { JobInfo } from '@common/interfaces/schedule';
 
 @Injectable()
 export class EventsService {
@@ -16,6 +19,8 @@ export class EventsService {
     private readonly eventRepository: Repository<Event>,
 
     private readonly scheduleService: ScheduleService,
+
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   /**
@@ -40,14 +45,17 @@ export class EventsService {
    */
   async create(createEventDto: CreateEventDto): Promise<Event> {
     const eventCreated = this.eventRepository.create(createEventDto);
+
+    const emittersResult = await Promise.all([
+      this.eventEmitter.emitAsync(EEvent.EVENT_CREATED, eventCreated),
+    ] as any);
+
+    const job = emittersResult[0][0] as unknown as JobInfo;
+
+    eventCreated!.startCronExpression = job.start.cronExpression;
+    eventCreated!.endCronExpression = job.end.cronExpression;
+
     const event = await this.eventRepository.save(eventCreated);
-
-    const jobInfo = this.scheduleService.scheduleEventNotification(event);
-
-    event.startCronExpression = jobInfo.start.cronExpression;
-    event.endCronExpression = jobInfo.end.cronExpression;
-
-    await this.eventRepository.update(event.id, event);
 
     return event;
   }
@@ -97,7 +105,11 @@ export class EventsService {
       event.repeat !== updateEventDto.repeat
     ) {
       const newEvent = { ...event, ...updateEventDto };
-      this.scheduleService.updateCronJob(event, newEvent as Event);
+
+      this.eventEmitter.emit(EEvent.EVENT_UPDATED, {
+        old: event,
+        new: newEvent,
+      });
     }
 
     return eventUpdated;
