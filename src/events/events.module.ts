@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MembersModule } from '@members/members.module';
 import { EventsService } from './events.service';
 import { EventsController } from './events.controller';
@@ -10,7 +11,11 @@ import { AttendancesService } from './attendances.service';
 
 @Module({
   controllers: [EventsController],
-  imports: [TypeOrmModule.forFeature([Event, Attendance]), MembersModule],
+  imports: [
+    TypeOrmModule.forFeature([Event, Attendance]),
+    EventEmitterModule.forRoot(),
+    MembersModule,
+  ],
   providers: [EventsService, ScheduleService, AttendancesService],
   exports: [TypeOrmModule],
 })
