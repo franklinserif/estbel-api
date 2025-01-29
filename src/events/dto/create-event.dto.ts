@@ -1,6 +1,16 @@
-import { IsBoolean, IsDate, IsString, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsString,
+  IsUUID,
+  MinLength,
+} from 'class-validator';
 
 export class CreateEventDto {
+  @IsUUID()
+  @IsString()
+  id: string;
+
   @IsString()
   @MinLength(2)
   name: string;
