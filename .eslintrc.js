@@ -11,6 +11,8 @@ module.exports = {
     'react/recommended',
   ],
   extends: [
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
     'plugin:security/recommended-legacy',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
