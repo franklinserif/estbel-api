@@ -15,6 +15,7 @@ import { GroupsModule } from './groups/groups.module';
 import { MemberStatusModule } from './member-status/member-status.module';
 import { GroupTypesModule } from './group-types/group-types.module';
 import { EmailModule } from './email/email.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { EmailModule } from './email/email.module';
     MemberStatusModule,
     GroupTypesModule,
     EmailModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
