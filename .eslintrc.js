@@ -7,8 +7,8 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint/eslint-plugin',
-    'plugin:react/jsx-runtime',
-    'plugin:react/recommended',
+    'react/jsx-runtime',
+    'react/recommended',
   ],
   extends: [
     'plugin:security/recommended-legacy',
