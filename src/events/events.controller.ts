@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { DeleteResult, UpdateResult } from 'typeorm';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
@@ -15,7 +16,6 @@ import { IQueryParams } from '@common/interfaces/decorators';
 import { AttendancesService } from './attendances.service';
 import { ScheduleService } from './schedule.service';
 import { Event } from './entities/event.entity';
-import { DeleteResult, UpdateResult } from 'typeorm';
 import { Attendance } from './entities/attendance.entity';
 
 @Controller('events')
