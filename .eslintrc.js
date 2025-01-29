@@ -7,8 +7,7 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint/eslint-plugin',
-    'react/jsx-runtime',
-    'react/recommended',
+    'react', // Solo necesitas 'react' aquí
   ],
   extends: [
     'plugin:react/recommended',
