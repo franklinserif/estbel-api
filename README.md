@@ -5,6 +5,9 @@
 ## Description
 
 Rest full API for belen system administration.
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![TypeORM](https://img.shields.io/badge/TypeORM-FE0909?logo=typeorm&logoColor=white)](https://typeorm.io/)
 
 ## Project setup
 
@@ -39,10 +42,6 @@ $ pnpm run test:cov
 ```
 
 ## Deployment
-
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![TypeORM](https://img.shields.io/badge/TypeORM-FE0909?logo=typeorm&logoColor=white)](https://typeorm.io/)
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
 
