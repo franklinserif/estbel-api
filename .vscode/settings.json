@@ -4,5 +4,13 @@
   "editor.formatOnPaste": false,
   "prettier.useEditorConfig": false,
   "prettier.useTabs": false,
-  "prettier.configPath": ".prettierrc"
+  "prettier.configPath": ".prettierrc",
+  "symbols.files.associations": {
+    "*.module.ts": "nest",
+    "*.service.ts": "nest-service",
+    "*.controller.ts": "nest-controller",
+    "*.middleware.ts": "nest-middleware",
+    "*.decorator.ts": "nest-decorator",
+    "*.guard.ts": "nest-guard"
+  }
 }
