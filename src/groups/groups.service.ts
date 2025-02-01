@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In } from 'typeorm';
+import { Repository, In, DeleteResult } from 'typeorm';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { Group } from './entities/group.entity';
@@ -100,8 +100,8 @@ export class GroupsService {
    * @param {string} id - The ID of the group to remove.
    * @returns {Promise<void>}
    */
-  async remove(id: string): Promise<void> {
-    const group = await this.findOne(id);
-    await this.groupRepository.remove(group);
+  async remove(id: string): Promise<DeleteResult> {
+    await this.findOne(id);
+    return await this.groupRepository.delete(id);
   }
 }
