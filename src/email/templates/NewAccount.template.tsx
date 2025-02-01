@@ -21,33 +21,34 @@ interface Props {
 export const NewAccount = (props: Props) => {
   const { firstName, activationLink, password } = props;
   return (
-    <Html style={{ display: 'flex', justifyContent: 'center' }}>
+    <Html>
       <h1>🎉 Bienvenido a EstbelSoft!</h1>
-      <h4 style={{ fontSize: '24px' }}>hola {firstName},</h4>
-      <p style={{ fontSize: '24px' }}>
-        Tu cuenta ha sido creada exitosamente. Click en el button de abajo para
+      <p style={{ fontSize: '16px' }}>hola {firstName},</p>
+      <p style={{ fontSize: '16px' }}>
+        Tu cuenta ha sido creada exitosamente. Click en el enlace de abajo para
         cambiar tu contraseña
       </p>
-      <p style={{ fontSize: '24px' }}>
+      <p style={{ fontSize: '16px' }}>
         <a href={activationLink} target="_blank" rel="noreferrer">
-          {activationLink}
+          Enlace para cambiar crear nueva contraseña o activar cuenta
         </a>
       </p>
-      <p>
+      <p style={{ fontSize: '16px' }}>
         Puedes entrar en tu cuenta usando esta contraseña provisional{' '}
-        <span
-          style={{
-            background: '#F6F4F0',
-            padding: '5px',
-            borderRadius: '10px',
-            color: '#2E5077',
-          }}
-        >
-          {password}
-        </span>
       </p>
-      <p style={{ fontSize: '24px' }}>Bendiciones,</p>
-      <p style={{ fontSize: '24px' }}> Estbel team</p>
+      <span
+        style={{
+          fontSize: '22px',
+          background: '#F6F4F0',
+          padding: '5px',
+          borderRadius: '10px',
+          color: '#2E5077',
+        }}
+      >
+        {password}
+      </span>
+      <p style={{ fontSize: '16px' }}>Bendiciones,</p>
+      <p style={{ fontSize: '16px', fontStyle: 'italic' }}> Estbel team</p>
     </Html>
   );
 };
