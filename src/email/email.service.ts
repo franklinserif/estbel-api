@@ -11,6 +11,9 @@ import { NewPassword } from './templates/NewPassword.template';
 export class EmailService {
   private transporter: nodemailer.Transporter;
 
+  /**
+   * Initializes the email service and configures the transporter.
+   */
   constructor() {
     this.transporter = nodemailer.createTransport({
       service: process.env.SMTP_SERVICE,
@@ -24,6 +27,12 @@ export class EmailService {
     });
   }
 
+  /**
+   * Sends a welcome email to a new user.
+   * @param {string} to - Recipient email address.
+   * @param {string} username - The username of the new user.
+   * @returns {Promise<nodemailer.SentMessageInfo>} - The result of the email sending process.
+   */
   async sendWellcomeEmail(to: string, username: string) {
     const emailHtml = await render(WelcomeEmail({ username }));
 
@@ -31,35 +40,49 @@ export class EmailService {
       from: `"Your App" <${process.env.GMAIL_USER}>`,
       to,
       subject: 'Welcome to Our Service!',
-      html: emailHtml, // Now this is a string
+      html: emailHtml,
     };
 
     return this.transporter.sendMail(mailOptions);
   }
 
-  async sendEmailToNewAccount(newAccountEmailDto: NewAccountEmailDto) {
+  /**
+   * Sends an email to notify a new account creation.
+   * @param {NewAccountEmailDto} newAccountEmailDto - Data transfer object containing recipient email and other details.
+   * @returns {Promise<nodemailer.SentMessageInfo>} - The result of the email sending process.
+   */
+  async sendEmailToNewAccount(
+    newAccountEmailDto: NewAccountEmailDto,
+  ): Promise<nodemailer.SentMessageInfo> {
     const emailHtml = await render(NewAccount(newAccountEmailDto));
     const { to } = newAccountEmailDto;
 
     const mailOptions = {
       from: `"Your App" <${process.env.GMAIL_USER}>`,
-      to: to,
-      subject: 'Tu cuenta ha sido creada!',
-      html: emailHtml, // Now this is a string
+      to,
+      subject: 'Your account has been created!',
+      html: emailHtml,
     };
 
     return this.transporter.sendMail(mailOptions);
   }
 
-  async sendEmailToNewPassword(generatedPasswordDto: GeneratedPasswordDto) {
+  /**
+   * Sends an email with the new password to the user.
+   * @param {GeneratedPasswordDto} generatedPasswordDto - Data transfer object containing recipient email and new password details.
+   * @returns {Promise<nodemailer.SentMessageInfo>} - The result of the email sending process.
+   */
+  async sendEmailToNewPassword(
+    generatedPasswordDto: GeneratedPasswordDto,
+  ): Promise<nodemailer.SentMessageInfo> {
     const emailHtml = await render(NewPassword(generatedPasswordDto));
     const { to } = generatedPasswordDto;
 
     const mailOptions = {
       from: `"Your App" <${process.env.GMAIL_USER}>`,
-      to: to,
-      subject: 'Cambio de contraseña!',
-      html: emailHtml, // Now this is a string
+      to,
+      subject: 'Password change!',
+      html: emailHtml,
     };
 
     return this.transporter.sendMail(mailOptions);
