@@ -38,6 +38,7 @@ export class EmailService {
   async sendEmailToNewAccount(newAccountEmailDto: NewAccountEmailDto) {
     const emailHtml = await render(NewAccount(newAccountEmailDto));
     const { to } = newAccountEmailDto;
+
     const mailOptions = {
       from: `"Your App" <${process.env.GMAIL_USER}>`,
       to: to,
