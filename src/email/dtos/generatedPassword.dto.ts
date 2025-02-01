@@ -21,4 +21,7 @@ export class GeneratedPasswordDto {
   @IsString()
   @IsUrl()
   resetPasswordLink: string;
+
+  @IsEmail()
+  to: string;
 }
