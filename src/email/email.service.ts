@@ -4,6 +4,8 @@ import { WelcomeEmail } from './templates/Welcome.template';
 import { NewAccount } from './templates/NewAccount.template';
 import { render } from '@react-email/components';
 import { NewAccountEmailDto } from './dtos/NewAccountEmail.dto';
+import { GeneratedPasswordDto } from './dtos/generatedPassword.dto';
+import { NewPassword } from './templates/NewPassword.template';
 
 @Injectable()
 export class EmailService {
@@ -43,6 +45,20 @@ export class EmailService {
       from: `"Your App" <${process.env.GMAIL_USER}>`,
       to: to,
       subject: 'Tu cuenta ha sido creada!',
+      html: emailHtml, // Now this is a string
+    };
+
+    return this.transporter.sendMail(mailOptions);
+  }
+
+  async sendEmailToNewPassword(generatedPasswordDto: GeneratedPasswordDto) {
+    const emailHtml = await render(NewPassword(generatedPasswordDto));
+    const { to } = generatedPasswordDto;
+
+    const mailOptions = {
+      from: `"Your App" <${process.env.GMAIL_USER}>`,
+      to: to,
+      subject: 'Cambio de contraseña!',
       html: emailHtml, // Now this is a string
     };
 
