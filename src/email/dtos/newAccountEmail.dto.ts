@@ -1,6 +1,6 @@
 import { IsEmail, IsString, IsUrl, Matches, MinLength } from 'class-validator';
 
-export class AccountCreatedDto {
+export class NewAccountEmailDto {
   @IsString()
   @MinLength(2)
   firstName: string;
@@ -22,4 +22,7 @@ export class AccountCreatedDto {
     },
   )
   password: string;
+
+  @IsEmail()
+  to: string;
 }
