@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { WelcomeEmail } from './templates/Welcome.template';
+import { NewAccount } from './templates/NewAccount.template';
 import { render } from '@react-email/components';
+import { NewAccountEmailDto } from './dtos/NewAccountEmail.dto';
 
 @Injectable()
 export class EmailService {
@@ -27,6 +29,19 @@ export class EmailService {
       from: `"Your App" <${process.env.GMAIL_USER}>`,
       to,
       subject: 'Welcome to Our Service!',
+      html: emailHtml, // Now this is a string
+    };
+
+    return this.transporter.sendMail(mailOptions);
+  }
+
+  async sendEmailToNewAccount(newAccountEmailDto: NewAccountEmailDto) {
+    const emailHtml = await render(NewAccount(newAccountEmailDto));
+    const { to } = newAccountEmailDto;
+    const mailOptions = {
+      from: `"Your App" <${process.env.GMAIL_USER}>`,
+      to: to,
+      subject: 'Tu cuenta ha sido creada!',
       html: emailHtml, // Now this is a string
     };
 
