@@ -1,16 +1,22 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { Admin } from './entities/admin.entity';
+import { Member } from '@members/entities/member.entity';
+import { Accesses } from '@accesses/entities/accesses.entity';
+import { Module } from '@modules/entities/module.entity';
 import { IQueryParams } from '@common/interfaces/decorators';
 
 @Injectable()
 export class AdminsService {
+  private readonly logger: Logger = new Logger(AdminsService.name);
   constructor(
     @InjectRepository(Admin)
     private readonly adminRepository: Repository<Admin>,
+    @InjectRepository(Accesses)
+    private readonly accessRepository: Repository<Accesses>,
   ) {}
 
   /**
@@ -20,11 +26,57 @@ export class AdminsService {
    * @returns {Promise<Admin>} The created admin.
    */
   async create(createAdminDto: CreateAdminDto): Promise<Admin> {
-    const admin = this.adminsRepository.create(createAdminDto);
+    const { id, password } = createAdminDto;
 
-    const createdAdmin = await this.adminsRepository.save({ ...admin });
+    const queryRunner =
+      this.adminRepository.manager.connection.createQueryRunner();
 
-    return createdAdmin;
+    await queryRunner.startTransaction();
+    try {
+      const adminFound = await queryRunner.manager.findOne(Admin, {
+        where: { id: id },
+      });
+
+      if (adminFound) {
+        throw new Error('This member already has an associated admin');
+      }
+
+      const member = await queryRunner.manager.findOne(Member, {
+        where: { id: id },
+      });
+
+      if (!member) {
+        throw new Error('Member not found');
+      }
+
+      const admin = this.adminRepository.create({ id, password, member });
+      await queryRunner.manager.save(admin);
+
+      const modules = await queryRunner.manager.find(Module);
+
+      const defaultAccesses = modules.map((module) => {
+        return this.accessRepository.create({
+          admin,
+          module,
+          canRead: true,
+          canEdit: false,
+          canDelete: false,
+          canPrint: false,
+        });
+      });
+
+      await queryRunner.manager.save(Accesses, defaultAccesses);
+      await queryRunner.commitTransaction();
+      return admin;
+    } catch (error) {
+      this.logger.error(
+        `Something went wrong creating a new admin account ${error} `,
+      );
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
   }
 
   /**
