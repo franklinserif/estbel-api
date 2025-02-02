@@ -3,6 +3,7 @@ import { AdminsService } from './admins.service';
 import { AdminsController } from './admins.controller';
 import { Admin } from './entities/admin.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   controllers: [AdminsController],
