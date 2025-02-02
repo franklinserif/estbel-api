@@ -10,7 +10,7 @@ import { IQueryParams } from '@common/interfaces/decorators';
 export class AdminsService {
   constructor(
     @InjectRepository(Admin)
-    private readonly adminsRepository: Repository<Admin>,
+    private readonly adminRepository: Repository<Admin>,
   ) {}
 
   /**
@@ -34,7 +34,7 @@ export class AdminsService {
    * @returns {Promise<Admin[]>} A list of admins.
    */
   async findAll(queryParams: IQueryParams): Promise<Admin[]> {
-    return await this.adminsRepository.find(queryParams);
+    return await this.adminRepository.find(queryParams);
   }
 
   /**
@@ -67,7 +67,7 @@ export class AdminsService {
    */
   async update(id: string, updateAdminDto: UpdateAdminDto): Promise<Admin> {
     await this.findOne(id);
-    await this.adminsRepository.update(id, updateAdminDto);
+    await this.adminRepository.update(id, updateAdminDto);
 
     return await this.findOne(id);
   }
@@ -81,6 +81,6 @@ export class AdminsService {
    */
   async remove(id: string): Promise<DeleteResult> {
     await this.findOne(id);
-    return await this.adminsRepository.delete(id);
+    return await this.adminRepository.delete(id);
   }
 }
