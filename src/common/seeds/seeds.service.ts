@@ -4,6 +4,7 @@ import { GROUP_TYPES } from './seed/group-types';
 import { GROUPS } from './seed/groups';
 import { MEMBERS_STATUS } from './seed/member-types';
 import { MEMBERS } from './seed/members';
+import { MODULES } from './seed/modules';
 
 @Injectable()
 export class SeedsService {
@@ -50,6 +51,8 @@ export class SeedsService {
       }));
 
       await queryRunner.manager.save('members', membersWithStatus);
+
+      await queryRunner.manager.save('modules', MODULES);
 
       await queryRunner.commitTransaction();
       this.logger.log('Seeds executed successfully');
