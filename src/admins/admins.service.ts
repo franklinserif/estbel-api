@@ -45,7 +45,10 @@ export class AdminsService {
    * @throws {NotFoundException} If the admin is not found.
    */
   async findOne(id: string): Promise<Admin> {
-    const admin = await this.adminsRepository.findOne({ where: { id } });
+    const admin = await this.adminRepository.findOne({
+      where: { id },
+      relations: ['accesses'],
+    });
 
     if (!admin?.id) {
       throw new NotFoundException(`Admin with id: ${id} not found`);
