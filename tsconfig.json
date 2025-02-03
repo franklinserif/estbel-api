@@ -33,7 +33,10 @@
       "@groups/*": ["src/groups/*"],
       "@groupTypes/*": ["src/group-types/*"],
       "@common/*": ["src/common/*"],
-      "@events/*": ["src/events/*"]
+      "@events/*": ["src/events/*"],
+      "@email/*": ["src/email/*"],
+      "@notifications/*": ["src/notifications/*"],
+      "@reports/*": ["src/reports/*"]
     }
   }
 }
