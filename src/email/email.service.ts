@@ -30,7 +30,10 @@ export class EmailService {
    * @param {string} username - The username of the new user.
    * @returns {Promise<nodemailer.SentMessageInfo>} - The result of the email sending process.
    */
-  async sendWellcomeEmail(to: string, username: string) {
+  async sendWellcomeEmail(
+    to: string,
+    username: string,
+  ): Promise<nodemailer.SentMessageInfo> {
     const emailHtml = await render(WelcomeEmail({ username }));
 
     const mailOptions = {
