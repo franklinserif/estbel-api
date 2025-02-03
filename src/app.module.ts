@@ -38,6 +38,7 @@ import { AppService } from './app.service';
       migrations: [__dirname + '/src/common/migrations/*{.ts,.js}'],
     }),
     ScheduleModule.forRoot(),
+    EventEmitterModule.forRoot(),
     ModulesModule,
     AdminsModule,
     AuthModule,
