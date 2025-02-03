@@ -137,6 +137,7 @@ export class AdminsService {
    */
   async remove(id: string): Promise<DeleteResult> {
     await this.findOne(id);
+
     return await this.adminRepository.delete(id);
   }
 }
