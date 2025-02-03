@@ -13,7 +13,7 @@ import { ReportsModule } from '@reports/reports.module';
 import { GroupsModule } from '@groups/groups.module';
 import { MemberStatusModule } from '@memberStatus/member-status.module';
 import { GroupTypesModule } from '@groupTypes/group-types.module';
-import { EmailModule } from '@email/email.module';
+import { EmailModule } from '@emails/email.module';
 import { NotificationsModule } from '@notifications/notifications.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
