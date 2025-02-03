@@ -21,7 +21,6 @@ export class GroupTypesController {
 
   /**
    * Creates a new group type.
-   *
    * @param {CreateGroupTypesDto} createGroupTypesDto - The data to create a new group type.
    * @returns {Promise<GroupType>} - The created group type.
    */
@@ -32,7 +31,6 @@ export class GroupTypesController {
 
   /**
    * Retrieves all group types based on the provided query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for filtering.
    * @returns {Promise<GroupType[]>} - A list of group types.
    */
@@ -43,7 +41,6 @@ export class GroupTypesController {
 
   /**
    * Retrieves a single group type by its ID.
-   *
    * @param {string} id - The ID of the group type to retrieve.
    * @returns {Promise<GroupType>} - The found group type.
    * @throws {NotFoundException} - If the group type with the specified ID is not found.
@@ -55,7 +52,6 @@ export class GroupTypesController {
 
   /**
    * Updates a group type by its ID.
-   *
    * @param {string} id - The ID of the group type to update.
    * @param {UpdateGroupTypesDto} updateGroupTypesDto - The data to update the group type.
    * @returns {Promise<GroupType>} - The updated group type.

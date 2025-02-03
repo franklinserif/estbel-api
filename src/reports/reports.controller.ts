@@ -11,7 +11,6 @@ export class ReportsController {
 
   /**
    * Endpoint to generate a test PDF document.
-   *
    * @param {Response} response - The HTTP response object.
    */
   @Post('test')
@@ -26,7 +25,6 @@ export class ReportsController {
 
   /**
    * Endpoint to generate a PDF report for admins based on query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for fetching admins.
    * @param {Response} response - The HTTP response object.
    */
@@ -49,7 +47,6 @@ export class ReportsController {
 
   /**
    * Endpoint to generate a PDF report for members based on query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for fetching members.
    * @param {Response} response - The HTTP response object.
    */
@@ -72,7 +69,6 @@ export class ReportsController {
 
   /**
    * Endpoint to generate a PDF report for groups based on query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for fetching groups.
    * @param {Response} response - The HTTP response object.
    */
@@ -95,7 +91,6 @@ export class ReportsController {
 
   /**
    * Endpoint to generate a PDF report for members of  the group.
-   *
    * @param {string} id - The id of the group.
    * @param {Response} response - The HTTP response object.
    */

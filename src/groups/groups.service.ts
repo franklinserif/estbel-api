@@ -22,7 +22,6 @@ export class GroupsService {
 
   /**
    * Creates a new group.
-   *
    * @param {CreateGroupDto} createGroupDto - The data to create the group.
    * @returns {Promise<Group>} The created group.
    */
@@ -40,7 +39,6 @@ export class GroupsService {
 
   /**
    * Retrieves all groups based on the provided query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for filtering, sorting, etc.
    * @returns {Promise<Group[]>} A list of groups.
    */
@@ -50,7 +48,6 @@ export class GroupsService {
 
   /**
    * Retrieves a single group by its ID with all he's members
-   * .
    * @param {string} id - The ID of the group to retrieve.
    * @returns {Promise<Group>} The found group.
    * @throws {NotFoundException} If the group is not found.
@@ -70,7 +67,6 @@ export class GroupsService {
 
   /**
    * Updates an existing group.
-   *
    * @param {string} id - The ID of the group to update.
    * @param {UpdateGroupDto} updateGroupDto - The data to update the group.
    * @returns {Promise<Group>} The updated group.
@@ -96,7 +92,6 @@ export class GroupsService {
 
   /**
    * Removes a group by its ID.
-   *
    * @param {string} id - The ID of the group to remove.
    * @returns {Promise<void>}
    */

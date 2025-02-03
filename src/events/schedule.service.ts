@@ -14,7 +14,6 @@ export class ScheduleService {
 
   /**
    * Retrieves all scheduled cron jobs.
-   *
    * @returns {Array<{ name: string, nextInvocation: string }>} A list of cron jobs with their names and next invocation times.
    */
   findAll(): Array<{ name: string; nextInvocation: string }> {
@@ -28,7 +27,6 @@ export class ScheduleService {
 
   /**
    * Adds cron jobs for a list of events.
-   *
    * @param {Event[]} events - The events to schedule.
    */
   addCronJobs(events: Event[]): void {
@@ -39,7 +37,6 @@ export class ScheduleService {
 
   /**
    * Schedules event notifications for a given event.
-   *
    * @param {Event} event - The event to schedule.
    * @returns {JobInfo} Information about the scheduled cron jobs.
    */
@@ -59,7 +56,6 @@ export class ScheduleService {
 
   /**
    * Cancels the cron job for a given event.
-   *
    * @param {Event} event - The event to cancel.
    */
   cancelEvent(event: Event): void {

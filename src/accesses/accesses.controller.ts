@@ -19,7 +19,6 @@ export class AccessesController {
 
   /**
    * Creates a new access record.
-   *
    * @param {CreateAccessDto} createAccessDto - The data to create the access record.
    * @returns {Promise<Accesses>} The created access record.
    */
@@ -30,7 +29,6 @@ export class AccessesController {
 
   /**
    * Retrieves all access records.
-   *
    * @returns {Promise<Accesses[]>} A list of all access records.
    */
   @Get()
@@ -40,7 +38,6 @@ export class AccessesController {
 
   /**
    * Retrieves a single access record by its ID.
-   *
    * @param {string} id - The ID of the access record to retrieve.
    * @returns {Promise<Accesses>} The found access record.
    * @throws {NotFoundException} If the access record is not found.
@@ -52,7 +49,6 @@ export class AccessesController {
 
   /**
    * Updates an existing access record.
-   *
    * @param {string} id - The ID of the access record to update.
    * @param {UpdateAccessDto} updateAccessDto - The data to update the access record.
    * @returns {Promise<Accesses>} The updated accesses.
@@ -68,7 +64,6 @@ export class AccessesController {
 
   /**
    * Removes an access record by its ID.
-   *
    * @param {string} id - The ID of the access record to remove.
    * @returns {Promise<DeleteResult>} The result of the deletion.
    * @throws {NotFoundException} If the access record is not found.

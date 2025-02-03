@@ -39,7 +39,6 @@ export class EventsService {
 
   /**
    * Creates a new event and schedules its notifications.
-   *
    * @param {CreateEventDto} createEventDto - The data to create the event.
    * @returns {Promise<Event>} The created event.
    */
@@ -62,7 +61,6 @@ export class EventsService {
 
   /**
    * Retrieves all events based on the provided query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for filtering events.
    * @returns {Promise<Event[]>} A list of events.
    */
@@ -72,7 +70,6 @@ export class EventsService {
 
   /**
    * Retrieves a single event by its ID.
-   *
    * @param {string} id - The ID of the event to retrieve.
    * @returns {Promise<Event>} The found event.
    * @throws {NotFoundException} If the event is not found.
@@ -89,7 +86,6 @@ export class EventsService {
 
   /**
    * Updates an existing event and reschedules its notifications if necessary.
-   *
    * @param {string} id - The ID of the event to update.
    * @param {UpdateEventDto} updateEventDto - The data to update the event.
    * @returns {Promise<UpdateResult>} The result of the update operation.
@@ -117,7 +113,6 @@ export class EventsService {
 
   /**
    * Deletes an event and cancels its scheduled notifications.
-   *
    * @param {string} id - The ID of the event to delete.
    * @returns {Promise<DeleteResult>} The result of the delete operation.
    */

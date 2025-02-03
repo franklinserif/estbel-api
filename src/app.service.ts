@@ -4,7 +4,6 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   /**
    * Returns a hello message.
-   *
    * @returns {string} - The hello message.
    */
   getHello(): string {

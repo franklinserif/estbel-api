@@ -21,7 +21,6 @@ export class ModulesController {
 
   /**
    * Creates a new module.
-   *
    * @param {CreateModuleDto} createModuleDto - The data transfer object containing module creation data.
    * @returns {Promise<Module>} The created module.
    */
@@ -32,7 +31,6 @@ export class ModulesController {
 
   /**
    * Retrieves all modules based on query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for filtering and sorting the modules.
    * @returns {Promise<Module[]>} An array of modules.
    */
@@ -43,7 +41,6 @@ export class ModulesController {
 
   /**
    * Retrieves a specific module by its ID.
-   *
    * @param {string} id - The ID of the module to retrieve.
    * @returns {Promise<Module>} The retrieved module.
    */
@@ -54,7 +51,6 @@ export class ModulesController {
 
   /**
    * Updates a module by its ID.
-   *
    * @param {string} id - The ID of the module to update.
    * @param {UpdateModuleDto} updateModuleDto - The data transfer object containing the updated module data.
    * @returns {Promise<Module>} The updated module.
@@ -69,7 +65,6 @@ export class ModulesController {
 
   /**
    * Deletes a module by its ID.
-   *
    * @param {string} id - The ID of the module to delete.
    * @returns {Promise<void>} A promise indicating the completion of the delete operation.
    */

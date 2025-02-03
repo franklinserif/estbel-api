@@ -11,9 +11,6 @@ import { NewPassword } from './templates/NewPassword.template';
 export class EmailService {
   private transporter: nodemailer.Transporter;
 
-  /**
-   * Initializes the email service and configures the transporter.
-   */
   constructor() {
     this.transporter = nodemailer.createTransport({
       service: process.env.SMTP_SERVICE,

@@ -28,7 +28,6 @@ export class EventsController {
 
   /**
    * Creates a new event.
-   *
    * @param {CreateEventDto} createEventDto - The data to create the event.
    * @returns {Promise<Event>} The created event.
    */

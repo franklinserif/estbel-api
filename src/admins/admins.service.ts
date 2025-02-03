@@ -21,7 +21,6 @@ export class AdminsService {
 
   /**
    * Creates a new admin and assigns default access permissions to all modules.
-   *
    * @param {CreateAdminDto} createAdminDto - The data to create the admin.
    * @returns {Promise<Admin>} The created admin.
    */
@@ -81,7 +80,6 @@ export class AdminsService {
 
   /**
    * Retrieves all admins based on the provided query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for filtering admins.
    * @returns {Promise<Admin[]>} A list of admins.
    */
@@ -91,7 +89,6 @@ export class AdminsService {
 
   /**
    * Retrieves a single admin by their ID.
-   *
    * @param {string} id - The ID of the admin to retrieve.
    * @returns {Promise<Admin>} The found admin.
    * @throws {NotFoundException} If the admin is not found.
@@ -111,7 +108,6 @@ export class AdminsService {
 
   /**
    * Updates an existing admin.
-   *
    * @param {string} id - The ID of the admin to update.
    * @param {UpdateAdminDto} updateAdminDto - The data to update the admin.
    * @returns {Promise<Admin>} The updated admin.
@@ -126,7 +122,6 @@ export class AdminsService {
 
   /**
    * Removes an admin by their ID.
-   *
    * @param {string} id - The ID of the admin to remove.
    * @returns {Promise<DeleteResult>} The result of the deletion operation.
    * @throws {NotFoundException} If the admin is not found.

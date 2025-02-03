@@ -1,5 +1,11 @@
 import { Html, Button } from '@react-email/components';
 
+/**
+ * WelcomeEmail component renders a welcome email template.
+ * @param {Object} props - The component props.
+ * @param {string} props.username - The username of the recipient.
+ * @returns {JSX.Element} The rendered email template.
+ */
 export const WelcomeEmail = ({ username }: { username: string }) => {
   return (
     <Html>

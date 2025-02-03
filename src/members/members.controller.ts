@@ -21,7 +21,6 @@ export class MembersController {
 
   /**
    * Endpoint to create a new member.
-   *
    * @param {CreateMemberDto} createMemberDto - The data to create a new member.
    * @returns {Promise<Member>} - The created member.
    */
@@ -32,7 +31,6 @@ export class MembersController {
 
   /**
    * Endpoint to find all members based on query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for fetching members.
    * @returns {Promise<Member[]>} - The list of members.
    */
@@ -43,7 +41,6 @@ export class MembersController {
 
   /**
    * Endpoint to find a member by ID.
-   *
    * @param {string} id - The ID of the member to find.
    * @returns {Promise<Member>} - The found member.
    */
@@ -54,7 +51,6 @@ export class MembersController {
 
   /**
    * Endpoint to update a member by ID.
-   *
    * @param {string} id - The ID of the member to update.
    * @param {UpdateMemberDto} updateMemberDto - The data to update the member.
    * @returns {Promise<Member>} - The updated member.
@@ -69,7 +65,6 @@ export class MembersController {
 
   /**
    * Endpoint to remove a member by ID.
-   *
    * @param {string} id - The ID of the member to remove.
    * @returns {Promise<void>} - A promise that resolves when the member is removed.
    */

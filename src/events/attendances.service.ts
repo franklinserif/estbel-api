@@ -23,7 +23,6 @@ export class AttendancesService {
 
   /**
    * Retrieves all attendances based on the provided query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for filtering attendances.
    * @returns {Promise<Attendance[]>} A list of attendances.
    */
@@ -33,7 +32,6 @@ export class AttendancesService {
 
   /**
    * Registers attendance for a specific event and members.
-   *
    * @param {string} eventId - The ID of the event to register attendance for.
    * @param {string[]} memberIds - The IDs of the members to register.
    * @returns {Promise<Attendance[]>} The created attendance records.
@@ -64,7 +62,6 @@ export class AttendancesService {
 
   /**
    * Confirms attendance for a specific attendance record.
-   *
    * @param {string} id - The ID of the attendance record to confirm.
    * @returns {Promise<void>} The result of the update operation.
    * @throws {NotFoundException} If the attendance record is not found.
@@ -88,7 +85,6 @@ export class AttendancesService {
 
   /**
    * Marks a specific attendance record as non-attendance.
-   *
    * @param {string} id - The ID of the attendance record to mark as non-attendance.
    * @returns {Promise<void>} The result of the update operation.
    * @throws {NotFoundException} If the attendance record is not found.
@@ -107,7 +103,6 @@ export class AttendancesService {
 
   /**
    * Removes a specific attendance record.
-   *
    * @param {string} id - The ID of the attendance record to remove.
    * @returns {Promise<void>} The result of the deletion.
    * @throws {NotFoundException} If the attendance record is not found.

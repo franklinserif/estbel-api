@@ -21,7 +21,6 @@ export class AdminsController {
 
   /**
    * Creates a new admin.
-   *
    * @param {CreateAdminDto} createAdminDto - The data to create the admin.
    * @returns {Promise<Admin>} The created admin.
    */
@@ -32,7 +31,6 @@ export class AdminsController {
 
   /**
    * Retrieves all admins based on the provided query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for filtering admins.
    * @returns {Promise<Admin[]>} A list of admins.
    */
@@ -46,7 +44,6 @@ export class AdminsController {
 
   /**
    * Retrieves a single admin by their ID.
-   *
    * @param {string} id - The ID of the admin to retrieve.
    * @returns {Promise<Admin>} The found admin.
    * @throws {NotFoundException} If the admin is not found.
@@ -58,7 +55,6 @@ export class AdminsController {
 
   /**
    * Updates an existing admin.
-   *
    * @param {string} id - The ID of the admin to update.
    * @param {UpdateAdminDto} updateAdminDto - The data to update the admin.
    * @returns {Promise<Admin>} The admin updated.
@@ -74,7 +70,6 @@ export class AdminsController {
 
   /**
    * Removes an admin by their ID.
-   *
    * @param {string} id - The ID of the admin to remove.
    * @returns {Promise<DeleteResult>} The result of the deletion operation.
    * @throws {NotFoundException} If the admin is not found.

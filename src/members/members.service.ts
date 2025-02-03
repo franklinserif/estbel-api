@@ -19,7 +19,6 @@ export class MembersService {
 
   /**
    * Creates a new member and saves it in the database.
-   *
    * @param {CreateMemberDto} createMemberDto - the data transfer object for creating a member.
    * @returns {CreateMemberDto} the created member.
    */
@@ -49,7 +48,6 @@ export class MembersService {
 
   /**
    * Finds all members based on query parameters.
-   *
    * @param {IQueryParams} queryParams - Query parameters for filtering and sorting members.
    * @returns {Promise<Member>} An array of the members.
    */
@@ -59,7 +57,6 @@ export class MembersService {
 
   /**
    * Retrieves all the members that match the provided query parameters.
-   *
    * @param {string} id - The ID of the member to retrieve.
    */
   async findOne(id: string): Promise<Member> {
@@ -77,7 +74,6 @@ export class MembersService {
 
   /**
    * Updates an existing module by its ID
-   *
    * @param {string} id - The ID of the member to update
    * @param {UpdateMemberDto} updateMemberDto - the data transfer object for update a member.
    * @throws {NotFoundException} if no member with the given ID is found.
@@ -117,7 +113,6 @@ export class MembersService {
 
   /**
    * Deletes a member by its ID.
-   *
    * @param {string} id - The ID of the member to delete.
    * @throws {NotFoundException} if no member with the given ID is found.
    * @returns {Promise<DeleteResult>} A promise indicating the completion of the delete operation.
@@ -129,7 +124,6 @@ export class MembersService {
 
   /**
    * Retrieves a single member by its ID
-   *
    * @param {string} id - The ID of the member to retrieve.
    * @throws {NotFoundException} If no module with the given ID is found with an relation information.
    * @returns {Promise<Member>} The retrieved member
@@ -144,7 +138,6 @@ export class MembersService {
 
   /**
    * Retrieves members that match the IDs.
-   *
    * @param {string[]} ids - The ids of the members to retrieve.
    * @returns {Promise<Member>} An array of member.
    */

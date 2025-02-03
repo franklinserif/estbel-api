@@ -20,7 +20,6 @@ export class JobsService {
 
   /**
    * it retrieve a list of cron jobs
-   *
    * @returns {Map<string, CronJob<null, null>>} a list of cronjobs
    */
   findAll(): Map<string, CronJob<null, null>> {
@@ -31,7 +30,6 @@ export class JobsService {
 
   /**
    * Creates a cron job for an event.
-   *
    * @param {'start' | 'end'} eventState - if the event is starter or ending.
    * @returns {Event} the event information.
    */
@@ -65,7 +63,6 @@ export class JobsService {
 
   /**
    * Updates the cron job for an event when its details change.
-   *
    * @param {IEvents} events
    */
   @OnEvent(EEvent.EVENT_UPDATED)
@@ -93,7 +90,6 @@ export class JobsService {
 
   /**
    * Deletes a cron job if it exists.
-   *
    * @param {string} id - The key of the cron job to delete.
    */
   remove(id: string): void {
@@ -111,7 +107,6 @@ export class JobsService {
 
   /**
    * Generates a cron expression based on the event's start or end time and repeat configuration.
-   *
    * @param {Date} time - The time to generate the cron expression for.
    * @param {boolean} repeat - Whether the event repeats weekly.
    * @returns {string} The generated cron expression.

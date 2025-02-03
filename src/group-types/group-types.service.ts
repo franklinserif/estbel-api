@@ -15,7 +15,6 @@ export class GroupTypesService {
 
   /**
    * Creates a new group type.
-   *
    * @param {CreateGroupTypesDto} createGroupTypesDto - The data to create a new group type.
    * @returns {Promise<GroupType>} - The created group type.
    */
@@ -27,7 +26,6 @@ export class GroupTypesService {
 
   /**
    * Retrieves all group types based on the provided query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for filtering.
    * @returns {Promise<GroupType[]>} - A list of group types.
    */
@@ -37,7 +35,6 @@ export class GroupTypesService {
 
   /**
    * Retrieves a single group type by its ID.
-   *
    * @param {string} id - The ID of the group type to retrieve.
    * @returns {Promise<GroupType>} - The found group type.
    * @throws {NotFoundException} - If the group type with the specified ID is not found.
@@ -56,7 +53,6 @@ export class GroupTypesService {
 
   /**
    * Updates a group type by its ID.
-   *
    * @param {string} id - The ID of the group type to update.
    * @param {UpdateGroupTypesDto} updateGroupTypesDto - The data to update the group type.
    * @returns {Promise<GroupType>} - The updated group type.
@@ -75,7 +71,6 @@ export class GroupTypesService {
 
   /**
    * Deletes a group type by its ID.
-   *
    * @param {string} id - The ID of the group type to delete.
    * @returns {Promise<DeleteResult>} The result of the delete operation
    * @throws {NotFoundException} - If the group type with the specified ID is not found.

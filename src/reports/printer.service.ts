@@ -9,7 +9,6 @@ export class PrinterService {
 
   /**
    * Creates a PDF document using the provided document definition.
-   *
    * @param {TDocumentDefinitions} docDefinition - The definition of the document to be created.
    * @returns {PDFKit.PDFDocument} - The generated PDF document.
    */

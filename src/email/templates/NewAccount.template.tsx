@@ -9,7 +9,6 @@ interface Props {
 
 /**
  * Email template component for notifying users about a new account creation.
- *
  * @component
  * @param {Props} props - The component props.
  * @param {string} props.firstName - The first name of the recipient.

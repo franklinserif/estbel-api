@@ -15,7 +15,6 @@ export class ModulesService {
 
   /**
    * Creates a new module and saves it in the database.
-   *
    * @param {CreateModuleDto} createModuleDto - The data transfer object for creating a module.
    * @returns {Promise<Module>} The created module.
    */
@@ -27,7 +26,6 @@ export class ModulesService {
 
   /**
    * Retrieves all modules that match the provided query parameters.
-   *
    * @param {IQueryParams} queryParams - Query parameters for filtering and sorting modules.
    * @returns {Promise<Module[]>} An array of modules.
    */
@@ -39,7 +37,6 @@ export class ModulesService {
 
   /**
    * Retrieves a single module by its ID.
-   *
    * @param {string} id - The ID of the module to retrieve.
    * @throws {NotFoundException} If no module with the given ID is found.
    * @returns {Promise<Module>} The retrieved module.
@@ -55,7 +52,6 @@ export class ModulesService {
 
   /**
    * Updates an existing module by its ID.
-   *
    * @param {string} id - The ID of the module to update.
    * @param {UpdateModuleDto} updateModuleDto - The data transfer object for updating a module.
    * @throws {NotFoundException} If no module with the given ID is found.
@@ -75,7 +71,6 @@ export class ModulesService {
 
   /**
    * Deletes a module by its ID.
-   *
    * @param {string} id - The ID of the module to delete.
    * @throws {NotFoundException} If no module with the given ID is found.
    * @returns {Promise<DeleteResult>} A promise indicating the completion of the delete operation.

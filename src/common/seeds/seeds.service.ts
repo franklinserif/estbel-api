@@ -14,7 +14,6 @@ export class SeedsService {
 
   /**
    * Runs the seeding process to populate the database with initial data.
-   *
    * @returns {Promise<void>}
    * @throws {Error} If the seeding process fails.
    */
@@ -93,7 +92,6 @@ export class SeedsService {
 
   /**
    * Clears all data from the database tables.
-   *
    * @param {QueryRunner} queryRunner - The query runner instance.
    * @returns {Promise<void>}
    */

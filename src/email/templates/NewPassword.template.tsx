@@ -9,7 +9,6 @@ interface Props {
 
 /**
  * Email template component for sending a new password notification.
- *
  * @component
  * @param {Props} props - The component props.
  * @param {string} props.firstName - The first name of the recipient.

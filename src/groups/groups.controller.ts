@@ -21,7 +21,6 @@ export class GroupsController {
 
   /**
    * Creates a new group.
-   *
    * @param {CreateGroupDto} createGroupDto - Data transfer object for creating a group.
    * @returns {Promise<any>} The created group.
    */
@@ -32,7 +31,6 @@ export class GroupsController {
 
   /**
    * Retrieves all groups with optional query parameters.
-   *
    * @param {IQueryParams} queryParams - Query parameters for filtering or pagination.
    * @returns {Promise<any>} List of groups.
    */
@@ -43,7 +41,6 @@ export class GroupsController {
 
   /**
    * Retrieves a single group by ID.
-   *
    * @param {string} id - The ID of the group.
    * @returns {Promise<any>} The requested group.
    */
@@ -54,7 +51,6 @@ export class GroupsController {
 
   /**
    * Updates an existing group by ID.
-   *
    * @param {string} id - The ID of the group.
    * @param {UpdateGroupDto} updateGroupDto - Data transfer object for updating a group.
    * @returns {Promise<any>} The updated group.
@@ -69,7 +65,6 @@ export class GroupsController {
 
   /**
    * Deletes a group by ID.
-   *
    * @param {string} id - The ID of the group to delete.
    * @returns {Promise<any>} The deletion result.
    */

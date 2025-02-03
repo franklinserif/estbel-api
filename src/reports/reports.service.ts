@@ -22,7 +22,6 @@ export class ReportsService {
 
   /**
    * Generates a test PDF document.
-   *
    * @returns {Promise<PDFKit.PDFDocument>} - The generated PDF document.
    */
   async test(): Promise<PDFKit.PDFDocument> {
@@ -31,7 +30,6 @@ export class ReportsService {
 
   /**
    * Generates a PDF report for admins based on the provided query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for fetching admins.
    * @returns {Promise<PDFKit.PDFDocument>} - The generated PDF document.
    */
@@ -48,7 +46,6 @@ export class ReportsService {
 
   /**
    * Generates a PDF report for members based on the provided query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for fetching members.
    * @returns {Promise<PDFKit.PDFDocument>} - The generated PDF document.
    */
@@ -65,7 +62,6 @@ export class ReportsService {
 
   /**
    * Generates a PDF report for groups based on the provided query parameters.
-   *
    * @param {IQueryParams} queryParams - The query parameters for fetching groups.
    * @returns {Promise<PDFKit.PDFDocument>} - The generated PDF document.
    */
@@ -81,8 +77,7 @@ export class ReportsService {
   }
 
   /**
-   *  Generates a PDF report with the group members information
-   *
+   * Generates a PDF report with the group members information
    * @param {string} id - the id of the group
    * @returns {Promise<PDFKit.DocumentInfo>} - The generated PDF Document
    */
