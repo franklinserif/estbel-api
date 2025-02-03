@@ -12,7 +12,6 @@ import {
   BeforeUpdate,
   ManyToOne,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 import { Attendance } from '@events/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
 import { CivilStatus } from '@members/enum/options';
@@ -124,12 +123,6 @@ export class Member {
 
   @BeforeInsert()
   checkFieldBeforeInsert() {
-    if (!this?.id) {
-      this.id = uuidv4();
-    } else {
-      this.id = this.id.toLowerCase().trim();
-    }
-
     this.firstName = this.firstName.toLowerCase().trim();
     this.lastName = this.lastName.toLowerCase().trim();
     this.email = this.email.toLowerCase().trim();
@@ -142,10 +135,6 @@ export class Member {
 
   @BeforeUpdate()
   checkFieldBeforeUpdate() {
-    if (this.id) {
-      this.id = this.id.toLowerCase().trim();
-    }
-
     if (this.firstName) {
       this.firstName = this.firstName.toLowerCase().trim();
     }
