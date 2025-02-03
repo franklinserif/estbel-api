@@ -34,7 +34,7 @@
       "@groupTypes/*": ["src/group-types/*"],
       "@common/*": ["src/common/*"],
       "@events/*": ["src/events/*"],
-      "@email/*": ["src/email/*"],
+      "@emails/*": ["src/emails/*"],
       "@notifications/*": ["src/notifications/*"],
       "@reports/*": ["src/reports/*"]
     }
