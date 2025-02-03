@@ -6,7 +6,6 @@ import {
 
 /**
  * Custom decorator to validate if a value is either a valid UUID or a CI (Cedula de Identidad).
- *
  * @param {ValidationOptions} [validationOptions] - Optional validation options.
  * @returns {Function} - The decorator function.
  */
