@@ -8,6 +8,8 @@ import { Member } from '@members/entities/member.entity';
 import { Accesses } from '@accesses/entities/accesses.entity';
 import { Module } from '@modules/entities/module.entity';
 import { IQueryParams } from '@common/interfaces/decorators';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { AdminsEvents } from './enums/admins';
 
 @Injectable()
 export class AdminsService {
@@ -17,6 +19,8 @@ export class AdminsService {
     private readonly adminRepository: Repository<Admin>,
     @InjectRepository(Accesses)
     private readonly accessRepository: Repository<Accesses>,
+
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   /**
@@ -66,6 +70,9 @@ export class AdminsService {
 
       await queryRunner.manager.save(Accesses, defaultAccesses);
       await queryRunner.commitTransaction();
+
+      this.eventEmitter.emit(AdminsEvents.CREATE, admin);
+
       return admin;
     } catch (error) {
       this.logger.error(
