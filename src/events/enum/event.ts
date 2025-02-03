@@ -1,4 +1,4 @@
-export enum EEvent {
+export enum EnumEvent {
   EVENT_CREATED = 'event.created',
   EVENT_UPDATED = 'event.updated',
   EVENT_DELETED = 'event.deleted',
