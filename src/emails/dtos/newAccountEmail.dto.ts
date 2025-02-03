@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsUrl, Matches, MinLength } from 'class-validator';
+import { IsEmail, IsString, Matches, MinLength } from 'class-validator';
 
 export class NewAccountEmailDto {
   @IsString()
@@ -7,10 +7,6 @@ export class NewAccountEmailDto {
 
   @IsEmail()
   email: string;
-
-  @IsString()
-  @IsUrl()
-  activationLink: string;
 
   @IsString()
   @MinLength(6, { message: 'The password must have at least 6 characters' })
@@ -22,7 +18,4 @@ export class NewAccountEmailDto {
     },
   )
   password: string;
-
-  @IsEmail()
-  to: string;
 }
