@@ -5,6 +5,8 @@ import { render } from '@react-email/components';
 import { NewAccountEmailDto } from './dtos/NewAccountEmail.dto';
 import { GeneratedPasswordDto } from './dtos/generatedPassword.dto';
 import { NewPassword } from './templates/NewPassword.template';
+import { OnEvent } from '@nestjs/event-emitter';
+import { AdminsEvents } from '@admins/enums/admins';
 
 @Injectable()
 export class EmailService {
@@ -28,16 +30,22 @@ export class EmailService {
    * @param {NewAccountEmailDto} newAccountEmailDto - Data transfer object containing recipient email and other details.
    * @returns {Promise<nodemailer.SentMessageInfo>} - The result of the email sending process.
    */
+  @OnEvent(AdminsEvents.CREATE)
   async sendEmailToNewAccount(
     newAccountEmailDto: NewAccountEmailDto,
   ): Promise<nodemailer.SentMessageInfo> {
-    const emailHtml = await render(NewAccount(newAccountEmailDto));
-    const { to } = newAccountEmailDto;
+    const emailHtml = await render(
+      NewAccount({
+        ...newAccountEmailDto,
+        activationLink: process.env.ADMIN_ACCOUNT_ACTIVATION_LINK,
+      }),
+    );
+    const { email } = newAccountEmailDto;
 
     const mailOptions = {
-      from: `"Your App" <${process.env.GMAIL_USER}>`,
-      to,
-      subject: 'Your account has been created!',
+      from: `"Estbel" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: 'Tu cuenta ha sido creada con exito!',
       html: emailHtml,
     };
 
