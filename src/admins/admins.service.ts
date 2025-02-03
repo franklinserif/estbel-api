@@ -8,6 +8,7 @@ import { Member } from '@members/entities/member.entity';
 import { Accesses } from '@accesses/entities/accesses.entity';
 import { Module } from '@modules/entities/module.entity';
 import { IQueryParams } from '@common/interfaces/decorators';
+import { generateTemporaryPassword, hashPassword } from '@common/libs/password';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { AdminsEvents } from './enums/admins';
 
@@ -124,7 +125,12 @@ export class AdminsService {
    */
   async update(id: string, updateAdminDto: UpdateAdminDto): Promise<Admin> {
     await this.findOne(id);
-    await this.adminRepository.update(id, updateAdminDto);
+
+    const hashedPassword = await hashPassword(updateAdminDto.password);
+    await this.adminRepository.update(id, {
+      ...updateAdminDto,
+      password: hashedPassword,
+    });
 
     return await this.findOne(id);
   }
