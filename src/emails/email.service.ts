@@ -57,16 +57,22 @@ export class EmailService {
    * @param {GeneratedPasswordDto} generatedPasswordDto - Data transfer object containing recipient email and new password details.
    * @returns {Promise<nodemailer.SentMessageInfo>} - The result of the email sending process.
    */
+  @OnEvent(AdminsEvents.UPDATE)
   async sendEmailToNewPassword(
     generatedPasswordDto: GeneratedPasswordDto,
   ): Promise<nodemailer.SentMessageInfo> {
-    const emailHtml = await render(NewPassword(generatedPasswordDto));
-    const { to } = generatedPasswordDto;
+    const emailHtml = await render(
+      NewPassword({
+        ...generatedPasswordDto,
+        resetPasswordLink: process.env.ADMIN_RESET_PASSWORD_LINK,
+      }),
+    );
+    const { email } = generatedPasswordDto;
 
     const mailOptions = {
-      from: `"Your App" <${process.env.GMAIL_USER}>`,
-      to,
-      subject: 'Password change!',
+      from: `"Estbel" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: 'La contraseña ha cambiado!',
       html: emailHtml,
     };
 
