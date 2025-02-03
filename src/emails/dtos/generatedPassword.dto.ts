@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsUrl, Matches, MinLength } from 'class-validator';
+import { IsEmail, IsString, Matches, MinLength } from 'class-validator';
 
 export class GeneratedPasswordDto {
   @IsString()
@@ -17,11 +17,4 @@ export class GeneratedPasswordDto {
     },
   )
   password: string;
-
-  @IsString()
-  @IsUrl()
-  resetPasswordLink: string;
-
-  @IsEmail()
-  to: string;
 }
