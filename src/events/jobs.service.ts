@@ -2,7 +2,7 @@ import { CronJob } from 'cron';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { EEvent } from './enum/eventName';
+import { EnumEvent } from './enum/event';
 import { TIME_ZONE_CARACAS } from '@common/constants/timeZone';
 import { Event } from './entities/event.entity';
 import { IJob } from './interfaces/job';
@@ -36,7 +36,7 @@ export class JobsService {
   create(eventState: TEventState, event: Event): IJob {
     const cronExpression = this.generateWeeklyCronExpression(
       new Date(
-        eventState === EEvent.EVENT_START ? event.startTime : event.endTime,
+        eventState === EnumEvent.EVENT_START ? event.startTime : event.endTime,
       ),
       event.repeat,
     );
@@ -45,7 +45,7 @@ export class JobsService {
       cronExpression,
       async () => {
         this.logger.log(`The repeating event ${event.id} has ${eventState}.`);
-        this.eventEmitter.emit(EEvent.EVENT_START, {
+        this.eventEmitter.emit(EnumEvent.EVENT_START, {
           eventId: event.id,
           isActive: event.isActive,
         });
@@ -65,22 +65,25 @@ export class JobsService {
    * Updates the cron job for an event when its details change.
    * @param {IEvents} events
    */
-  @OnEvent(EEvent.EVENT_UPDATED)
+  @OnEvent(EnumEvent.EVENT_UPDATED)
   update(events: IEvents): void {
-    const startJobKey = EventUtils.getEventId(events.old, EEvent.EVENT_START);
-    const endJobKey = EventUtils.getEventId(events.old, EEvent.EVENT_END);
+    const startJobKey = EventUtils.getEventId(
+      events.old,
+      EnumEvent.EVENT_START,
+    );
+    const endJobKey = EventUtils.getEventId(events.old, EnumEvent.EVENT_END);
 
     this.remove(startJobKey);
     this.remove(endJobKey);
 
-    this.create(EEvent.EVENT_START, {
+    this.create(EnumEvent.EVENT_START, {
       ...events.old,
       ...events.new,
       startTime: new Date(events.new.startTime),
       endTime: new Date(events.new.endTime),
     } as Event);
 
-    this.create(EEvent.EVENT_END, {
+    this.create(EnumEvent.EVENT_END, {
       ...events.old,
       ...events.new,
       startTime: new Date(events.new.startTime),

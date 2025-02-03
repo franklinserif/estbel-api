@@ -1,7 +1,7 @@
-import { EEvent } from '@events/enum/eventName';
+import { EnumEvent } from '@events/enum/event';
 import { Event } from '@events/entities/event.entity';
 
-export type TEventState = EEvent.EVENT_START | EEvent.EVENT_END;
+export type TEventState = EnumEvent.EVENT_START | EnumEvent.EVENT_END;
 
 export interface IEvents {
   old: Event;

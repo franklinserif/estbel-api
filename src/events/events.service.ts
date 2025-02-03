@@ -7,7 +7,7 @@ import { Event } from './entities/event.entity';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { ScheduleService } from './schedule.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { EEvent } from './enum/eventName';
+import { EnumEvent } from './enum/event';
 import { JobInfo } from '@common/interfaces/schedule';
 
 @Injectable()
@@ -46,7 +46,7 @@ export class EventsService {
     const eventCreated = this.eventRepository.create(createEventDto);
 
     const emittersResult = await Promise.all([
-      this.eventEmitter.emitAsync(EEvent.EVENT_CREATED, eventCreated),
+      this.eventEmitter.emitAsync(EnumEvent.EVENT_CREATED, eventCreated),
     ] as any);
 
     const job = emittersResult[0][0] as unknown as JobInfo;
@@ -102,7 +102,7 @@ export class EventsService {
     ) {
       const newEvent = { ...event, ...updateEventDto };
 
-      this.eventEmitter.emit(EEvent.EVENT_UPDATED, {
+      this.eventEmitter.emit(EnumEvent.EVENT_UPDATED, {
         old: event,
         new: newEvent,
       });

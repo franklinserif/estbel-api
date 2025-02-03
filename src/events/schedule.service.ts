@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Event } from './entities/event.entity';
 import { JobInfo } from '@common/interfaces/schedule';
 import { OnEvent } from '@nestjs/event-emitter';
-import { EEvent } from './enum/eventName';
+import { EnumEvent } from './enum/event';
 import { JobsService } from './jobs.service';
 import { EventUtils } from '@common/libs/event';
 
@@ -40,11 +40,11 @@ export class ScheduleService {
    * @param {Event} event - The event to schedule.
    * @returns {JobInfo} Information about the scheduled cron jobs.
    */
-  @OnEvent(EEvent.EVENT_CREATED)
+  @OnEvent(EnumEvent.EVENT_CREATED)
   scheduleEvent(event: Event): JobInfo {
-    const startJob = this.jobsService.create(EEvent.EVENT_START, event);
+    const startJob = this.jobsService.create(EnumEvent.EVENT_START, event);
 
-    const endJob = this.jobsService.create(EEvent.EVENT_END, event);
+    const endJob = this.jobsService.create(EnumEvent.EVENT_END, event);
 
     const jobInfo = {
       start: { cronExpression: startJob.cronExpression, jobKey: startJob.id },
@@ -59,8 +59,8 @@ export class ScheduleService {
    * @param {Event} event - The event to cancel.
    */
   cancelEvent(event: Event): void {
-    const jobStartId = EventUtils.getEventId(event, EEvent.EVENT_START);
-    const jobEndId = EventUtils.getEventId(event, EEvent.EVENT_END);
+    const jobStartId = EventUtils.getEventId(event, EnumEvent.EVENT_START);
+    const jobEndId = EventUtils.getEventId(event, EnumEvent.EVENT_END);
 
     this.jobsService.remove(jobStartId);
     this.jobsService.remove(jobEndId);
