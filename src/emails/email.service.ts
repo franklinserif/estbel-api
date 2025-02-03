@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import { WelcomeEmail } from './templates/Welcome.template';
 import { NewAccount } from './templates/NewAccount.template';
 import { render } from '@react-email/components';
 import { NewAccountEmailDto } from './dtos/NewAccountEmail.dto';
@@ -22,28 +21,6 @@ export class EmailService {
         pass: process.env.SMTP_PASSWORD,
       },
     });
-  }
-
-  /**
-   * Sends a welcome email to a new user.
-   * @param {string} to - Recipient email address.
-   * @param {string} username - The username of the new user.
-   * @returns {Promise<nodemailer.SentMessageInfo>} - The result of the email sending process.
-   */
-  async sendWellcomeEmail(
-    to: string,
-    username: string,
-  ): Promise<nodemailer.SentMessageInfo> {
-    const emailHtml = await render(WelcomeEmail({ username }));
-
-    const mailOptions = {
-      from: `"Your App" <${process.env.GMAIL_USER}>`,
-      to,
-      subject: 'Welcome to Our Service!',
-      html: emailHtml,
-    };
-
-    return this.transporter.sendMail(mailOptions);
   }
 
   /**
