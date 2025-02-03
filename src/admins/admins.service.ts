@@ -11,6 +11,7 @@ import { IQueryParams } from '@common/interfaces/decorators';
 import { generateTemporaryPassword, hashPassword } from '@common/libs/password';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { AdminsEvents } from './enums/admins';
+import { NewAccountEmailDto } from '@emails/dtos/NewAccountEmail.dto';
 
 @Injectable()
 export class AdminsService {
@@ -74,7 +75,12 @@ export class AdminsService {
       await queryRunner.manager.save(Accesses, defaultAccesses);
       await queryRunner.commitTransaction();
 
-      this.eventEmitter.emit(AdminsEvents.CREATE, admin);
+      this.eventEmitter.emit(AdminsEvents.CREATE, {
+        to: admin.member.email,
+        firstName: admin.member.firstName,
+        password: admin.password,
+        email: admin.member.email,
+      } as NewAccountEmailDto);
 
       return admin;
     } catch (error) {
