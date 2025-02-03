@@ -1,21 +1,22 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ScheduleModule } from '@nestjs/schedule';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ModulesModule } from '@modules/modules.module';
 import { AdminsModule } from '@admins/admins.module';
 import { AuthModule } from '@auth/auth.module';
-import { AccessesModule } from './accesses/accesses.module';
-import { MembersModule } from './members/members.module';
-import { EventsModule } from './events/events.module';
-import { ScheduleModule } from '@nestjs/schedule';
-import { ReportsModule } from './reports/reports.module';
-import { GroupsModule } from './groups/groups.module';
-import { MemberStatusModule } from './member-status/member-status.module';
-import { GroupTypesModule } from './group-types/group-types.module';
-import { EmailModule } from './email/email.module';
-import { NotificationsModule } from './notifications/notifications.module';
+import { AccessesModule } from '@accesses/accesses.module';
+import { MembersModule } from '@members/members.module';
+import { EventsModule } from '@events/events.module';
+import { ReportsModule } from '@reports/reports.module';
+import { GroupsModule } from '@groups/groups.module';
+import { MemberStatusModule } from '@memberStatus/member-status.module';
+import { GroupTypesModule } from '@groupTypes/group-types.module';
+import { EmailModule } from '@email/email.module';
+import { NotificationsModule } from '@notifications/notifications.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
