@@ -12,6 +12,7 @@ import { generateTemporaryPassword, hashPassword } from '@common/libs/password';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { AdminsEvents } from './enums/admins';
 import { NewAccountEmailDto } from '@emails/dtos/NewAccountEmail.dto';
+import { GeneratedPasswordDto } from '@emails/dtos/generatedPassword.dto';
 
 @Injectable()
 export class AdminsService {
@@ -138,7 +139,15 @@ export class AdminsService {
       password: hashedPassword,
     });
 
-    return await this.findOne(id);
+    const admin = await this.findOne(id);
+
+    this.eventEmitter.emit(AdminsEvents.UPDATE, {
+      email: admin.member.email,
+      firstName: admin.member.firstName,
+      password: admin.password,
+    } as GeneratedPasswordDto);
+
+    return admin;
   }
 
   /**
