@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import { NewAccount } from './templates/NewAccount.template';
-import { render } from '@react-email/components';
-import { NewAccountEmailDto } from './dtos/NewAccountEmail.dto';
-import { GeneratedPasswordDto } from './dtos/generatedPassword.dto';
-import { NewPassword } from './templates/NewPassword.template';
 import { OnEvent } from '@nestjs/event-emitter';
+import { render } from '@react-email/components';
+import { NewAccount } from '@emails/templates/NewAccount.template';
+import { NewAccountEmailDto } from '@emails/dtos/NewAccountEmail.dto';
+import { GeneratedPasswordDto } from '@emails/dtos/generatedPassword.dto';
+import { NewPassword } from '@emails/templates/NewPassword.template';
 import { AdminsEvents } from '@admins/enums/admins';
 
 @Injectable()
