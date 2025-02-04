@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AccessesService } from './accesses.service';
-import { AccessesController } from './accesses.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Accesses } from './entities/accesses.entity';
+import { AccessesService } from '@accesses/accesses.service';
+import { AccessesController } from '@accesses/accesses.controller';
+import { Accesses } from '@accesses/entities/accesses.entity';
 
 @Module({
   controllers: [AccessesController],
