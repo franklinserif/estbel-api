@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -45,7 +46,7 @@ export class ModulesController {
    * @returns {Promise<Module>} The retrieved module.
    */
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Module> {
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Module> {
     return this.modulesService.findOne(id);
   }
 
@@ -57,7 +58,7 @@ export class ModulesController {
    */
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateModuleDto: UpdateModuleDto,
   ): Promise<Module> {
     return this.modulesService.update(id, updateModuleDto);
@@ -69,7 +70,7 @@ export class ModulesController {
    * @returns {Promise<void>} A promise indicating the completion of the delete operation.
    */
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<DeleteResult> {
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
     return this.modulesService.remove(id);
   }
 }

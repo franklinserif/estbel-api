@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { QueryParams } from '@common/decorators/query-params.decorator';
@@ -95,7 +96,9 @@ export class EventsController {
    * @returns {Promise<UpdateResult>} The result of the update operation.
    */
   @Patch('attendances/confirm/:id')
-  confirmAttendance(@Param('id') id: string): Promise<UpdateResult> {
+  confirmAttendance(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<UpdateResult> {
     return this.attendancesService.attended(id);
   }
 
@@ -106,7 +109,7 @@ export class EventsController {
    * @returns {Promise<UpdateResult>} The result of the update operation.
    */
   @Patch('attendances/non-attendance/:id')
-  nonAttendance(@Param('id') id: string): Promise<UpdateResult> {
+  nonAttendance(@Param('id', ParseUUIDPipe) id: string): Promise<UpdateResult> {
     return this.attendancesService.unattended(id);
   }
 
@@ -117,7 +120,9 @@ export class EventsController {
    * @returns {Promise<DeleteResult>} The result of the removal.
    */
   @Delete('attendances/remove/:id')
-  removeAttendance(@Param('id') id: string): Promise<DeleteResult> {
+  removeAttendance(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<DeleteResult> {
     return this.attendancesService.remove(id);
   }
 
@@ -129,7 +134,7 @@ export class EventsController {
    * @returns {Promise<Event>} The found event.
    */
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Event> {
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Event> {
     return this.eventsService.findOne(id);
   }
 
@@ -142,7 +147,7 @@ export class EventsController {
    */
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateEventDto: UpdateEventDto,
   ): Promise<Event> {
     return this.eventsService.update(id, updateEventDto);
@@ -155,7 +160,7 @@ export class EventsController {
    * @returns {Promise<DeleteResult>} The result of the deletion.
    */
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<DeleteResult> {
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
     return this.eventsService.remove(id);
   }
 }

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { AdminsService } from './admins.service';
@@ -49,7 +50,7 @@ export class AdminsController {
    * @throws {NotFoundException} If the admin is not found.
    */
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Admin> {
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Admin> {
     return this.adminsService.findOne(id);
   }
 
@@ -62,7 +63,7 @@ export class AdminsController {
    */
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateAdminDto: UpdateAdminDto,
   ): Promise<Admin> {
     return this.adminsService.update(id, updateAdminDto);
@@ -75,7 +76,7 @@ export class AdminsController {
    * @throws {NotFoundException} If the admin is not found.
    */
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<DeleteResult> {
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
     return this.adminsService.remove(id);
   }
 }

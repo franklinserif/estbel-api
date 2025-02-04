@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
@@ -45,7 +46,7 @@ export class MembersController {
    * @returns {Promise<Member>} - The found member.
    */
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Member> {
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Member> {
     return this.membersService.findOne(id);
   }
 
@@ -57,7 +58,7 @@ export class MembersController {
    */
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateMemberDto: UpdateMemberDto,
   ): Promise<Member> {
     return this.membersService.update(id, updateMemberDto);
@@ -69,7 +70,7 @@ export class MembersController {
    * @returns {Promise<void>} - A promise that resolves when the member is removed.
    */
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<DeleteResult> {
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
     return this.membersService.remove(id);
   }
 }

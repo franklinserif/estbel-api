@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
@@ -46,7 +47,7 @@ export class GroupTypesController {
    * @throws {NotFoundException} - If the group type with the specified ID is not found.
    */
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<GroupType> {
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<GroupType> {
     return this.groupTypesService.findOne(id);
   }
 
@@ -59,7 +60,7 @@ export class GroupTypesController {
    */
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateGroupTypesDto: UpdateGroupTypesDto,
   ): Promise<GroupType> {
     return this.groupTypesService.update(id, updateGroupTypesDto);
@@ -72,7 +73,7 @@ export class GroupTypesController {
    * @throws {NotFoundException} - If the group type with the specified ID is not found.
    */
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<DeleteResult> {
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
     return this.groupTypesService.remove(id);
   }
 }

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { AccessesService } from '@accesses/accesses.service';
@@ -43,7 +44,7 @@ export class AccessesController {
    * @throws {NotFoundException} If the access record is not found.
    */
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Accesses> {
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Accesses> {
     return this.accessesService.findOne(id);
   }
 
@@ -56,7 +57,7 @@ export class AccessesController {
    */
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateAccessDto: UpdateAccessDto,
   ): Promise<Accesses> {
     return this.accessesService.update(id, updateAccessDto);
@@ -69,7 +70,7 @@ export class AccessesController {
    * @throws {NotFoundException} If the access record is not found.
    */
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<DeleteResult> {
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
     return this.accessesService.remove(id);
   }
 }

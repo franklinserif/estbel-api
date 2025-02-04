@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { QueryParams } from '@common/decorators/query-params.decorator';
@@ -50,7 +51,7 @@ export class MemberStatusController {
    * @throws {NotFoundException} If the member status is not found.
    */
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<MemberStatus> {
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<MemberStatus> {
     return this.memberStatusService.findOne(id);
   }
 
@@ -63,7 +64,7 @@ export class MemberStatusController {
    */
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateMemberStatusDto: UpdateMemberStatusDto,
   ): Promise<MemberStatus> {
     return this.memberStatusService.update(id, updateMemberStatusDto);
@@ -76,7 +77,7 @@ export class MemberStatusController {
    * @throws {NotFoundException} If the member status is not found.
    */
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<DeleteResult> {
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
     return this.memberStatusService.remove(id);
   }
 }

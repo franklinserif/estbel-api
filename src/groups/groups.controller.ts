@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
@@ -45,7 +46,7 @@ export class GroupsController {
    * @returns {Promise<any>} The requested group.
    */
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Group> {
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Group> {
     return this.groupsService.findOne(id);
   }
 
@@ -57,7 +58,7 @@ export class GroupsController {
    */
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateGroupDto: UpdateGroupDto,
   ): Promise<Group> {
     return this.groupsService.update(id, updateGroupDto);
@@ -69,7 +70,7 @@ export class GroupsController {
    * @returns {Promise<any>} The deletion result.
    */
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<DeleteResult> {
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
     return this.groupsService.remove(id);
   }
 }
