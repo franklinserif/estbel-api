@@ -5,9 +5,9 @@ dotenv.config();
 
 const AppDataSource = new DataSource({
   type: 'postgres',
-  ssl: process.env.STAGE === 'prod',
+  ssl: process.env.NODE_ENV === 'prod',
   extra: {
-    ssl: process.env.STAGE === 'prod' ? { rejectUnauthorized: false } : null,
+    ssl: process.env.NODE_ENV === 'prod' ? { rejectUnauthorized: false } : null,
   },
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
