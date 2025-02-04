@@ -8,10 +8,10 @@ import {
   Delete,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { AccessesService } from './accesses.service';
-import { CreateAccessDto } from './dto/createAccesses.dto';
-import { UpdateAccessDto } from './dto/updateAccesses.dto';
-import { Accesses } from './entities/accesses.entity';
+import { AccessesService } from '@accesses/accesses.service';
+import { CreateAccessDto } from '@accesses/dto/createAccesses.dto';
+import { UpdateAccessDto } from '@accesses/dto/updateAccesses.dto';
+import { Accesses } from '@accesses/entities/accesses.entity';
 
 @Controller('user-module-access')
 export class AccessesController {
