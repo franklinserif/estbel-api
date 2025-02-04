@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ModulesModule } from '@modules/modules.module';
@@ -17,28 +16,15 @@ import { EmailModule } from '@emails/email.module';
 import { NotificationsModule } from '@notifications/notifications.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { DatabaseModule } from './databases/database.module';
+import { ConfigEnvModule } from './config-env/configEnv.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      ssl: process.env.STAGE === 'prod',
-      extra: {
-        ssl:
-          process.env.STAGE === 'prod' ? { rejectUnauthorized: false } : null,
-      },
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      database: process.env.DB_NAME,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      autoLoadEntities: true,
-      synchronize: false,
-      migrations: [__dirname + '/src/common/migrations/*{.ts,.js}'],
-    }),
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
+    DatabaseModule,
     ModulesModule,
     AdminsModule,
     AuthModule,
@@ -51,6 +37,7 @@ import { AppService } from './app.service';
     GroupTypesModule,
     EmailModule,
     NotificationsModule,
+    ConfigEnvModule,
   ],
   controllers: [AppController],
   providers: [AppService],
