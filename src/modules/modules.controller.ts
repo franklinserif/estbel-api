@@ -36,7 +36,7 @@ export class ModulesController {
    * @returns {Promise<Module[]>} An array of modules.
    */
   @Get()
-  findAll(@QueryParams() queryParams: IQueryParams): Promise<Module[]> {
+  findAll(@QueryParams(Module) queryParams: IQueryParams): Promise<Module[]> {
     return this.modulesService.findAll(queryParams);
   }
 

@@ -36,7 +36,7 @@ export class MembersController {
    * @returns {Promise<Member[]>} - The list of members.
    */
   @Get()
-  findAll(@QueryParams() queryParams: IQueryParams): Promise<Member[]> {
+  findAll(@QueryParams(Member) queryParams: IQueryParams): Promise<Member[]> {
     return this.membersService.findAll(queryParams);
   }
 

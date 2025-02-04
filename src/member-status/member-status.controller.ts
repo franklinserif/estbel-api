@@ -39,7 +39,7 @@ export class MemberStatusController {
    */
   @Get()
   async findAll(
-    @QueryParams() queryParams: IQueryParams,
+    @QueryParams(MemberStatus) queryParams: IQueryParams,
   ): Promise<MemberStatus[]> {
     return this.memberStatusService.findAll(queryParams);
   }

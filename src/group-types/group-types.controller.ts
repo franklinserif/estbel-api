@@ -36,7 +36,9 @@ export class GroupTypesController {
    * @returns {Promise<GroupType[]>} - A list of group types.
    */
   @Get()
-  findAll(@QueryParams() queryParams: IQueryParams): Promise<GroupType[]> {
+  findAll(
+    @QueryParams(GroupType) queryParams: IQueryParams,
+  ): Promise<GroupType[]> {
     return this.groupTypesService.findAll(queryParams);
   }
 

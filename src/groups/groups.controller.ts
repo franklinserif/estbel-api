@@ -36,7 +36,7 @@ export class GroupsController {
    * @returns {Promise<any>} List of groups.
    */
   @Get()
-  findAll(@QueryParams() queryParams: IQueryParams): Promise<Group[]> {
+  findAll(@QueryParams(Group) queryParams: IQueryParams): Promise<Group[]> {
     return this.groupsService.findAll(queryParams);
   }
 

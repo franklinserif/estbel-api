@@ -4,6 +4,9 @@ import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { ReportsService } from '@reports/reports.service';
 import { CreateReportDto } from '@reports/dto/create-report.dto';
+import { Admin } from '@admins/entities/admin.entity';
+import { Member } from '@members/entities/member.entity';
+import { Group } from '@groups/entities/group.entity';
 
 @Controller('reports')
 export class ReportsController {
@@ -30,7 +33,7 @@ export class ReportsController {
    */
   @Post('admins')
   async adminsReport(
-    @QueryParams() queryParams: IQueryParams,
+    @QueryParams(Admin) queryParams: IQueryParams,
     @Body() createReport: CreateReportDto,
     @Res() response: Response,
   ) {
@@ -52,7 +55,7 @@ export class ReportsController {
    */
   @Post('members')
   async membersReport(
-    @QueryParams() queryParams: IQueryParams,
+    @QueryParams(Member) queryParams: IQueryParams,
     @Body() createReport: CreateReportDto,
     @Res() response: Response,
   ) {
@@ -74,7 +77,7 @@ export class ReportsController {
    */
   @Post('groups')
   async groupsReport(
-    @QueryParams() queryParams: IQueryParams,
+    @QueryParams(Group) queryParams: IQueryParams,
     @Body() createReport: CreateReportDto,
     @Res() response: Response,
   ) {

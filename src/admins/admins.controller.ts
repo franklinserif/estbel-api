@@ -37,7 +37,7 @@ export class AdminsController {
    */
   @Get()
   findAll(
-    @QueryParams()
+    @QueryParams(Admin)
     queryParams: IQueryParams,
   ): Promise<Admin[]> {
     return this.adminsService.findAll(queryParams);

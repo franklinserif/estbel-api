@@ -44,7 +44,7 @@ export class EventsController {
    * @returns {Promise<Event[]>} A list of events.
    */
   @Get()
-  findAll(@QueryParams() queryParams: IQueryParams): Promise<Event[]> {
+  findAll(@QueryParams(Event) queryParams: IQueryParams): Promise<Event[]> {
     return this.eventsService.findAll(queryParams);
   }
 
