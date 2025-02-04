@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { OnEvent } from '@nestjs/event-emitter';
 import { render } from '@react-email/components';
@@ -7,20 +8,25 @@ import { NewAccountEmailDto } from '@emails/dtos/NewAccountEmail.dto';
 import { GeneratedPasswordDto } from '@emails/dtos/generatedPassword.dto';
 import { NewPassword } from '@emails/templates/NewPassword.template';
 import { AdminsEvents } from '@admins/enums/admins';
+import { EnvironmentVariables } from '@configEnv/enum/env';
 
 @Injectable()
 export class EmailService {
   private transporter: nodemailer.Transporter;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
-      service: process.env.SMTP_SERVICE,
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT),
+      service: this.configService.get<string>(
+        EnvironmentVariables.SMTP_SERVICE,
+      ),
+      host: this.configService.get<string>(EnvironmentVariables.SMTP_HOST),
+      port: this.configService.get<number>(EnvironmentVariables.SMTP_PORT),
       secure: true,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
+        user: this.configService.get<string>(EnvironmentVariables.SMTP_USER),
+        pass: this.configService.get<string>(
+          EnvironmentVariables.SMTP_PASSWORD,
+        ),
       },
     });
   }
@@ -37,13 +43,15 @@ export class EmailService {
     const emailHtml = await render(
       NewAccount({
         ...newAccountEmailDto,
-        activationLink: process.env.ADMIN_ACCOUNT_ACTIVATION_LINK,
+        activationLink: this.configService.get<string>(
+          EnvironmentVariables.ADMIN_ACCOUNT_ACTIVATION_LINK,
+        ),
       }),
     );
     const { email } = newAccountEmailDto;
 
     const mailOptions = {
-      from: `"Estbel" <${process.env.SMTP_USER}>`,
+      from: `"Estbel" <${this.configService.get<string>(EnvironmentVariables.SMTP_USER)}>`,
       to: email,
       subject: 'Tu cuenta ha sido creada con exito!',
       html: emailHtml,
@@ -64,13 +72,15 @@ export class EmailService {
     const emailHtml = await render(
       NewPassword({
         ...generatedPasswordDto,
-        resetPasswordLink: process.env.ADMIN_RESET_PASSWORD_LINK,
+        resetPasswordLink: this.configService.get<string>(
+          EnvironmentVariables.ADMIN_RESET_PASSWORD_LINK,
+        ),
       }),
     );
     const { email } = generatedPasswordDto;
 
     const mailOptions = {
-      from: `"Estbel" <${process.env.SMTP_USER}>`,
+      from: `"Estbel" <${this.configService.get<string>(EnvironmentVariables.SMTP_USER)}>`,
       to: email,
       subject: 'La contraseña ha cambiado!',
       html: emailHtml,
