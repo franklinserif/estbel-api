@@ -5,8 +5,8 @@ import type {
 } from 'pdfmake/interfaces';
 import { getFormatterDate } from '@common/libs/date';
 import { Member } from '@members/entities/member.entity';
-import { fillColorTable } from './styles/fillColorTable';
-import { docHeader } from './styles/header';
+import { fillColorTable } from '@reports/documents/styles/fillColorTable';
+import { docHeader } from '@reports/documents/styles/header';
 
 const COLUMN_CONFIG: Record<
   string,

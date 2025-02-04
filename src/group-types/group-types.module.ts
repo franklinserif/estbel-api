@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { GroupTypesService } from './group-types.service';
-import { GroupTypesController } from './group-types.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GroupType } from './entities/group-types.entity';
+import { GroupTypesService } from '@groupTypes/group-types.service';
+import { GroupTypesController } from '@groupTypes/group-types.controller';
+import { GroupType } from '@groupTypes/entities/group-types.entity';
 
 @Module({
   controllers: [GroupTypesController],

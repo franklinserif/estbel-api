@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { PrinterService } from './printer.service';
-import { testReport } from './documents/test.report';
 import { AdminsService } from '@admins/admins.service';
-import { adminsDoc } from './documents/admins.report';
+import { PrinterService } from '@reports/printer.service';
+import { testReport } from '@reports/documents/test.report';
+import { adminsDoc } from '@reports/documents/admins.report';
 import { MembersService } from '@members/members.service';
-import { membersDoc } from './documents/members.report';
+import { membersDoc } from '@reports/documents/members.report';
 import { GroupsService } from '@groups/groups.service';
-import { groupsDoc } from './documents/groups.report';
-import { groupMembersDoc } from './documents/groupMembers.report';
-import { CreateReportDto } from './dto/create-report.dto';
+import { groupsDoc } from '@reports/documents/groups.report';
+import { groupMembersDoc } from '@reports/documents/groupMembers.report';
+import { CreateReportDto } from '@reports/dto/create-report.dto';
 
 @Injectable()
 export class ReportsService {

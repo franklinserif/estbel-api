@@ -8,15 +8,15 @@ import {
   Delete,
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { EventsService } from './events.service';
-import { CreateEventDto } from './dto/create-event.dto';
-import { UpdateEventDto } from './dto/update-event.dto';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { AttendancesService } from './attendances.service';
-import { ScheduleService } from './schedule.service';
-import { Event } from './entities/event.entity';
-import { Attendance } from './entities/attendance.entity';
+import { AttendancesService } from '@events/attendances.service';
+import { EventsService } from '@events/events.service';
+import { ScheduleService } from '@events/schedule.service';
+import { Event } from '@events/entities/event.entity';
+import { Attendance } from '@events/entities/attendance.entity';
+import { CreateEventDto } from '@events/dto/create-event.dto';
+import { UpdateEventDto } from '@events/dto/update-event.dto';
 
 @Controller('events')
 export class EventsController {

@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, In, Repository } from 'typeorm';
-import { CreateMemberDto } from './dto/create-member.dto';
-import { UpdateMemberDto } from './dto/update-member.dto';
-import { IQueryParams } from '@common/interfaces/decorators';
-import { Member } from './entities/member.entity';
-import { CivilStatus } from './enum/options';
 import { MemberStatusService } from '@memberStatus/member-status.service';
+import { IQueryParams } from '@common/interfaces/decorators';
+import { Member } from '@members/entities/member.entity';
+import { CivilStatus } from '@members/enum/options';
+import { CreateMemberDto } from '@members/dto/create-member.dto';
+import { UpdateMemberDto } from '@members/dto/update-member.dto';
 
 @Injectable()
 export class MembersService {

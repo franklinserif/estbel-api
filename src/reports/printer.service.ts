@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import PdfPrinter from 'pdfmake';
-import { fonts } from './documents/styles/fonts';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
+import { fonts } from '@reports/documents/styles/fonts';
 
 @Injectable()
 export class PrinterService {

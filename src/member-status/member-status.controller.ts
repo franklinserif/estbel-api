@@ -7,13 +7,13 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { MemberStatusService } from './member-status.service';
-import { CreateMemberStatusDto } from './dto/create-member-status.dto';
-import { UpdateMemberStatusDto } from './dto/update-member-status.dto';
+import { DeleteResult } from 'typeorm';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { MemberStatus } from './entities/member-status.entity';
-import { DeleteResult } from 'typeorm';
+import { MemberStatus } from '@memberStatus/entities/member-status.entity';
+import { MemberStatusService } from '@memberStatus/member-status.service';
+import { UpdateMemberStatusDto } from '@memberStatus/dto/update-member-status.dto';
+import { CreateMemberStatusDto } from '@memberStatus/dto/create-member-status.dto';
 
 @Controller('member-status')
 export class MemberStatusController {

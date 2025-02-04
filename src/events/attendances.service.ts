@@ -4,11 +4,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Attendance } from './entities/attendance.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { EventsService } from './events.service';
+import { EventsService } from '@events/events.service';
 import { MembersService } from '@members/members.service';
+import { Attendance } from '@events/entities/attendance.entity';
 
 @Injectable()
 export class AttendancesService {

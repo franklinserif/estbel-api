@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In, DeleteResult } from 'typeorm';
-import { CreateGroupDto } from './dto/create-group.dto';
-import { UpdateGroupDto } from './dto/update-group.dto';
-import { Group } from './entities/group.entity';
+import { IQueryParams } from '@common/interfaces/decorators';
 import { Member } from '@members/entities/member.entity';
 import { GroupTypesService } from '@groupTypes/group-types.service';
-import { IQueryParams } from '@common/interfaces/decorators';
+import { Group } from '@groups/entities/group.entity';
+import { CreateGroupDto } from '@groups/dto/create-group.dto';
+import { UpdateGroupDto } from '@groups/dto/update-group.dto';
 
 @Injectable()
 export class GroupsService {

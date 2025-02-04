@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Event } from './event.entity';
+import { Event } from '@events/entities/event.entity';
 import { Member } from '@members/entities/member.entity';
 
 @Entity('attendances')

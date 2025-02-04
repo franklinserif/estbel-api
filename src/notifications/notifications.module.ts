@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as admin from 'firebase-admin';
-import { NotificationsService } from './notifications.service';
-import { NotificationsController } from './notifications.controller';
-import { FirebaseService } from './firebase.service';
+import { NotificationsService } from '@notifications/notifications.service';
+import { NotificationsController } from '@notifications/notifications.controller';
+import { FirebaseService } from '@notifications/firebase.service';
 
 @Module({
   controllers: [NotificationsController],

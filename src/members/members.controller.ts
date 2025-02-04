@@ -8,12 +8,12 @@ import {
   Delete,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { MembersService } from './members.service';
-import { CreateMemberDto } from './dto/create-member.dto';
-import { UpdateMemberDto } from './dto/update-member.dto';
-import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { Member } from './entities/member.entity';
+import { QueryParams } from '@common/decorators/query-params.decorator';
+import { MembersService } from '@members/members.service';
+import { CreateMemberDto } from '@members/dto/create-member.dto';
+import { UpdateMemberDto } from '@members/dto/update-member.dto';
+import { Member } from '@members/entities/member.entity';
 
 @Controller('members')
 export class MembersController {

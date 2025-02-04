@@ -1,14 +1,14 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { CreateEventDto } from './dto/create-event.dto';
-import { UpdateEventDto } from './dto/update-event.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Event } from './entities/event.entity';
-import { IQueryParams } from '@common/interfaces/decorators';
-import { ScheduleService } from './schedule.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { EnumEvent } from './enum/event';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { JobInfo } from '@common/interfaces/schedule';
+import { IQueryParams } from '@common/interfaces/decorators';
+import { EnumEvent } from '@events/enum/event';
+import { Event } from '@events/entities/event.entity';
+import { ScheduleService } from '@events/schedule.service';
+import { CreateEventDto } from '@events/dto/create-event.dto';
+import { UpdateEventDto } from '@events/dto/update-event.dto';
 
 @Injectable()
 export class EventsService {

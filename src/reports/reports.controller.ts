@@ -1,9 +1,9 @@
 import { Body, Controller, Param, Post, Res } from '@nestjs/common';
-import { ReportsService } from './reports.service';
 import { Response } from 'express';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { CreateReportDto } from './dto/create-report.dto';
+import { ReportsService } from '@reports/reports.service';
+import { CreateReportDto } from '@reports/dto/create-report.dto';
 
 @Controller('reports')
 export class ReportsController {

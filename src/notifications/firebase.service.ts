@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as admin from 'firebase-admin';
-import { SendNotificationDto } from './dtos/send-notification.dto';
-import { SendNotificationTokensDto } from './dtos/send-notification-tokens.dto';
-import { SendNotificationTopicDto } from './dtos/send-notification-topic.dto';
-import { INotificationSentSuccessfully } from './interfaces/notificationSentSuccessfully';
+import { INotificationSentSuccessfully } from '@notifications/interfaces/notificationSentSuccessfully';
+import { SendNotificationDto } from '@notifications/dtos/send-notification.dto';
+import { SendNotificationTokensDto } from '@notifications/dtos/send-notification-tokens.dto';
+import { SendNotificationTopicDto } from '@notifications/dtos/send-notification-topic.dto';
 
 @Injectable()
 export class FirebaseService {

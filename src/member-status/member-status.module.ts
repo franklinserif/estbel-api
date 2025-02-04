@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { MemberStatusService } from './member-status.service';
-import { MemberStatusController } from './member-status.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MemberStatus } from './entities/member-status.entity';
+import { MemberStatusController } from '@memberStatus/member-status.controller';
+import { MemberStatusService } from '@memberStatus/member-status.service';
+import { MemberStatus } from '@memberStatus/entities/member-status.entity';
 
 @Module({
   controllers: [MemberStatusController],

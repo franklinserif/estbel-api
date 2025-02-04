@@ -7,13 +7,13 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { GroupsService } from './groups.service';
-import { CreateGroupDto } from './dto/create-group.dto';
-import { UpdateGroupDto } from './dto/update-group.dto';
-import { QueryParams } from '@common/decorators/query-params.decorator';
-import { IQueryParams } from '@common/interfaces/decorators';
-import { Group } from './entities/group.entity';
 import { DeleteResult } from 'typeorm';
+import { IQueryParams } from '@common/interfaces/decorators';
+import { QueryParams } from '@common/decorators/query-params.decorator';
+import { GroupsService } from '@groups/groups.service';
+import { CreateGroupDto } from '@groups/dto/create-group.dto';
+import { UpdateGroupDto } from '@groups/dto/update-group.dto';
+import { Group } from '@groups/entities/group.entity';
 
 @Controller('groups')
 export class GroupsController {

@@ -1,13 +1,13 @@
-import { CronJob } from 'cron';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { EnumEvent } from './enum/event';
-import { TIME_ZONE_CARACAS } from '@common/constants/timeZone';
-import { Event } from './entities/event.entity';
-import { IJob } from './interfaces/job';
-import { TEventState, IEvents } from './interfaces/event';
+import { CronJob } from 'cron';
 import { EventUtils } from '@common/libs/event';
+import { TIME_ZONE_CARACAS } from '@common/constants/timeZone';
+import { EnumEvent } from '@events/enum/event';
+import { Event } from '@events/entities/event.entity';
+import { IJob } from '@events/interfaces/job';
+import { TEventState, IEvents } from '@events/interfaces/event';
 
 @Injectable()
 export class JobsService {

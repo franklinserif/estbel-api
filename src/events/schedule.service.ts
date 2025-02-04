@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Event } from './entities/event.entity';
-import { JobInfo } from '@common/interfaces/schedule';
 import { OnEvent } from '@nestjs/event-emitter';
-import { EnumEvent } from './enum/event';
-import { JobsService } from './jobs.service';
 import { EventUtils } from '@common/libs/event';
+import { JobInfo } from '@common/interfaces/schedule';
+import { Event } from '@events/entities/event.entity';
+import { EnumEvent } from '@events/enum/event';
+import { JobsService } from '@events/jobs.service';
 
 @Injectable()
 export class ScheduleService {

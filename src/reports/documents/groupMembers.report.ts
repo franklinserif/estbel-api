@@ -4,8 +4,8 @@ import type {
   TDocumentDefinitions,
 } from 'pdfmake/interfaces';
 import { getFormatterDate } from '@common/libs/date';
-import { fillColorTable } from './styles/fillColorTable';
-import { docHeader } from './styles/header';
+import { fillColorTable } from '@reports/documents/styles/fillColorTable';
+import { docHeader } from '@reports/documents/styles/header';
 import { Group } from '@groups/entities/group.entity';
 
 const COLUMN_CONFIG: Record<

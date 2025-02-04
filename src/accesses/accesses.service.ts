@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateAccessDto } from './dto/createAccesses.dto';
-import { UpdateAccessDto } from './dto/updateAccesses.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Accesses } from './entities/accesses.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
+import { CreateAccessDto } from '@accesses/dto/createAccesses.dto';
+import { UpdateAccessDto } from '@accesses/dto/updateAccesses.dto';
+import { Accesses } from '@accesses/entities/accesses.entity';
 
 @Injectable()
 export class AccessesService {
