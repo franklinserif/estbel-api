@@ -18,10 +18,12 @@ import { GroupTypesModule } from '@groupTypes/group-types.module';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      ssl: process.env.STAGE === 'prod',
+      ssl: process.env.NODE_ENV === 'prod',
       extra: {
         ssl:
-          process.env.STAGE === 'prod' ? { rejectUnauthorized: false } : null,
+          process.env.NODE_ENV === 'prod'
+            ? { rejectUnauthorized: false }
+            : null,
       },
       type: 'postgres',
       host: process.env.DB_HOST,
