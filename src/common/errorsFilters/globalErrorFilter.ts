@@ -3,12 +3,15 @@ import {
   Catch,
   ArgumentsHost,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
 import { Request, Response } from 'express';
 
 @Catch(QueryFailedError)
-export class PostgresErrorFilter implements ExceptionFilter {
+export class GlobalErrorFilter implements ExceptionFilter {
+  private readonly logger: Logger = new Logger(GlobalErrorFilter.name);
+
   catch(exception: QueryFailedError, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -22,6 +25,10 @@ export class PostgresErrorFilter implements ExceptionFilter {
 
       switch (pgErrorCode) {
         case '23505':
+          this.logger.error(
+            `Duplicate entry error: ${exception.message}`,
+            exception.stack,
+          );
           response.status(HttpStatus.CONFLICT).json({
             statusCode: HttpStatus.CONFLICT,
             timestamp: new Date().toISOString(),
@@ -30,6 +37,10 @@ export class PostgresErrorFilter implements ExceptionFilter {
           });
           return;
         case '23503':
+          this.logger.error(
+            `Foreign key violation error: ${exception.message}`,
+            exception.stack,
+          );
           response.status(HttpStatus.BAD_REQUEST).json({
             statusCode: HttpStatus.BAD_REQUEST,
             timestamp: new Date().toISOString(),
@@ -38,6 +49,10 @@ export class PostgresErrorFilter implements ExceptionFilter {
           });
           return;
         case '23502':
+          this.logger.error(
+            `Not null violation error: ${exception.message}`,
+            exception.stack,
+          );
           response.status(HttpStatus.BAD_REQUEST).json({
             statusCode: HttpStatus.BAD_REQUEST,
             timestamp: new Date().toISOString(),
@@ -47,10 +62,15 @@ export class PostgresErrorFilter implements ExceptionFilter {
           return;
 
         default:
+          this.logger.error(
+            `Unhandled database error: ${exception.message}`,
+            exception.stack,
+          );
           break;
       }
     }
 
+    this.logger.error(`${exception.message}`, exception.stack);
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),
