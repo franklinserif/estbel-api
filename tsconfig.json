@@ -36,7 +36,9 @@
       "@events/*": ["src/events/*"],
       "@emails/*": ["src/emails/*"],
       "@notifications/*": ["src/notifications/*"],
-      "@reports/*": ["src/reports/*"]
+      "@reports/*": ["src/reports/*"],
+      "@configEnv/*": ["src/config-env/*"],
+      "@databases/*": ["src/databases/*"]
     }
   }
 }
