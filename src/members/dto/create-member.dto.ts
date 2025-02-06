@@ -19,6 +19,14 @@ export class CreateMemberDto {
   @IsString()
   id?: string;
 
+  @IsString()
+  @MinLength(2)
+  firstName: string;
+
+  @IsString()
+  @MinLength(2)
+  lastName: string;
+
   @IsEnum(Gender)
   gender: Gender;
 
@@ -67,6 +75,7 @@ export class CreateMemberDto {
   howTheyArrived?: string;
 
   @IsBoolean()
+  @IsOptional()
   isBaptized: boolean;
 
   @IsOptional()
