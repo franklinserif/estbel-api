@@ -88,6 +88,7 @@ describe('MembersService', () => {
     expect(memberCreated).toEqual({
       id: expect.any(String),
       ...MEMBERS[0],
+      isBaptized: false,
       birthdate: expect.any(String),
       memberStatus: MEMBERS_STATUS[0],
     });
