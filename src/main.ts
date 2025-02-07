@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EnvironmentVariables } from '@configEnv/enum/env';
+import { ENV_VAR } from '@configEnv/enum/env';
 import { GlobalErrorFilter } from '@common/errorsFilters/globalErrorFilter';
 
 async function bootstrap() {
@@ -11,7 +11,7 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalErrorFilter());
 
   const configService = app.get(ConfigService);
-  const port = configService.get<number | undefined>(EnvironmentVariables.PORT);
+  const port = configService.get<number | undefined>(ENV_VAR.PORT);
   await app.listen(port ?? 3000);
 }
 bootstrap();

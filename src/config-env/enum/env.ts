@@ -1,4 +1,4 @@
-export enum EnvironmentVariables {
+export enum ENV_VAR {
   NODE_ENV = 'NODE_ENV',
   PORT = 'PORT',
   SSL_ENABLED = 'SSL_ENABLED',
