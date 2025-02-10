@@ -87,7 +87,9 @@ export class GroupsService {
       });
     }
 
-    return this.groupRepository.save(group);
+    await this.groupRepository.save(group);
+
+    return this.findOne(id);
   }
 
   /**
