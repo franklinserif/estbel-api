@@ -59,6 +59,9 @@ export class Member {
   @Column('text', { nullable: true })
   howTheyArrived: string;
 
+  @Column('bool', { default: false })
+  isBaptized: boolean;
+
   @Column({ type: 'timestamp', nullable: true })
   baptizedAt: Date;
 

@@ -8,7 +8,7 @@ import { NewAccountEmailDto } from '@emails/dtos/NewAccountEmail.dto';
 import { GeneratedPasswordDto } from '@emails/dtos/generatedPassword.dto';
 import { NewPassword } from '@emails/templates/NewPassword.template';
 import { AdminsEvents } from '@admins/enums/admins';
-import { EnvironmentVariables } from '@configEnv/enum/env';
+import { ENV_VAR } from '@configEnv/enum/env';
 
 @Injectable()
 export class EmailService {
@@ -16,17 +16,13 @@ export class EmailService {
 
   constructor(private readonly configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
-      service: this.configService.get<string>(
-        EnvironmentVariables.SMTP_SERVICE,
-      ),
-      host: this.configService.get<string>(EnvironmentVariables.SMTP_HOST),
-      port: this.configService.get<number>(EnvironmentVariables.SMTP_PORT),
+      service: this.configService.get<string>(ENV_VAR.SMTP_SERVICE),
+      host: this.configService.get<string>(ENV_VAR.SMTP_HOST),
+      port: this.configService.get<number>(ENV_VAR.SMTP_PORT),
       secure: true,
       auth: {
-        user: this.configService.get<string>(EnvironmentVariables.SMTP_USER),
-        pass: this.configService.get<string>(
-          EnvironmentVariables.SMTP_PASSWORD,
-        ),
+        user: this.configService.get<string>(ENV_VAR.SMTP_USER),
+        pass: this.configService.get<string>(ENV_VAR.SMTP_PASSWORD),
       },
     });
   }
@@ -44,14 +40,14 @@ export class EmailService {
       NewAccount({
         ...newAccountEmailDto,
         activationLink: this.configService.get<string>(
-          EnvironmentVariables.ADMIN_ACCOUNT_ACTIVATION_LINK,
+          ENV_VAR.ADMIN_ACCOUNT_ACTIVATION_LINK,
         ),
       }),
     );
     const { email } = newAccountEmailDto;
 
     const mailOptions = {
-      from: `"Estbel" <${this.configService.get<string>(EnvironmentVariables.SMTP_USER)}>`,
+      from: `"Estbel" <${this.configService.get<string>(ENV_VAR.SMTP_USER)}>`,
       to: email,
       subject: 'Tu cuenta ha sido creada con exito!',
       html: emailHtml,
@@ -73,14 +69,14 @@ export class EmailService {
       NewPassword({
         ...generatedPasswordDto,
         resetPasswordLink: this.configService.get<string>(
-          EnvironmentVariables.ADMIN_RESET_PASSWORD_LINK,
+          ENV_VAR.ADMIN_RESET_PASSWORD_LINK,
         ),
       }),
     );
     const { email } = generatedPasswordDto;
 
     const mailOptions = {
-      from: `"Estbel" <${this.configService.get<string>(EnvironmentVariables.SMTP_USER)}>`,
+      from: `"Estbel" <${this.configService.get<string>(ENV_VAR.SMTP_USER)}>`,
       to: email,
       subject: 'La contraseña ha cambiado!',
       html: emailHtml,
