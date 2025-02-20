@@ -1,8 +1,8 @@
-import { IsEmail, IsString, IsUUID, Matches, MinLength } from 'class-validator';
+import { IsUUIDOrCI } from '@members/decorators/is-uuidor-ci.decorator';
 
 export class CreateAdminDto {
   @IsString()
-  @IsUUID()
+  @IsUUIDOrCI()
   id: string;
 
   @IsString()
