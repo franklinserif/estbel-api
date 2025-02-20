@@ -10,13 +10,15 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from '@auth/decorators/public';
 import { ENV_VAR } from '@configEnv/enum/env';
+import { AdminsService } from '@admins/admins.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class JwtGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
     private configService: ConfigService,
+    private adminsService: AdminsService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -33,7 +35,7 @@ export class AuthGuard implements CanActivate {
     const token = this.extractTokenFromHeader(request);
 
     if (!token) {
-      throw new UnauthorizedException('you must provide a valid token');
+      throw new UnauthorizedException();
     }
 
     try {
@@ -41,7 +43,13 @@ export class AuthGuard implements CanActivate {
         secret: this.configService.get<string>(ENV_VAR.JWT_SECRET),
       });
 
-      request['user'] = payload;
+      if (!payload?.sub) {
+        throw new UnauthorizedException();
+      }
+
+      const admin = await this.adminsService.findOne(payload.sub);
+
+      request['user'] = admin;
     } catch {
       throw new UnauthorizedException(`token it's not valid`);
     }

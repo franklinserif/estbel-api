@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
@@ -15,8 +16,10 @@ import { MembersService } from '@members/members.service';
 import { CreateMemberDto } from '@members/dto/create-member.dto';
 import { UpdateMemberDto } from '@members/dto/update-member.dto';
 import { Member } from '@members/entities/member.entity';
+import { JwtGuard } from '@auth/guards/jwt.guard';
 
 @Controller('members')
+@UseGuards(JwtGuard)
 export class MembersController {
   constructor(private readonly membersService: MembersService) {}
 

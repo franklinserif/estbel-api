@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Migration1740015113309 implements MigrationInterface {
-  name = 'Migration1740015113309';
+export class Migration1740080315935 implements MigrationInterface {
+  name = 'Migration1740080315935';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -20,19 +20,13 @@ export class Migration1740015113309 implements MigrationInterface {
       `CREATE TABLE "members_status" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" text NOT NULL, "description" text NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_762e67789052d3224b01b466a39" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TYPE "public"."members_gender_enum" AS ENUM('female', 'male')`,
-    );
-    await queryRunner.query(
-      `CREATE TYPE "public"."members_civilstatus_enum" AS ENUM('married', 'single', 'widower', 'divorced')`,
-    );
-    await queryRunner.query(
       `CREATE TABLE "members" ("id" text NOT NULL, "firstName" text NOT NULL, "lastName" text NOT NULL, "gender" "public"."members_gender_enum" NOT NULL DEFAULT 'male', "phone" text, "birthdate" text, "email" text, "country" text, "city" text, "location" text, "zone" text, "address" text, "howTheyArrived" text, "isBaptized" boolean NOT NULL DEFAULT false, "baptizedAt" TIMESTAMP, "baptizedChurch" text, "civilStatus" "public"."members_civilstatus_enum" NOT NULL DEFAULT 'single', "weddingAt" TIMESTAMP, "firstVisitAt" TIMESTAMP, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "spouse_id" text, "memberStatusId" uuid, CONSTRAINT "UQ_28b53062261b996d9c99fa12404" UNIQUE ("id"), CONSTRAINT "UQ_2714af51e3f7dd42cf66eeb08d6" UNIQUE ("email"), CONSTRAINT "REL_cd342ec38ad3d15fc3955532df" UNIQUE ("spouse_id"), CONSTRAINT "PK_28b53062261b996d9c99fa12404" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "admins" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "password" text NOT NULL, "email" text NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "memberId" text, CONSTRAINT "UQ_051db7d37d478a69a7432df1479" UNIQUE ("email"), CONSTRAINT "REL_b455a2a08052498484e856af7c" UNIQUE ("memberId"), CONSTRAINT "PK_e3b38270c97a854c48d2e80874e" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "admins" ("id" text NOT NULL, "password" text NOT NULL, "email" text NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "memberId" text, CONSTRAINT "UQ_e3b38270c97a854c48d2e80874e" UNIQUE ("id"), CONSTRAINT "UQ_051db7d37d478a69a7432df1479" UNIQUE ("email"), CONSTRAINT "REL_b455a2a08052498484e856af7c" UNIQUE ("memberId"), CONSTRAINT "PK_e3b38270c97a854c48d2e80874e" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "access" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "canRead" boolean NOT NULL DEFAULT false, "canEdit" boolean NOT NULL DEFAULT false, "canDelete" boolean NOT NULL DEFAULT false, "canPrint" boolean NOT NULL DEFAULT false, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "adminId" uuid, "moduleId" uuid, CONSTRAINT "PK_e386259e6046c45ab06811584ed" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "access" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "canRead" boolean NOT NULL DEFAULT false, "canEdit" boolean NOT NULL DEFAULT false, "canDelete" boolean NOT NULL DEFAULT false, "canPrint" boolean NOT NULL DEFAULT false, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "adminId" text, "moduleId" uuid, CONSTRAINT "PK_e386259e6046c45ab06811584ed" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "modules" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" text NOT NULL, "description" text NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_8cd1abde4b70e59644c98668c06" UNIQUE ("name"), CONSTRAINT "PK_7dbefd488bd96c5bf31f0ce0c95" PRIMARY KEY ("id"))`,
@@ -154,8 +148,6 @@ export class Migration1740015113309 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE "access"`);
     await queryRunner.query(`DROP TABLE "admins"`);
     await queryRunner.query(`DROP TABLE "members"`);
-    await queryRunner.query(`DROP TYPE "public"."members_civilstatus_enum"`);
-    await queryRunner.query(`DROP TYPE "public"."members_gender_enum"`);
     await queryRunner.query(`DROP TABLE "members_status"`);
     await queryRunner.query(`DROP TABLE "groups"`);
     await queryRunner.query(`DROP TABLE "group_types"`);

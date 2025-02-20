@@ -1,9 +1,18 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Res,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { AuthService } from '@auth/auth.service';
 import { LoginDto } from './dtos/login.dto';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { ENV_VAR } from '@configEnv/enum/env';
+import { JwtGuard } from './guards/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -26,5 +35,11 @@ export class AuthController {
     });
 
     res.json({ accessToken });
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('test')
+  test(@Request() req) {
+    return req.user;
   }
 }

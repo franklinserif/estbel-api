@@ -14,10 +14,9 @@ import { CivilStatus, Gender } from '@members/enum/options';
 import { IsUUIDOrCI } from '@members/decorators/is-uuidor-ci.decorator';
 
 export class CreateMemberDto {
-  @IsOptional()
   @MinLength(5)
-  @IsString()
-  id?: string;
+  @IsUUIDOrCI()
+  id: string;
 
   @IsString()
   @MinLength(2)
