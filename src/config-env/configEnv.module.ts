@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { envSchema } from '@configEnv/schemas/env.schema';
+import { JwtModule } from '@nestjs/jwt';
+import { ENV_VAR } from './enum/env';
 
 @Module({
   imports: [
@@ -16,7 +18,15 @@ import { envSchema } from '@configEnv/schemas/env.schema';
         return result.data;
       },
     }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>(ENV_VAR.JWT_SECRET),
+        signOptions: { expiresIn: '15m' },
+      }),
+    }),
   ],
-  exports: [ConfigModule],
+  exports: [ConfigModule, JwtModule],
 })
 export class ConfigEnvModule {}
