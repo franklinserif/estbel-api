@@ -32,7 +32,7 @@ export class AdminsService {
    * @returns {Promise<Admin>} The created admin.
    */
   async create(createAdminDto: CreateAdminDto): Promise<Admin> {
-    const { id } = createAdminDto;
+    const { id, email } = createAdminDto;
 
     const queryRunner =
       this.adminRepository.manager.connection.createQueryRunner();
@@ -57,7 +57,13 @@ export class AdminsService {
 
       const password = generateTemporaryPassword();
 
-      const admin = this.adminRepository.create({ id, member, password });
+      const admin = this.adminRepository.create({
+        id,
+        member,
+        password,
+        email,
+      });
+
       await queryRunner.manager.save(admin);
 
       const modules = await queryRunner.manager.find(Module);
