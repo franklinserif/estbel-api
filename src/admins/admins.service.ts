@@ -124,6 +124,25 @@ export class AdminsService {
   }
 
   /**
+   * Retrieves a single admin by their Email.
+   * @param {string} email - The email of the admin to retrieve.
+   * @returns {Promise<Admin>} The found admin.
+   * @throws {NotFoundException} If the admin is not found.
+   */
+  async findByEmail(email: string): Promise<Admin> {
+    const admin = await this.adminRepository.findOne({
+      where: { email },
+      select: ['password', 'id'],
+    });
+
+    if (!admin?.id) {
+      throw new NotFoundException(`Admin with email: ${email} not found`);
+    }
+
+    return admin;
+  }
+
+  /**
    * Updates an existing admin.
    * @param {string} id - The ID of the admin to update.
    * @param {UpdateAdminDto} updateAdminDto - The data to update the admin.

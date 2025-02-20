@@ -21,6 +21,9 @@ export class Admin {
   })
   password: string;
 
+  @Column('text', { unique: true })
+  email: string;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 

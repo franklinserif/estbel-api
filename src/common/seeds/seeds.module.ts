@@ -13,6 +13,11 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ReportsModule } from 'src/reports/reports.module';
 import { GroupsModule } from '@groups/groups.module';
 import { GroupTypesModule } from '@groupTypes/group-types.module';
+import { MemberStatusModule } from '@memberStatus/member-status.module';
+import { EmailModule } from '@emails/email.module';
+import { NotificationsModule } from '@notifications/notifications.module';
+import { ConfigEnvModule } from '@configEnv/configEnv.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -36,15 +41,20 @@ import { GroupTypesModule } from '@groupTypes/group-types.module';
       migrations: [__dirname + '/src/common/migrations/*{.ts,.js}'],
     }),
     ScheduleModule.forRoot(),
-    GroupTypesModule,
-    GroupsModule,
-    ReportsModule,
-    EventsModule,
-    MembersModule,
+    EventEmitterModule.forRoot(),
     ModulesModule,
     AdminsModule,
-    AccessesModule,
     AuthModule,
+    AccessesModule,
+    MembersModule,
+    EventsModule,
+    ReportsModule,
+    GroupsModule,
+    MemberStatusModule,
+    GroupTypesModule,
+    EmailModule,
+    NotificationsModule,
+    ConfigEnvModule,
   ],
   controllers: [SeedsController],
   providers: [SeedsService],
