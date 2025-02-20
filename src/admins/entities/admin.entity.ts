@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
@@ -13,7 +12,7 @@ import { Member } from '@members/entities/member.entity';
 
 @Entity('admins')
 export class Admin {
-  @PrimaryGeneratedColumn('uuid')
+  @Column('text', { primary: true, unique: true })
   id: string;
 
   @Column('text', {
