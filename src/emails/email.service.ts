@@ -8,7 +8,7 @@ import { NewAccountEmailDto } from '@emails/dtos/NewAccountEmail.dto';
 import { GeneratedPasswordDto } from '@emails/dtos/generatedPassword.dto';
 import { NewPassword } from '@emails/templates/NewPassword.template';
 import { AdminsEvents } from '@admins/enums/admins';
-import { ENV_VAR } from '@configEnv/enum/env';
+import { ENV_VAR } from '@configuration/enum/env';
 
 @Injectable()
 export class EmailService {

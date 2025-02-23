@@ -4,10 +4,9 @@ import { CreateAdminDto } from '@admins/dto/create-admin.dto';
 
 export class UpdateAdminDto extends PartialType(CreateAdminDto) {
   @IsString()
-  @MinLength(6)
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/, {
-    message:
-      'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character, and be at least 6 characters long.',
+  @MinLength(6, { message: 'password must have at least 6 characters' })
+  @Matches(/^(?=.*[A-Za-z])(?=.*\d).+$/, {
+    message: 'Password must have at least 1 number and 1 character',
   })
   password: string;
 }

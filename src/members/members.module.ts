@@ -4,7 +4,7 @@ import { MembersController } from '@members/members.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Member } from '@members/entities/member.entity';
 import { MemberStatusModule } from '@memberStatus/member-status.module';
-import { ConfigEnvModule } from '@configEnv/configEnv.module';
+import { ConfigEnvModule } from '@configuration/configuration.module';
 import { AdminsModule } from '@admins/admins.module';
 
 @Module({

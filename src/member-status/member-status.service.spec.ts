@@ -4,7 +4,7 @@ import { NotFoundException } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 import { MemberStatusService } from './member-status.service';
 import { MemberStatus } from './entities/member-status.entity';
-import { MEMBERS_STATUS } from '@common/seeds/seed/member-types';
+import { MEMBERS_STATUS } from '@databases/seeds/mock/member-types';
 import { CreateMemberStatusDto } from './dto/create-member-status.dto';
 import { DeleteResult } from 'typeorm';
 

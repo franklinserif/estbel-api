@@ -12,18 +12,18 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "seed:run": "ts-node -r tsconfig-paths/register src/common/scripts/seed.ts run",
-    "seed:drop": "ts-node -r tsconfig-paths/register src/common/scripts/seed.ts drop",
+    "seed:run": "ts-node -r tsconfig-paths/register src/databases/seeds/seed.ts run",
+    "seed:drop": "ts-node -r tsconfig-paths/register src/databases/seeds/seed.ts drop",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migration:generate": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d ./src/common/data-source/data-source.ts ./src/common/migrations/migration",
-    "migration:create": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create -d ./src/common/data-source/data-source.ts ./src/common/migrations/migration",
-    "migration:run": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/common/data-source/data-source.ts ",
-    "migration:revert": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/common/data-source/data-source.ts "
+    "migration:generate": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d ./src/databases/migrations/data-source/data-source.ts ./src/databases/migrations/migration",
+    "migration:create": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create -d ./src/databases/migrations/data-source/data-source.ts ./src/databases/migrations/migration",
+    "migration:run": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/databases/migrations/data-source/data-source.ts ",
+    "migration:revert": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/databases/migrations/data-source/data-source.ts "
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -112,7 +112,11 @@
       "@reports/(.*)$": "<rootDir>/reports/$1",
       "@groupTypes/(.*)$": "<rootDir>/group-types/$1",
       "@groups/(.*)$": "<rootDir>/groups/$1",
-      "@common/(.*)$": "<rootDir>/common/$1"
+      "@common/(.*)$": "<rootDir>/common/$1",
+      "@databases/(.*)$": "<rootDir>/databases/$1",
+      "@configuration/(.*)$": "<rootDir>/configuration/$1",
+      "@notification/(.*)$": "<rootDir>/notification/$1",
+      "@email/(.*)$": "<rootDir>/email/$1"
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

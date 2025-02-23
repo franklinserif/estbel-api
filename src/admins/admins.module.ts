@@ -5,7 +5,7 @@ import { Admin } from '@admins/entities/admin.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MembersModule } from '@members/members.module';
 import { AccessesModule } from '@accesses/accesses.module';
-import { ConfigEnvModule } from '@configEnv/configEnv.module';
+import { ConfigEnvModule } from '@configuration/configuration.module';
 
 @Module({
   controllers: [AdminsController],

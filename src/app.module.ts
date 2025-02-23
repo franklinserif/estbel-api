@@ -14,10 +14,10 @@ import { MemberStatusModule } from '@memberStatus/member-status.module';
 import { GroupTypesModule } from '@groupTypes/group-types.module';
 import { EmailModule } from '@emails/email.module';
 import { NotificationsModule } from '@notifications/notifications.module';
+import { DatabaseModule } from '@databases/database.module';
+import { ConfigEnvModule } from '@configuration/configuration.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabaseModule } from './databases/database.module';
-import { ConfigEnvModule } from './config-env/configEnv.module';
 
 @Module({
   imports: [

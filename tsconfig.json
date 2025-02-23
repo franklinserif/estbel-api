@@ -27,7 +27,7 @@
       "@modules/*": ["src/modules/*"],
       "@accesses/*": ["src/accesses/*"],
       "@admins/*": ["src/admins/*"],
-      "@seeds/*": ["src/common/seeds/*"],
+      "@seeds/*": ["src/databases/seeds/*"],
       "@members/*": ["src/members/*"],
       "@memberStatus/*": ["src/member-status/*"],
       "@groups/*": ["src/groups/*"],
@@ -37,7 +37,7 @@
       "@emails/*": ["src/emails/*"],
       "@notifications/*": ["src/notifications/*"],
       "@reports/*": ["src/reports/*"],
-      "@configEnv/*": ["src/config-env/*"],
+      "@configuration/*": ["src/configuration/*"],
       "@databases/*": ["src/databases/*"]
     }
   }

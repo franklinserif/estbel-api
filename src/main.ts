@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ENV_VAR } from '@configEnv/enum/env';
+import { ENV_VAR } from '@configuration/enum/env';
 import { GlobalErrorFilter } from '@common/errorsFilters/globalErrorFilter';
 
 async function bootstrap() {
