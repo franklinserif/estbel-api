@@ -4,7 +4,7 @@ import * as admin from 'firebase-admin';
 import { NotificationsService } from '@notifications/notifications.service';
 import { NotificationsController } from '@notifications/notifications.controller';
 import { FirebaseService } from '@notifications/firebase.service';
-import { ENV_VAR } from '@configEnv/enum/env';
+import { ENV_VAR } from '@configuration/enum/env';
 
 @Module({
   controllers: [NotificationsController],

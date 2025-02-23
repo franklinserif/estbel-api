@@ -9,7 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from '@auth/decorators/public';
-import { ENV_VAR } from '@configEnv/enum/env';
+import { ENV_VAR } from '@configuration/enum/env';
 import { AdminsService } from '@admins/admins.service';
 
 @Injectable()
