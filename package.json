@@ -112,7 +112,11 @@
       "@reports/(.*)$": "<rootDir>/reports/$1",
       "@groupTypes/(.*)$": "<rootDir>/group-types/$1",
       "@groups/(.*)$": "<rootDir>/groups/$1",
-      "@common/(.*)$": "<rootDir>/common/$1"
+      "@common/(.*)$": "<rootDir>/common/$1",
+      "@databases/(.*)$": "<rootDir>/databases/$1",
+      "@configuration/(.*)$": "<rootDir>/configuration/$1",
+      "@notification/(.*)$": "<rootDir>/notification/$1",
+      "@email/(.*)$": "<rootDir>/email/$1"
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
