@@ -16,7 +16,7 @@ import { GroupTypesModule } from '@groupTypes/group-types.module';
 import { MemberStatusModule } from '@memberStatus/member-status.module';
 import { EmailModule } from '@emails/email.module';
 import { NotificationsModule } from '@notifications/notifications.module';
-import { ConfigEnvModule } from '@configEnv/configEnv.module';
+import { ConfigEnvModule } from '@configuration/configuration.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
