@@ -1,10 +1,10 @@
 import { DataSource } from 'typeorm';
 import { Injectable, Logger } from '@nestjs/common';
-import { GROUP_TYPES } from './seed/group-types';
-import { GROUPS } from './seed/groups';
-import { MEMBERS_STATUS } from './seed/member-types';
-import { MEMBERS } from './seed/members';
-import { MODULES } from './seed/modules';
+import { GROUP_TYPES } from './mock/group-types';
+import { GROUPS } from './mock/groups';
+import { MEMBERS_STATUS } from './mock/member-types';
+import { MEMBERS } from './mock/members';
+import { MODULES } from './mock/modules';
 
 @Injectable()
 export class SeedsService {
