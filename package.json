@@ -107,6 +107,7 @@
       "@events/(.*)$": "<rootDir>/events/$1",
       "@reports/(.*)$": "<rootDir>/reports/$1",
       "@common/(.*)$": "<rootDir>/common/$1",
+      "@shared/(.*)$": "<rootDir>/shared/$1",
       "@databases/(.*)$": "<rootDir>/databases/$1",
       "@configuration/(.*)$": "<rootDir>/configuration/$1",
       "@accesses/(.*)$": "<rootDir>/core/accesses/$1",
