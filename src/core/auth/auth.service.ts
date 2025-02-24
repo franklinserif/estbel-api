@@ -1,7 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AdminsService } from '@admins/admins.service';
-import { comparePassword } from '@common/libs/password';
+import { comparePassword } from '@shared/libs/password';
 import { Payload, Tokens } from './interfaces/jw';
 import { Admin } from '@admins/entities/admin.entity';
 

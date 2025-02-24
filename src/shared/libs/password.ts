@@ -5,7 +5,7 @@ import {
   LOWER_CASE,
   NUMBERS,
   SYMBOLS,
-} from '@common/constants/password';
+} from '@shared/constants/password';
 
 /**
  * Generates a temporary password with a specified length.

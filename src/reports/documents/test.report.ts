@@ -1,5 +1,5 @@
 import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
-import { getFormatterDate } from '@common/libs/date';
+import { getFormatterDate } from '@shared/libs/date';
 import { fillColorTable } from '@reports/documents/styles/fillColorTable';
 
 /**

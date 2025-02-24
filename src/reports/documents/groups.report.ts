@@ -3,7 +3,7 @@ import type {
   TableCell,
   TDocumentDefinitions,
 } from 'pdfmake/interfaces';
-import { getFormatterDate } from '@common/libs/date';
+import { getFormatterDate } from '@shared/libs/date';
 import { Group } from '@groups/entities/group.entity';
 import { docHeader } from '@reports/documents/styles/header';
 import { fillColorTable } from '@reports/documents/styles/fillColorTable';
