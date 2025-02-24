@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { ModulesModule } from '@modules/modules.module';
+import { ModulesModule } from 'src/core/modules/modules.module';
 import { AdminsModule } from '@admins/admins.module';
 import { AuthModule } from '@auth/auth.module';
 import { AccessesModule } from '@accesses/accesses.module';

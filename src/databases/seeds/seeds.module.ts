@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { SeedsService } from './seeds.service';
 import { SeedsController } from './seeds.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ModulesModule } from '@modules/modules.module';
+import { ModulesModule } from 'src/core/modules/modules.module';
 import { AccessesModule } from '@accesses/accesses.module';
 import { AdminsModule } from '@admins/admins.module';
 import { AuthModule } from '@auth/auth.module';
