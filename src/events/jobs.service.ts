@@ -45,6 +45,8 @@ export class JobsService {
       cronExpression,
       async () => {
         this.logger.log(`The repeating event ${event.id} has ${eventState}.`);
+
+        // this will send an event to the notification services
         this.eventEmitter.emit(EnumEvent.EVENT_START, {
           eventId: event.id,
           isActive: event.isActive,
