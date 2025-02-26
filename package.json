@@ -117,7 +117,8 @@
       "@members/(.*)$": "<rootDir>/core/members/$1",
       "@modules/(.*)$": "<rootDir>/core/modules/$1",
       "@groupTypes/(.*)$": "<rootDir>/core/group-types/$1",
-      "@groups/(.*)$": "<rootDir>/core/groups/$1"
+      "@groups/(.*)$": "<rootDir>/core/groups/$1",
+      "@attendances/(.*)$": "<rootDir>/attendances/$1"
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
