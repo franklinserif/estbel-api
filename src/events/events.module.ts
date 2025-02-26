@@ -13,6 +13,6 @@ import { JobsService } from '@events/jobs.service';
   controllers: [EventsController],
   imports: [TypeOrmModule.forFeature([Event, Attendance]), MembersModule],
   providers: [EventsService, ScheduleService, AttendancesService, JobsService],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, EventsService],
 })
 export class EventsModule {}
