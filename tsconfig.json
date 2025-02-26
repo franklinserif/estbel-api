@@ -40,7 +40,8 @@
       "@members/*": ["src/core/members/*"],
       "@memberStatus/*": ["src/core/member-status/*"],
       "@groups/*": ["src/core/groups/*"],
-      "@groupTypes/*": ["src/core/group-types/*"]
+      "@groupTypes/*": ["src/core/group-types/*"],
+      "@attendances/*": ["src/core/attendances/*"]
     }
   }
 }
