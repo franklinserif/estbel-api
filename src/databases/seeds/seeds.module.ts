@@ -18,15 +18,16 @@ import { EmailModule } from '@emails/email.module';
 import { NotificationsModule } from '@notifications/notifications.module';
 import { ConfigEnvModule } from '@configuration/configuration.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { NODE_ENV } from '@shared/constants/server';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      ssl: process.env.NODE_ENV === 'prod',
+      ssl: process.env.NODE_ENV === NODE_ENV.PRODUCTION,
       extra: {
         ssl:
-          process.env.NODE_ENV === 'prod'
+          process.env.NODE_ENV === NODE_ENV.PRODUCTION
             ? { rejectUnauthorized: false }
             : null,
       },

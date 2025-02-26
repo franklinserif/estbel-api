@@ -2,6 +2,7 @@ import { ENV_VAR } from '@configuration/enum/env';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { NODE_ENV } from '@shared/constants/server';
 
 @Module({
   imports: [
@@ -9,10 +10,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        ssl: configService.get<string>(ENV_VAR.NODE_ENV) === 'prod',
+        ssl:
+          configService.get<string>(ENV_VAR.NODE_ENV) === NODE_ENV.PRODUCTION,
         extra: {
           ssl:
-            configService.get<string>(ENV_VAR.NODE_ENV) === 'prod'
+            configService.get<string>(ENV_VAR.NODE_ENV) === NODE_ENV.PRODUCTION
               ? { rejectUnauthorized: false }
               : null,
         },
