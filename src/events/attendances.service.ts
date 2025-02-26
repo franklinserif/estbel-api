@@ -15,9 +15,7 @@ export class AttendancesService {
   constructor(
     @InjectRepository(Attendance)
     private readonly attendanceRepository: Repository<Attendance>,
-
     private readonly eventService: EventsService,
-
     private readonly membersService: MembersService,
   ) {}
 

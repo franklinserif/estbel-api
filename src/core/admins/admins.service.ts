@@ -22,7 +22,6 @@ export class AdminsService {
     private readonly adminRepository: Repository<Admin>,
     @InjectRepository(Accesses)
     private readonly accessRepository: Repository<Accesses>,
-
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
