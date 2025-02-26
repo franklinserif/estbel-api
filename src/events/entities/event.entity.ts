@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Attendance } from '@events/entities/attendance.entity';
+import { Attendance } from '@attendances/entities/attendance.entity';
 
 @Entity('events')
 export class Event {
