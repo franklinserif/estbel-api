@@ -8,7 +8,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { EventsService } from '@events/events.service';
 import { MembersService } from '@members/members.service';
-import { Attendance } from '@events/entities/attendance.entity';
+import { Attendance } from '@attendances/entities/attendance.entity';
 
 @Injectable()
 export class AttendancesService {
