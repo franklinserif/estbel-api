@@ -1,6 +1,9 @@
-import { IsString, MinLength } from 'class-validator';
+import { IsString, IsUUID, MinLength } from 'class-validator';
 
 export class CreateModuleDto {
+  @IsUUID()
+  id: string;
+
   @IsString()
   @MinLength(2)
   name: string;
