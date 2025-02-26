@@ -18,6 +18,7 @@ import { DatabaseModule } from '@databases/database.module';
 import { ConfigEnvModule } from '@configuration/configuration.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AttendancesModule } from '@attendances/attendances.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { AppService } from './app.service';
     EmailModule,
     NotificationsModule,
     ConfigEnvModule,
+    AttendancesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
