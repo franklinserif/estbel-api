@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { ModulesModule } from '@modules/modules.module';
+import { ModulesModule } from 'src/core/modules/modules.module';
 import { AdminsModule } from '@admins/admins.module';
 import { AuthModule } from '@auth/auth.module';
 import { AccessesModule } from '@accesses/accesses.module';
@@ -18,6 +18,7 @@ import { DatabaseModule } from '@databases/database.module';
 import { ConfigEnvModule } from '@configuration/configuration.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AttendancesModule } from '@attendances/attendances.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { AppService } from './app.service';
     EmailModule,
     NotificationsModule,
     ConfigEnvModule,
+    AttendancesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

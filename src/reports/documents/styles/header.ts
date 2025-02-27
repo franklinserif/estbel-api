@@ -1,4 +1,4 @@
-import { getFormatterDate } from '@common/libs/date';
+import { getFormatterDate } from '@shared/libs/date';
 import { Content } from 'pdfmake/interfaces';
 
 /**

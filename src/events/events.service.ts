@@ -17,9 +17,7 @@ export class EventsService {
   constructor(
     @InjectRepository(Event)
     private readonly eventRepository: Repository<Event>,
-
     private readonly scheduleService: ScheduleService,
-
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
@@ -45,10 +43,13 @@ export class EventsService {
   async create(createEventDto: CreateEventDto): Promise<Event> {
     const eventCreated = this.eventRepository.create(createEventDto);
 
+    // this will emit an event (EVENT_CREATE) and the schedule services
+    // it will register an job for that event and return the information
     const emittersResult = await Promise.all([
       this.eventEmitter.emitAsync(EnumEvent.EVENT_CREATED, eventCreated),
     ] as any);
 
+    // information from the schedule services
     const job = emittersResult[0][0] as unknown as JobInfo;
 
     eventCreated!.startCronExpression = job.start.cronExpression;

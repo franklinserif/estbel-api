@@ -12,7 +12,7 @@ import {
   BeforeUpdate,
   ManyToOne,
 } from 'typeorm';
-import { Attendance } from '@events/entities/attendance.entity';
+import { Attendance } from '@attendances/entities/attendance.entity';
 import { Gender } from '@members/enum/options';
 import { CivilStatus } from '@members/enum/options';
 import { Group } from '@groups/entities/group.entity';

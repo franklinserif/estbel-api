@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 /* eslint-disable security/detect-object-injection */
-import { isEntity } from '@common/libs/isTypeOrmEntity';
+import { isEntity } from '@shared/libs/isTypeOrmEntity';
 import {
   createParamDecorator,
   ExecutionContext,

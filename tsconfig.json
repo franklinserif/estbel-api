@@ -23,22 +23,25 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@auth/*": ["src/auth/*"],
-      "@modules/*": ["src/modules/*"],
-      "@accesses/*": ["src/accesses/*"],
-      "@admins/*": ["src/admins/*"],
-      "@seeds/*": ["src/databases/seeds/*"],
-      "@members/*": ["src/members/*"],
-      "@memberStatus/*": ["src/member-status/*"],
-      "@groups/*": ["src/groups/*"],
-      "@groupTypes/*": ["src/group-types/*"],
       "@common/*": ["src/common/*"],
+      "@configuration/*": ["src/configuration/*"],
+      "@databases/*": ["src/databases/*"],
+      "@reports/*": ["src/reports/*"],
+      "@seeds/*": ["src/databases/seeds/*"],
       "@events/*": ["src/events/*"],
       "@emails/*": ["src/emails/*"],
       "@notifications/*": ["src/notifications/*"],
-      "@reports/*": ["src/reports/*"],
-      "@configuration/*": ["src/configuration/*"],
-      "@databases/*": ["src/databases/*"]
+      "@shared/*": ["src/shared/*"],
+      // core
+      "@auth/*": ["src/core/auth/*"],
+      "@accesses/*": ["src/core/accesses/*"],
+      "@modules/*": ["src/core/modules/*"],
+      "@admins/*": ["src/core/admins/*"],
+      "@members/*": ["src/core/members/*"],
+      "@memberStatus/*": ["src/core/member-status/*"],
+      "@groups/*": ["src/core/groups/*"],
+      "@groupTypes/*": ["src/core/group-types/*"],
+      "@attendances/*": ["src/core/attendances/*"]
     }
   }
 }

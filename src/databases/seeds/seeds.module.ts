@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { SeedsService } from './seeds.service';
 import { SeedsController } from './seeds.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ModulesModule } from '@modules/modules.module';
+import { ModulesModule } from 'src/core/modules/modules.module';
 import { AccessesModule } from '@accesses/accesses.module';
 import { AdminsModule } from '@admins/admins.module';
 import { AuthModule } from '@auth/auth.module';
@@ -18,15 +18,16 @@ import { EmailModule } from '@emails/email.module';
 import { NotificationsModule } from '@notifications/notifications.module';
 import { ConfigEnvModule } from '@configuration/configuration.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { NODE_ENV } from '@shared/constants/server';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      ssl: process.env.NODE_ENV === 'prod',
+      ssl: process.env.NODE_ENV === NODE_ENV.PRODUCTION,
       extra: {
         ssl:
-          process.env.NODE_ENV === 'prod'
+          process.env.NODE_ENV === NODE_ENV.PRODUCTION
             ? { rejectUnauthorized: false }
             : null,
       },

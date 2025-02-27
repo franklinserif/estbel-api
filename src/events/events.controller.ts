@@ -11,11 +11,11 @@ import {
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { AttendancesService } from '@events/attendances.service';
+import { AttendancesService } from '@attendances/attendances.service';
 import { EventsService } from '@events/events.service';
 import { ScheduleService } from '@events/schedule.service';
 import { Event } from '@events/entities/event.entity';
-import { Attendance } from '@events/entities/attendance.entity';
+import { Attendance } from '@attendances/entities/attendance.entity';
 import { CreateEventDto } from '@events/dto/create-event.dto';
 import { UpdateEventDto } from '@events/dto/update-event.dto';
 

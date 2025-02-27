@@ -2,8 +2,8 @@ import { SchedulerRegistry } from '@nestjs/schedule';
 import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { CronJob } from 'cron';
-import { EventUtils } from '@common/libs/event';
-import { TIME_ZONE_CARACAS } from '@common/constants/timeZone';
+import { EventUtils } from '@shared/libs/event';
+import { TIME_ZONE_CARACAS } from '@shared/constants/timeZone';
 import { EnumEvent } from '@events/enum/event';
 import { Event } from '@events/entities/event.entity';
 import { IJob } from '@events/interfaces/job';
@@ -45,6 +45,8 @@ export class JobsService {
       cronExpression,
       async () => {
         this.logger.log(`The repeating event ${event.id} has ${eventState}.`);
+
+        // this will send an event to the notification services
         this.eventEmitter.emit(EnumEvent.EVENT_START, {
           eventId: event.id,
           isActive: event.isActive,

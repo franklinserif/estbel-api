@@ -139,12 +139,14 @@ describe('ModulesService', () => {
   it('should create a module', async () => {
     const spyCreate = jest.spyOn(modulesService, 'create');
     const createdModule = await modulesService.create({
+      id: MODULES[0].id,
       name: MODULES[0].name,
       description: MODULES[0].description,
     });
 
     expect(spyCreate).toHaveBeenCalled();
     expect(spyCreate).toHaveBeenCalledWith({
+      id: MODULES[0].id,
       name: MODULES[0].name,
       description: MODULES[0].description,
     });

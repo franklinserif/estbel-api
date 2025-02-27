@@ -2,7 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { generateTemporaryPassword, hashPassword } from '@common/libs/password';
+import { generateTemporaryPassword, hashPassword } from '@shared/libs/password';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { Module } from '@modules/entities/module.entity';
 import { Accesses } from '@accesses/entities/accesses.entity';
@@ -22,7 +22,6 @@ export class AdminsService {
     private readonly adminRepository: Repository<Admin>,
     @InjectRepository(Accesses)
     private readonly accessRepository: Repository<Accesses>,
-
     private readonly eventEmitter: EventEmitter2,
   ) {}
 

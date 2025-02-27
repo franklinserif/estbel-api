@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { EventUtils } from '@common/libs/event';
+import { EventUtils } from '@shared/libs/event';
 import { JobInfo } from '@common/interfaces/schedule';
 import { Event } from '@events/entities/event.entity';
 import { EnumEvent } from '@events/enum/event';
