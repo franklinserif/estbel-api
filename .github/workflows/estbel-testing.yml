@@ -1,4 +1,4 @@
-name: estbel testing
+name: estbel-testing
 
 on:
   push:
