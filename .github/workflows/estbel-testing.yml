@@ -1,4 +1,4 @@
-name: estbel testing
+name: estbel-testing
 
 on:
   push:
@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   build:
+    name: test-code
     runs-on: ubuntu-latest
 
     steps:
