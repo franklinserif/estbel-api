@@ -10,6 +10,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalFilters(new GlobalErrorFilter());
 
+  console.log('test');
+
   const configService = app.get(ConfigService);
   const port = configService.get<number | undefined>(ENV_VAR.PORT);
   await app.listen(port ?? 3000);
