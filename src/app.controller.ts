@@ -7,7 +7,6 @@ export class AppController {
 
   /**
    * Endpoint to get a hello message.
-   *
    * @returns {string} - The hello message.
    */
   @Get()
