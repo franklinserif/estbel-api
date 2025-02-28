@@ -102,7 +102,7 @@
       "**/*.(t|j)s"
     ],
     "moduleNameMapper": {
-      "@email/(.*)$": "<rootDir>/email/$1",
+      "@emails/(.*)$": "<rootDir>/emails/$1",
       "@notification/(.*)$": "<rootDir>/notification/$1",
       "@events/(.*)$": "<rootDir>/events/$1",
       "@reports/(.*)$": "<rootDir>/reports/$1",
