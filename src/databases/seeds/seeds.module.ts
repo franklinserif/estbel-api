@@ -16,7 +16,7 @@ import { GroupTypesModule } from '@groupTypes/group-types.module';
 import { MemberStatusModule } from '@memberStatus/member-status.module';
 import { EmailModule } from '@emails/email.module';
 import { NotificationsModule } from '@notifications/notifications.module';
-import { ConfigEnvModule } from '@configuration/configuration.module';
+import { ConfigurationModule } from '@configuration/configuration.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { NODE_ENV } from '@shared/constants/server';
 
@@ -55,7 +55,7 @@ import { NODE_ENV } from '@shared/constants/server';
     GroupTypesModule,
     EmailModule,
     NotificationsModule,
-    ConfigEnvModule,
+    ConfigurationModule,
   ],
   controllers: [SeedsController],
   providers: [SeedsService],
