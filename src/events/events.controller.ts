@@ -23,6 +23,7 @@ import { Authorization } from '@common/guards/Authorization.guard';
 import { AuthPermission } from '@common/decorators/auth-permission.decorator';
 import { MODULES } from '@shared/enums/modules';
 import { PERMISSIONS } from '@shared/enums/permissions';
+import { idsDto } from '@shared/dtos/ids.dto';
 
 @Controller('events')
 @UseGuards(Authorization)
@@ -95,7 +96,7 @@ export class EventsController {
   @AuthPermission(MODULES.EVENTS, PERMISSIONS.CREATE)
   registerAttendance(
     @Param('eventId') eventId: string,
-    @Body('memberIds') memberIds: string[],
+    @Body('memberIds') memberIds: idsDto,
   ): Promise<Attendance[]> {
     return this.attendancesService.registerAttendance(eventId, memberIds);
   }

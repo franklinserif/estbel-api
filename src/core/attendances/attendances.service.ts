@@ -9,6 +9,7 @@ import { IQueryParams } from '@common/interfaces/decorators';
 import { EventsService } from '@events/events.service';
 import { MembersService } from '@members/members.service';
 import { Attendance } from '@attendances/entities/attendance.entity';
+import { idsDto } from '@shared/dtos/ids.dto';
 
 @Injectable()
 export class AttendancesService {
@@ -37,13 +38,13 @@ export class AttendancesService {
    */
   async registerAttendance(
     eventId: string,
-    memberIds: string[],
+    memberIds: idsDto,
   ): Promise<Attendance[]> {
     const event = await this.eventService.findOne(eventId);
 
-    const members = await this.membersService.findMembersByIds(memberIds);
+    const members = await this.membersService.findMembersByIds(memberIds.ids);
 
-    if (members.length !== memberIds.length) {
+    if (members.length !== memberIds.ids.length) {
       throw new NotFoundException('One or more members not found');
     }
 
