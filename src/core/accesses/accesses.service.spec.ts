@@ -6,10 +6,6 @@ import { Accesses } from '@accesses/entities/accesses.entity';
 import { CreateAccessDto } from '@accesses/dto/createAccesses.dto';
 import { UpdateAccessDto } from '@accesses/dto/updateAccesses.dto';
 import { NotFoundException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { Reflector } from '@nestjs/core';
-import { ConfigService } from '@nestjs/config';
-import { AdminsService } from '@admins/admins.service';
 
 describe('AccessesService', () => {
   let service: AccessesService;
@@ -42,22 +38,6 @@ describe('AccessesService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AccessesService,
-        {
-          provide: JwtService,
-          useValue: { sign: jest.fn(), verify: jest.fn() },
-        },
-        {
-          provide: Reflector,
-          useValue: new Reflector(),
-        },
-        {
-          provide: ConfigService,
-          useValue: { get: jest.fn().mockReturnValue('mocked_value') },
-        },
-        {
-          provide: AdminsService,
-          useValue: {}, // Mock if necessary
-        },
         {
           provide: getRepositoryToken(Accesses),
           useValue: {
