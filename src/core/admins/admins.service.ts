@@ -71,7 +71,9 @@ export class AdminsService {
         return this.accessRepository.create({
           admin,
           module,
+          moduleName: module.name,
           canRead: true,
+          canCreate: false,
           canEdit: false,
           canDelete: false,
           canPrint: false,
