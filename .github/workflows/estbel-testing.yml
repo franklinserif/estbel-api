@@ -47,11 +47,17 @@ jobs:
             echo "has_changes=true" >> $GITHUB_ENV
           fi
 
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import --batch
+          git config --global user.signingkey "$(gpg --list-secret-keys --keyid-format=long | grep rsa | head -n 1 | awk '{print $2}')"
+          git config --global commit.gpgSign true
+
       - name: Commit changes (if any)
         if: env.has_changes == 'true' && github.event_name == 'push'
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@users.noreply.github.com'
           git add .
-          git commit -m "fix: auto-format code with Prettier and ESLint"
+          git commit -S -m "fix: auto-format code with Prettier and ESLint"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:develop
