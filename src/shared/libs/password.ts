@@ -23,9 +23,24 @@ export function generateTemporaryPassword(
     characters += SYMBOLS;
   }
 
-  return Array.from(crypto.randomFillSync(new Uint8Array(length)))
-    .map((x) => characters[x % characters.length])
-    .join('');
+  // Calculamos el valor máximo que no produce sesgo (256 es el rango de un byte).
+  const maxValid = 256 - (256 % characters.length);
+  let password = '';
+
+  for (let i = 0; i < length; i++) {
+    let randomByte: number;
+
+    // "Rejection sampling":
+    // Genera un byte y si está fuera de 'maxValid', se repite.
+    do {
+      randomByte = crypto.randomBytes(1)[0];
+    } while (randomByte >= maxValid);
+
+    // Ahora sí aplicamos el módulo de forma segura.
+    password += characters[randomByte % characters.length];
+  }
+
+  return password;
 }
 
 /**
