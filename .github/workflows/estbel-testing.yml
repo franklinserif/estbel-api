@@ -14,11 +14,9 @@ permissions:
 
 jobs:
   build:
-    name: test-code
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Node.js
@@ -47,25 +45,13 @@ jobs:
             echo "has_changes=true" >> $GITHUB_ENV
           fi
 
-      - name: Import GPG key
-        run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import --batch
-          FINGERPRINT=$(gpg --list-secret-keys --with-colons | grep fpr | head -n1 | cut -d: -f10)
-          echo "FINGERPRINT=$FINGERPRINT" >> $GITHUB_ENV
-
-      - name: Configure Git with GPG
-        run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@users.noreply.github.com'
-          git config --global user.signingkey "$FINGERPRINT"
-          git config --global commit.gpgSign true
-          export GPG_TTY=$(tty)
-          gpgconf --launch gpg-agent
-          gpg --pinentry-mode loopback --sign --default-key "$FINGERPRINT" -o /dev/null <<< "test"
-
-      - name: Commit changes (if any)
+      - name: Commit changes using Verified Commit action
         if: env.has_changes == 'true' && github.event_name == 'push'
-        run: |
-          git add .
-          git commit -S -m "fix: auto-format code with Prettier and ESLint"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:develop
+        uses: swinton/commit@v2.x
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commit-message: 'fix: auto-format code with Prettier and ESLint'
+          ref: refs/heads/develop
+          files: |
+            .
