@@ -27,14 +27,11 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
 
-      - name: Set up PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8 # Asegúrate de usar la versión que tienes localmente
-          run_install: false
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install --shamefully-hoist
+        run: pnpm install
 
       - name: Run tests
         run: pnpm run test
@@ -43,12 +40,12 @@ jobs:
         run: pnpm run lint -- --fix
 
       - name: Run Prettier
-        run: pnpm exec prettier --write .
+        run: pnpx prettier --write .
 
       - name: Check for changes
         id: changes
         run: |
-          if git diff --quiet; then
+          if git diff --exit-code; then
             echo "has_changes=false" >> $GITHUB_ENV
           else
             echo "has_changes=true" >> $GITHUB_ENV
