@@ -50,14 +50,20 @@ jobs:
       - name: Import GPG key
         run: |
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import --batch
-          git config --global user.signingkey "$(gpg --list-secret-keys --keyid-format=long | grep rsa | head -n 1 | awk '{print $2}')"
+          echo -e "trust\n5\ny\nquit" | gpg --command-fd 0 --edit-key 0A7022B149327333A3493D22CA0C8CFBFF6FC6EE
+
+      - name: Configure Git with GPG
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@users.noreply.github.com'
+          git config --global user.signingkey "0A7022B149327333A3493D22CA0C8CFBFF6FC6EE"
           git config --global commit.gpgSign true
+          export GPG_TTY=$(tty)
+          gpgconf --launch gpg-agent
 
       - name: Commit changes (if any)
         if: env.has_changes == 'true' && github.event_name == 'push'
         run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@users.noreply.github.com'
           git add .
           git commit -S -m "fix: auto-format code with Prettier and ESLint"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:develop
