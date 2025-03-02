@@ -25,22 +25,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install pnpm
-        run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
       - name: Run tests
-        run: pnpm run test
+        run: npm run test
 
       - name: Run ESLint
-        run: pnpm run lint -- --fix
+        run: npm run lint -- --fix
 
       - name: Run Prettier
-        run: pnpx prettier --write .
+        run: npx prettier --write .
 
       - name: Check for changes
         id: changes
