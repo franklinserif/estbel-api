@@ -68,7 +68,7 @@ describe('AttendancesService', () => {
   describe('registerAttendance', () => {
     it('should register attendance for an event and members', async () => {
       const eventId = 'event1';
-      const memberIds = ['member1', 'member2'];
+      const memberIds = { ids: ['member1', 'member2'] };
       const event = { id: eventId, isActive: true };
       const members = [{ id: 'member1' }, { id: 'member2' }];
       const attendances = [
@@ -88,7 +88,7 @@ describe('AttendancesService', () => {
       expect(result).toEqual(attendances);
       expect(mockEventService.findOne).toHaveBeenCalledWith(eventId);
       expect(mockMembersService.findMembersByIds).toHaveBeenCalledWith(
-        memberIds,
+        memberIds.ids,
       );
       expect(mockAttendanceRepository.create).toHaveBeenCalledTimes(2);
       expect(mockAttendanceRepository.save).toHaveBeenCalledWith(attendances);
@@ -96,7 +96,7 @@ describe('AttendancesService', () => {
 
     it('should throw NotFoundException if one or more members are not found', async () => {
       const eventId = 'event1';
-      const memberIds = ['member1', 'member2'];
+      const memberIds = { ids: ['member1', 'member2'] };
       const event = { id: eventId, isActive: true };
       const members = [{ id: 'member1' }];
 
