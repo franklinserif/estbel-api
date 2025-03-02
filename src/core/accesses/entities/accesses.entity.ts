@@ -14,10 +14,18 @@ export class Accesses {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column('text')
+  moduleName: string;
+
   @Column('bool', {
     default: false,
   })
   canRead: boolean;
+
+  @Column('bool', {
+    default: false,
+  })
+  canCreate: boolean;
 
   @Column('bool', {
     default: false,

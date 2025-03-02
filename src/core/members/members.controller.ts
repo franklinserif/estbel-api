@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  ParseUUIDPipe,
   UseGuards,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
@@ -16,10 +15,13 @@ import { MembersService } from '@members/members.service';
 import { CreateMemberDto } from '@members/dto/create-member.dto';
 import { UpdateMemberDto } from '@members/dto/update-member.dto';
 import { Member } from '@members/entities/member.entity';
-import { JwtGuard } from '@auth/guards/jwt.guard';
+import { Authorization } from '@common/guards/Authorization.guard';
+import { AuthPermission } from '@common/decorators/auth-permission.decorator';
+import { PERMISSIONS } from '@shared/enums/permissions';
+import { MODULES } from '@shared/enums/modules';
 
 @Controller('members')
-@UseGuards(JwtGuard)
+@UseGuards(Authorization)
 export class MembersController {
   constructor(private readonly membersService: MembersService) {}
 
@@ -29,6 +31,7 @@ export class MembersController {
    * @returns {Promise<Member>} - The created member.
    */
   @Post()
+  @AuthPermission(MODULES.MEMBERS, PERMISSIONS.CREATE)
   create(@Body() createMemberDto: CreateMemberDto): Promise<Member> {
     return this.membersService.create(createMemberDto);
   }
@@ -39,6 +42,7 @@ export class MembersController {
    * @returns {Promise<Member[]>} - The list of members.
    */
   @Get()
+  @AuthPermission(MODULES.MEMBERS, PERMISSIONS.READ)
   findAll(@QueryParams(Member) queryParams: IQueryParams): Promise<Member[]> {
     return this.membersService.findAll(queryParams);
   }
@@ -49,7 +53,8 @@ export class MembersController {
    * @returns {Promise<Member>} - The found member.
    */
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Member> {
+  @AuthPermission(MODULES.MEMBERS, PERMISSIONS.READ)
+  findOne(@Param('id') id: string): Promise<Member> {
     return this.membersService.findOne(id);
   }
 
@@ -60,8 +65,9 @@ export class MembersController {
    * @returns {Promise<Member>} - The updated member.
    */
   @Patch(':id')
+  @AuthPermission(MODULES.MEMBERS, PERMISSIONS.EDIT)
   update(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id') id: string,
     @Body() updateMemberDto: UpdateMemberDto,
   ): Promise<Member> {
     return this.membersService.update(id, updateMemberDto);
@@ -73,7 +79,8 @@ export class MembersController {
    * @returns {Promise<void>} - A promise that resolves when the member is removed.
    */
   @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
+  @AuthPermission(MODULES.MEMBERS, PERMISSIONS.DELETE)
+  remove(@Param('id') id: string): Promise<DeleteResult> {
     return this.membersService.remove(id);
   }
 }

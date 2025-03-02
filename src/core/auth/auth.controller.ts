@@ -12,7 +12,7 @@ import { LoginDto } from './dtos/login.dto';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { ENV_VAR } from '@configuration/enum/env';
-import { JwtGuard } from './guards/jwt.guard';
+import { JwtGuard } from '../../common/guards/jwt.guard';
 
 @Controller('auth')
 export class AuthController {

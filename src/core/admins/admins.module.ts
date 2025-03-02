@@ -5,7 +5,7 @@ import { Admin } from '@admins/entities/admin.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MembersModule } from '@members/members.module';
 import { AccessesModule } from '@accesses/accesses.module';
-import { ConfigEnvModule } from '@configuration/configuration.module';
+import { ConfigurationModule } from '@configuration/configuration.module';
 
 @Module({
   controllers: [AdminsController],
@@ -13,7 +13,7 @@ import { ConfigEnvModule } from '@configuration/configuration.module';
     TypeOrmModule.forFeature([Admin]),
     MembersModule,
     AccessesModule,
-    ConfigEnvModule,
+    ConfigurationModule,
   ],
   providers: [AdminsService],
   exports: [TypeOrmModule, AdminsService],

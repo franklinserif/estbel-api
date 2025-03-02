@@ -15,7 +15,7 @@ import { GroupTypesModule } from '@groupTypes/group-types.module';
 import { EmailModule } from '@emails/email.module';
 import { NotificationsModule } from '@notifications/notifications.module';
 import { DatabaseModule } from '@databases/database.module';
-import { ConfigEnvModule } from '@configuration/configuration.module';
+import { ConfigurationModule } from '@configuration/configuration.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AttendancesModule } from '@attendances/attendances.module';
@@ -38,7 +38,7 @@ import { AttendancesModule } from '@attendances/attendances.module';
     GroupTypesModule,
     EmailModule,
     NotificationsModule,
-    ConfigEnvModule,
+    ConfigurationModule,
     AttendancesModule,
   ],
   controllers: [AppController],

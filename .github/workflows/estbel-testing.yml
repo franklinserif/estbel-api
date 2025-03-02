@@ -14,17 +14,15 @@ permissions:
 
 jobs:
   build:
-    name: test-code
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
@@ -41,17 +39,24 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          if git diff --exit-code; then
-            echo "::set-output name=has_changes::false"
+          if git diff --quiet; then
+            echo "has_changes=false" >> $GITHUB_ENV
           else
-            echo "::set-output name=has_changes::true"
+            echo "has_changes=true" >> $GITHUB_ENV
           fi
 
-      - name: Commit changes (if any)
-        if: steps.changes.outputs.has_changes == 'true' && github.event_name == 'push'
+      - name: Get list of changed files
+        id: changed_files
         run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@users.noreply.github.com'
-          git add .
-          git commit -m "fix: auto-format code with Prettier and ESLint"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:develop
+          files=$(git diff --name-only)
+          echo "::set-output name=files::$files"
+
+      - name: Commit changes using Verified Commit action
+        if: env.has_changes == 'true' && github.event_name == 'push'
+        uses: swinton/commit@v2.x
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commit-message: 'fix: auto-format code with Prettier and ESLint'
+          ref: refs/heads/develop
+          files: ${{ steps.changed_files.outputs.files }}

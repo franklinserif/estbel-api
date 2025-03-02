@@ -85,7 +85,7 @@
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.1.3"
+    "typescript": "5.7.3"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -102,7 +102,7 @@
       "**/*.(t|j)s"
     ],
     "moduleNameMapper": {
-      "@email/(.*)$": "<rootDir>/email/$1",
+      "@emails/(.*)$": "<rootDir>/emails/$1",
       "@notification/(.*)$": "<rootDir>/notification/$1",
       "@events/(.*)$": "<rootDir>/events/$1",
       "@reports/(.*)$": "<rootDir>/reports/$1",

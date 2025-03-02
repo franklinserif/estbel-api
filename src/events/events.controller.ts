@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { QueryParams } from '@common/decorators/query-params.decorator';
@@ -18,8 +19,14 @@ import { Event } from '@events/entities/event.entity';
 import { Attendance } from '@attendances/entities/attendance.entity';
 import { CreateEventDto } from '@events/dto/create-event.dto';
 import { UpdateEventDto } from '@events/dto/update-event.dto';
+import { Authorization } from '@common/guards/Authorization.guard';
+import { AuthPermission } from '@common/decorators/auth-permission.decorator';
+import { MODULES } from '@shared/enums/modules';
+import { PERMISSIONS } from '@shared/enums/permissions';
+import { idsDto } from '@shared/dtos/ids.dto';
 
 @Controller('events')
+@UseGuards(Authorization)
 export class EventsController {
   constructor(
     private readonly eventsService: EventsService,
@@ -33,6 +40,7 @@ export class EventsController {
    * @returns {Promise<Event>} The created event.
    */
   @Post()
+  @AuthPermission(MODULES.EVENTS, PERMISSIONS.CREATE)
   create(@Body() createEventDto: CreateEventDto): Promise<Event> {
     return this.eventsService.create(createEventDto);
   }
@@ -44,6 +52,7 @@ export class EventsController {
    * @returns {Promise<Event[]>} A list of events.
    */
   @Get()
+  @AuthPermission(MODULES.EVENTS, PERMISSIONS.READ)
   findAll(@QueryParams(Event) queryParams: IQueryParams): Promise<Event[]> {
     return this.eventsService.findAll(queryParams);
   }
@@ -54,6 +63,7 @@ export class EventsController {
    * @returns {Array<{ name: string, nextInvocation: string }>} A list of cron jobs with their names and next invocation times.
    */
   @Get('cron-jobs')
+  @AuthPermission(MODULES.EVENTS, PERMISSIONS.READ)
   findCronJobs(): Array<{
     name: string;
     nextInvocation: string;
@@ -68,6 +78,7 @@ export class EventsController {
    * @returns {Promise<Attendance[]>} A list of attendances.
    */
   @Get('attendances')
+  @AuthPermission(MODULES.EVENTS, PERMISSIONS.READ)
   findAllAttendances(
     @QueryParams() queryParams: IQueryParams,
   ): Promise<Attendance[]> {
@@ -82,9 +93,10 @@ export class EventsController {
    * @returns {Promise<Attendance[]>} An array with the attendences.
    */
   @Post('attendances/register/:eventId')
+  @AuthPermission(MODULES.EVENTS, PERMISSIONS.CREATE)
   registerAttendance(
     @Param('eventId') eventId: string,
-    @Body('memberIds') memberIds: string[],
+    @Body('memberIds') memberIds: idsDto,
   ): Promise<Attendance[]> {
     return this.attendancesService.registerAttendance(eventId, memberIds);
   }
@@ -96,6 +108,7 @@ export class EventsController {
    * @returns {Promise<UpdateResult>} The result of the update operation.
    */
   @Patch('attendances/confirm/:id')
+  @AuthPermission(MODULES.EVENTS, PERMISSIONS.EDIT)
   confirmAttendance(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<UpdateResult> {
@@ -109,6 +122,7 @@ export class EventsController {
    * @returns {Promise<UpdateResult>} The result of the update operation.
    */
   @Patch('attendances/non-attendance/:id')
+  @AuthPermission(MODULES.EVENTS, PERMISSIONS.EDIT)
   nonAttendance(@Param('id', ParseUUIDPipe) id: string): Promise<UpdateResult> {
     return this.attendancesService.unattended(id);
   }
@@ -120,6 +134,7 @@ export class EventsController {
    * @returns {Promise<DeleteResult>} The result of the removal.
    */
   @Delete('attendances/remove/:id')
+  @AuthPermission(MODULES.EVENTS, PERMISSIONS.DELETE)
   removeAttendance(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<DeleteResult> {
@@ -134,6 +149,7 @@ export class EventsController {
    * @returns {Promise<Event>} The found event.
    */
   @Get(':id')
+  @AuthPermission(MODULES.EVENTS, PERMISSIONS.READ)
   findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Event> {
     return this.eventsService.findOne(id);
   }
@@ -146,6 +162,7 @@ export class EventsController {
    * @returns {Promise<Event>} The result of the update operation.
    */
   @Patch(':id')
+  @AuthPermission(MODULES.EVENTS, PERMISSIONS.EDIT)
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateEventDto: UpdateEventDto,
@@ -160,6 +177,7 @@ export class EventsController {
    * @returns {Promise<DeleteResult>} The result of the deletion.
    */
   @Delete(':id')
+  @AuthPermission(MODULES.EVENTS, PERMISSIONS.DELETE)
   remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
     return this.eventsService.remove(id);
   }

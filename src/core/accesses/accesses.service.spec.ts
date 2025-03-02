@@ -23,6 +23,8 @@ describe('AccessesService', () => {
 
   const mockCreateDto: CreateAccessDto = {
     canRead: true,
+    moduleName: 'test',
+    canCreate: false,
     canEdit: false,
     canDelete: false,
     canPrint: true,

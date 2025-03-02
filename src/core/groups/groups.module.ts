@@ -5,10 +5,18 @@ import { MembersModule } from '@members/members.module';
 import { GroupsController } from '@groups/groups.controller';
 import { Group } from '@groups/entities/group.entity';
 import { GroupTypesModule } from '@groupTypes/group-types.module';
+import { ConfigurationModule } from '@configuration/configuration.module';
+import { AdminsModule } from '@admins/admins.module';
 
 @Module({
   controllers: [GroupsController],
-  imports: [TypeOrmModule.forFeature([Group]), GroupTypesModule, MembersModule],
+  imports: [
+    TypeOrmModule.forFeature([Group]),
+    GroupTypesModule,
+    MembersModule,
+    AdminsModule,
+    ConfigurationModule,
+  ],
   providers: [GroupsService],
   exports: [TypeOrmModule, GroupsService],
 })

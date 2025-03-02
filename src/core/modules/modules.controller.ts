@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { ModulesService } from './modules.service';
@@ -15,8 +16,13 @@ import { UpdateModuleDto } from './dto/update-module.dto';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { Module } from './entities/module.entity';
+import { Authorization } from '@common/guards/Authorization.guard';
+import { AuthPermission } from '@common/decorators/auth-permission.decorator';
+import { MODULES } from '@shared/enums/modules';
+import { PERMISSIONS } from '@shared/enums/permissions';
 
 @Controller('modules')
+@UseGuards(Authorization)
 export class ModulesController {
   constructor(private readonly modulesService: ModulesService) {}
 
@@ -26,6 +32,7 @@ export class ModulesController {
    * @returns {Promise<Module>} The created module.
    */
   @Post()
+  @AuthPermission(MODULES.MODULES, PERMISSIONS.CREATE)
   create(@Body() createModuleDto: CreateModuleDto): Promise<Module> {
     return this.modulesService.create(createModuleDto);
   }
@@ -36,6 +43,7 @@ export class ModulesController {
    * @returns {Promise<Module[]>} An array of modules.
    */
   @Get()
+  @AuthPermission(MODULES.MODULES, PERMISSIONS.READ)
   findAll(@QueryParams(Module) queryParams: IQueryParams): Promise<Module[]> {
     return this.modulesService.findAll(queryParams);
   }
@@ -46,6 +54,7 @@ export class ModulesController {
    * @returns {Promise<Module>} The retrieved module.
    */
   @Get(':id')
+  @AuthPermission(MODULES.MODULES, PERMISSIONS.READ)
   findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Module> {
     return this.modulesService.findOne(id);
   }
@@ -57,6 +66,7 @@ export class ModulesController {
    * @returns {Promise<Module>} The updated module.
    */
   @Patch(':id')
+  @AuthPermission(MODULES.MODULES, PERMISSIONS.EDIT)
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateModuleDto: UpdateModuleDto,
@@ -70,6 +80,7 @@ export class ModulesController {
    * @returns {Promise<void>} A promise indicating the completion of the delete operation.
    */
   @Delete(':id')
+  @AuthPermission(MODULES.MODULES, PERMISSIONS.DELETE)
   remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
     return this.modulesService.remove(id);
   }
