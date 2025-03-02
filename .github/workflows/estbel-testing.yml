@@ -50,16 +50,18 @@ jobs:
       - name: Import GPG key
         run: |
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import --batch
-          echo -e "trust\n5\ny\nquit" | gpg --command-fd 0 --edit-key 0A7022B149327333A3493D22CA0C8CFBFF6FC6EE
+          FINGERPRINT=$(gpg --list-secret-keys --with-colons | grep fpr | head -n1 | cut -d: -f10)
+          echo "FINGERPRINT=$FINGERPRINT" >> $GITHUB_ENV
 
       - name: Configure Git with GPG
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@users.noreply.github.com'
-          git config --global user.signingkey "0A7022B149327333A3493D22CA0C8CFBFF6FC6EE"
+          git config --global user.signingkey "$FINGERPRINT"
           git config --global commit.gpgSign true
           export GPG_TTY=$(tty)
           gpgconf --launch gpg-agent
+          gpg --pinentry-mode loopback --sign --default-key "$FINGERPRINT" -o /dev/null <<< "test"
 
       - name: Commit changes (if any)
         if: env.has_changes == 'true' && github.event_name == 'push'
