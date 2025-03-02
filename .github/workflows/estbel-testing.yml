@@ -25,30 +25,37 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '22'
+          cache: 'pnpm'
+
+      - name: Set up PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8 # Asegúrate de usar la versión que tienes localmente
+          run_install: false
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --shamefully-hoist
 
       - name: Run tests
-        run: npm run test
+        run: pnpm run test
 
       - name: Run ESLint
-        run: npm run lint -- --fix
+        run: pnpm run lint -- --fix
 
       - name: Run Prettier
-        run: npx prettier --write .
+        run: pnpm exec prettier --write .
 
       - name: Check for changes
         id: changes
         run: |
-          if git diff --exit-code; then
-            echo "::set-output name=has_changes::false"
+          if git diff --quiet; then
+            echo "has_changes=false" >> $GITHUB_ENV
           else
-            echo "::set-output name=has_changes::true"
+            echo "has_changes=true" >> $GITHUB_ENV
           fi
 
       - name: Commit changes (if any)
-        if: steps.changes.outputs.has_changes == 'true' && github.event_name == 'push'
+        if: env.has_changes == 'true' && github.event_name == 'push'
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@users.noreply.github.com'
