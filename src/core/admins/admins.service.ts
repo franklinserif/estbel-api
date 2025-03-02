@@ -8,7 +8,7 @@ import { Module } from '@modules/entities/module.entity';
 import { Accesses } from '@accesses/entities/accesses.entity';
 import { Member } from '@members/entities/member.entity';
 import { GeneratedPasswordDto } from '@emails/dtos/generatedPassword.dto';
-import { NewAccountEmailDto } from '@emails/dtos/NewAccountEmail.dto';
+import { NewAccountEmailDto } from '../../emails/dtos/newAccountEmail.dto';
 import { Admin } from '@admins/entities/admin.entity';
 import { AdminsEvents } from '@admins/enums/admins';
 import { CreateAdminDto } from '@admins/dto/create-admin.dto';
