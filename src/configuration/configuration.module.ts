@@ -29,4 +29,4 @@ import { ENV_VAR } from './enum/env';
   ],
   exports: [ConfigModule, JwtModule],
 })
-export class ConfigEnvModule {}
+export class ConfigurationModule {}
