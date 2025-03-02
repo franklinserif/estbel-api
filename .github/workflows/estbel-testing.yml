@@ -39,11 +39,17 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          if git diff --exit-code; then
+          if git diff --quiet; then
             echo "has_changes=false" >> $GITHUB_ENV
           else
             echo "has_changes=true" >> $GITHUB_ENV
           fi
+
+      - name: Get list of changed files
+        id: changed_files
+        run: |
+          files=$(git diff --name-only)
+          echo "::set-output name=files::$files"
 
       - name: Commit changes using Verified Commit action
         if: env.has_changes == 'true' && github.event_name == 'push'
@@ -53,5 +59,4 @@ jobs:
         with:
           commit-message: 'fix: auto-format code with Prettier and ESLint'
           ref: refs/heads/develop
-          files: |
-            .
+          files: ${{ steps.changed_files.outputs.files }}
