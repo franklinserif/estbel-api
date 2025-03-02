@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
@@ -7,8 +7,13 @@ import { CreateReportDto } from '@reports/dto/create-report.dto';
 import { Admin } from '@admins/entities/admin.entity';
 import { Member } from '@members/entities/member.entity';
 import { Group } from '@groups/entities/group.entity';
+import { Authorization } from '@common/guards/Authorization.guard';
+import { AuthPermission } from '@common/decorators/auth-permission.decorator';
+import { MODULES } from '@shared/enums/modules';
+import { PERMISSIONS } from '@shared/enums/permissions';
 
 @Controller('reports')
+@UseGuards(Authorization)
 export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
@@ -17,6 +22,7 @@ export class ReportsController {
    * @param {Response} response - The HTTP response object.
    */
   @Post('test')
+  @AuthPermission(MODULES.REPORTS, PERMISSIONS.PRINT)
   async test(@Res() response: Response) {
     const pdfDoc = await this.reportsService.test();
 
@@ -32,6 +38,7 @@ export class ReportsController {
    * @param {Response} response - The HTTP response object.
    */
   @Post('admins')
+  @AuthPermission(MODULES.REPORTS, PERMISSIONS.PRINT)
   async adminsReport(
     @QueryParams(Admin) queryParams: IQueryParams,
     @Body() createReport: CreateReportDto,
@@ -54,6 +61,7 @@ export class ReportsController {
    * @param {Response} response - The HTTP response object.
    */
   @Post('members')
+  @AuthPermission(MODULES.REPORTS, PERMISSIONS.PRINT)
   async membersReport(
     @QueryParams(Member) queryParams: IQueryParams,
     @Body() createReport: CreateReportDto,
@@ -76,6 +84,7 @@ export class ReportsController {
    * @param {Response} response - The HTTP response object.
    */
   @Post('groups')
+  @AuthPermission(MODULES.REPORTS, PERMISSIONS.PRINT)
   async groupsReport(
     @QueryParams(Group) queryParams: IQueryParams,
     @Body() createReport: CreateReportDto,
@@ -98,6 +107,7 @@ export class ReportsController {
    * @param {Response} response - The HTTP response object.
    */
   @Post('groups/:id/members')
+  @AuthPermission(MODULES.REPORTS, PERMISSIONS.PRINT)
   async groupsMembersReport(
     @Param('id') id: string,
     @Body() createReport: CreateReportDto,

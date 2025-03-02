@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { AdminsService } from './admins.service';
@@ -15,8 +16,13 @@ import { UpdateAdminDto } from './dto/update-admin.dto';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { Admin } from './entities/admin.entity';
+import { Authorization } from '@common/guards/Authorization.guard';
+import { AuthPermission } from '@common/decorators/auth-permission.decorator';
+import { MODULES } from '@shared/enums/modules';
+import { PERMISSIONS } from '@shared/enums/permissions';
 
 @Controller('admins')
+@UseGuards(Authorization)
 export class AdminsController {
   constructor(private readonly adminsService: AdminsService) {}
 
@@ -26,6 +32,7 @@ export class AdminsController {
    * @returns {Promise<Admin>} The created admin.
    */
   @Post()
+  @AuthPermission(MODULES.ADMINS, PERMISSIONS.CREATE)
   create(@Body() createAdminDto: CreateAdminDto): Promise<Admin> {
     return this.adminsService.create(createAdminDto);
   }
@@ -36,6 +43,7 @@ export class AdminsController {
    * @returns {Promise<Admin[]>} A list of admins.
    */
   @Get()
+  @AuthPermission(MODULES.ADMINS, PERMISSIONS.READ)
   findAll(
     @QueryParams(Admin)
     queryParams: IQueryParams,
@@ -50,7 +58,8 @@ export class AdminsController {
    * @throws {NotFoundException} If the admin is not found.
    */
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Admin> {
+  @AuthPermission(MODULES.ADMINS, PERMISSIONS.READ)
+  findOne(@Param('id') id: string): Promise<Admin> {
     return this.adminsService.findOne(id);
   }
 
@@ -62,6 +71,7 @@ export class AdminsController {
    * @throws {NotFoundException} If the admin is not found.
    */
   @Patch(':id')
+  @AuthPermission(MODULES.ADMINS, PERMISSIONS.EDIT)
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateAdminDto: UpdateAdminDto,
@@ -76,6 +86,7 @@ export class AdminsController {
    * @throws {NotFoundException} If the admin is not found.
    */
   @Delete(':id')
+  @AuthPermission(MODULES.ADMINS, PERMISSIONS.DELETE)
   remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
     return this.adminsService.remove(id);
   }
