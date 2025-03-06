@@ -1,7 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AdminsService } from '@admins/admins.service';
-import { comparePassword } from '@shared/libs/password';
+import { PasswordService } from '@shared/libs/password/password.service';
 import { Payload, Tokens } from './interfaces/jw';
 import { Admin } from '@admins/entities/admin.entity';
 
@@ -10,11 +10,16 @@ export class AuthService {
   constructor(
     private admisnService: AdminsService,
     private jwtService: JwtService,
+    private passwordService: PasswordService,
   ) {}
 
   async signIn(email: string, password: string): Promise<any> {
     const admin = await this.admisnService.findByEmail(email);
-    const isValidPassword = await comparePassword(password, admin.password);
+
+    const isValidPassword = await this.passwordService.comparePassword(
+      password,
+      admin.password,
+    );
 
     if (isValidPassword) {
       throw new UnauthorizedException(`invalid password`);
@@ -34,7 +39,10 @@ export class AuthService {
   async validateAdmin(email: string, password: string): Promise<Admin | null> {
     const admin = await this.admisnService.findByEmail(email);
 
-    const isValidPassword = await comparePassword(password, admin.password);
+    const isValidPassword = await this.passwordService.comparePassword(
+      password,
+      admin.password,
+    );
 
     if (isValidPassword) {
       delete admin.password;

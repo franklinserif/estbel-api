@@ -2,7 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { generateTemporaryPassword, hashPassword } from '@shared/libs/password';
+import { PasswordService } from '@shared/libs/password/password.service';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { Module } from '@modules/entities/module.entity';
 import { Accesses } from '@accesses/entities/accesses.entity';
@@ -23,6 +23,7 @@ export class AdminsService {
     @InjectRepository(Accesses)
     private readonly accessRepository: Repository<Accesses>,
     private readonly eventEmitter: EventEmitter2,
+    private readonly passwordService: PasswordService,
   ) {}
 
   /**
@@ -54,7 +55,7 @@ export class AdminsService {
         throw new Error('Member not found');
       }
 
-      const password = generateTemporaryPassword();
+      const password = this.passwordService.generateTemporaryPassword();
 
       const admin = this.adminRepository.create({
         id,
@@ -159,7 +160,9 @@ export class AdminsService {
   async update(id: string, updateAdminDto: UpdateAdminDto): Promise<Admin> {
     await this.findOne(id);
 
-    const hashedPassword = await hashPassword(updateAdminDto.password);
+    const hashedPassword = await this.passwordService.hashPassword(
+      updateAdminDto.password,
+    );
     await this.adminRepository.update(id, {
       ...updateAdminDto,
       password: hashedPassword,
