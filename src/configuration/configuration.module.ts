@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { envSchema } from '@configuration/schemas/env.schema';
 import { JwtModule } from '@nestjs/jwt';
-import { ENV_VAR } from './enum/env';
+import { envSchema } from '@configuration/schemas/env.schema';
+import { ENV_VAR } from '@configuration/enum/env';
 
 @Module({
   imports: [

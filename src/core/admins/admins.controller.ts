@@ -10,16 +10,16 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { AdminsService } from './admins.service';
-import { CreateAdminDto } from './dto/create-admin.dto';
-import { UpdateAdminDto } from './dto/update-admin.dto';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { Admin } from './entities/admin.entity';
+import { MODULES } from '@shared/enums/modules';
 import { Authorization } from '@common/guards/Authorization.guard';
 import { AuthPermission } from '@common/decorators/auth-permission.decorator';
-import { MODULES } from '@shared/enums/modules';
 import { PERMISSIONS } from '@shared/enums/permissions';
+import { UpdateAdminDto } from '@admins/dto/update-admin.dto';
+import { CreateAdminDto } from '@admins/dto/create-admin.dto';
+import { AdminsService } from '@admins/admins.service';
+import { Admin } from '@admins/entities/admin.entity';
 
 @Controller('admins')
 @UseGuards(Authorization)

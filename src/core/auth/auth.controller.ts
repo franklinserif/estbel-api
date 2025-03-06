@@ -1,3 +1,4 @@
+import { Response } from 'express';
 import {
   Body,
   Controller,
@@ -7,12 +8,11 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
+import { JwtGuard } from '@common/guards/jwt.guard';
 import { AuthService } from '@auth/auth.service';
-import { LoginDto } from './dtos/login.dto';
-import { Response } from 'express';
+import { LoginDto } from '@auth/dtos/login.dto';
 import { ConfigService } from '@nestjs/config';
 import { ENV_VAR } from '@configuration/enum/env';
-import { JwtGuard } from '../../common/guards/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
