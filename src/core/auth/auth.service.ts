@@ -13,6 +13,13 @@ export class AuthService {
     private passwordService: PasswordService,
   ) {}
 
+  /**
+   * Authenticates an admin user and generates access and refresh tokens
+   * @param {string} email - The admin's email address
+   * @param {string} password - The admin's password
+   * @returns {Promise<Tokens>} Object containing access and refresh tokens
+   * @throws {UnauthorizedException} If the password is invalid
+   */
   async signIn(email: string, password: string): Promise<any> {
     const admin = await this.admisnService.findByEmail(email);
 
@@ -36,6 +43,12 @@ export class AuthService {
     return { accessToken, refreshToken } as Tokens;
   }
 
+  /**
+   * Validates an admin's credentials
+   * @param {string} email - The admin's email address
+   * @param {string} password - The admin's password
+   * @returns {Promise<Admin | null>} Returns the admin object without password if valid, null otherwise
+   */
   async validateAdmin(email: string, password: string): Promise<Admin | null> {
     const admin = await this.admisnService.findByEmail(email);
 
