@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { envSchema } from '@configuration/schemas/env.schema';
 import { JwtModule } from '@nestjs/jwt';
-import { ENV_VAR } from './enum/env';
+import { envSchema } from '@configuration/schemas/env.schema';
+import { ENV_VAR } from '@configuration/enum/env';
+import { PasswordModule } from '@shared/libs/password/password.module';
 
 @Module({
   imports: [
@@ -26,7 +27,25 @@ import { ENV_VAR } from './enum/env';
         signOptions: { expiresIn: '15m' },
       }),
     }),
+    PasswordModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        defaultLength: configService.get<number>(
+          ENV_VAR.PASSWORD_DEFAULT_LENGTH,
+          12,
+        ),
+        defaultSaltRounds: configService.get<number>(
+          ENV_VAR.PASSWORD_SALT_ROUNDS,
+          10,
+        ),
+        useSymbolsByDefault: configService.get<boolean>(
+          ENV_VAR.PASSWORD_USE_SYMBOLS,
+          true,
+        ),
+      }),
+    }),
   ],
-  exports: [ConfigModule, JwtModule],
+  exports: [ConfigModule, JwtModule, PasswordModule],
 })
 export class ConfigurationModule {}

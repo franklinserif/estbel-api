@@ -2,8 +2,6 @@ import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { ReportsService } from '@reports/reports.service';
-import { CreateReportDto } from '@reports/dto/create-report.dto';
 import { Admin } from '@admins/entities/admin.entity';
 import { Member } from '@members/entities/member.entity';
 import { Group } from '@groups/entities/group.entity';
@@ -11,6 +9,8 @@ import { Authorization } from '@common/guards/Authorization.guard';
 import { AuthPermission } from '@common/decorators/auth-permission.decorator';
 import { MODULES } from '@shared/enums/modules';
 import { PERMISSIONS } from '@shared/enums/permissions';
+import { ReportsService } from '@reports/reports.service';
+import { CreateReportDto } from '@reports/dto/create-report.dto';
 
 @Controller('reports')
 @UseGuards(Authorization)
