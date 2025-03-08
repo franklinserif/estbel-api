@@ -158,24 +158,28 @@ export class AdminsService {
    * @throws {NotFoundException} If the admin is not found.
    */
   async update(id: string, updateAdminDto: UpdateAdminDto): Promise<Admin> {
-    await this.findOne(id);
+    const admin = await this.findOne(id);
 
+    if (updateAdminDto.password) {
     const hashedPassword = await this.passwordService.hashPassword(
       updateAdminDto.password,
     );
-    await this.adminRepository.update(id, {
-      ...updateAdminDto,
-      password: hashedPassword,
-    });
 
-    const admin = await this.findOne(id);
+      admin.password = updateAdminDto.password;
+      updateAdminDto.password = hashedPassword;
+    }
 
+    await this.adminRepository.update(id, updateAdminDto);
+
+    if (updateAdminDto.password) {
     this.eventEmitter.emit(AdminsEvents.UPDATE, {
       email: admin.member.email,
       firstName: admin.member.firstName,
       password: admin.password,
     } as GeneratedPasswordDto);
+    }
 
+    delete admin.password;
     return admin;
   }
 
