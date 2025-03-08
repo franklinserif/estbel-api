@@ -87,7 +87,7 @@ export class AdminsController {
    */
   @Delete(':id')
   @AuthPermission(MODULES.ADMINS, PERMISSIONS.DELETE)
-  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeleteResult> {
+  remove(@Param('id') id: string): Promise<DeleteResult> {
     return this.adminsService.remove(id);
   }
 }
