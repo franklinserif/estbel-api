@@ -1,12 +1,6 @@
-import crypto from 'crypto';
 import * as bcrypt from 'bcrypt';
+import generator from 'generate-password';
 import { Injectable, Inject } from '@nestjs/common';
-import {
-  UPPER_CASE,
-  LOWER_CASE,
-  NUMBERS,
-  SYMBOLS,
-} from '@shared/constants/password';
 import { IPasswordConfig, IPasswordService } from '@shared/interfaces/password';
 
 export const PASSWORD_CONFIG = 'PASSWORD_CONFIG';
@@ -26,37 +20,19 @@ export class PasswordService implements IPasswordService {
   /**
    * Generates a temporary password with a specified length.
    * @param {number} [length] - The length of the generated password.
-   * @param {boolean} [useSymbols] - Whether to include special characters.
    * @returns {string} The generated temporary password.
    */
-  public generateTemporaryPassword(
-    length: number = this.config.defaultLength,
-    useSymbols: boolean = this.config.useSymbolsByDefault,
-  ): string {
-    let characters = UPPER_CASE + LOWER_CASE + NUMBERS;
-
-    if (useSymbols) {
-      characters += SYMBOLS;
-    }
-
-    // Calculate the maximum value that doesn't produce bias (256 is the range of a byte)
-    const maxValid = 256 - (256 % characters.length);
-    let password = '';
-
-    for (let i = 0; i < length; i++) {
-      let randomByte: number;
-
-      // "Rejection sampling":
-      // Generate a byte and if it's outside 'maxValid', repeat
-      do {
-        randomByte = crypto.randomBytes(1)[0];
-      } while (randomByte >= maxValid);
-
-      // Now we can safely apply the modulo
-      password += characters[randomByte % characters.length];
-    }
-
-    return password;
+  public generateTemporaryPassword(length: number = 16): string {
+    return (
+      '1T' +
+      generator.generate({
+        length,
+        numbers: true,
+        symbols: true,
+        uppercase: true,
+        lowercase: true,
+      })
+    );
   }
 
   /**
@@ -83,6 +59,6 @@ export class PasswordService implements IPasswordService {
     password: string,
     hashedPassword: string,
   ): Promise<boolean> {
-    return bcrypt.compare(password, hashedPassword);
+    return await bcrypt.compare(password, hashedPassword);
   }
 }
