@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { OnEvent } from '@nestjs/event-emitter';
+import { ENV_VAR } from '@configuration/enum/env';
 import { render } from '@react-email/components';
 import { NewAccount } from '@emails/templates/NewAccount.template';
 import { NewAccountEmailDto } from '@emails/dtos/NewAccountEmail.dto';
 import { GeneratedPasswordDto } from '@emails/dtos/generatedPassword.dto';
 import { NewPassword } from '@emails/templates/NewPassword.template';
 import { AdminsEvents } from '@admins/enums/admins';
-import { ENV_VAR } from '@configuration/enum/env';
 
 @Injectable()
 export class EmailService {

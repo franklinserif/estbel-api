@@ -28,6 +28,10 @@ export const envSchema = z.object({
     .string()
     .min(1, 'ADMIN_RESET_PASSWORD_LINK is required'),
   JWT_SECRET: z.string().min(1, 'JWT_SECRET is required'),
+
+  PASSWORD_DEFAULT_LENGTH: z.coerce.number().default(12),
+  PASSWORD_SALT_ROUNDS: z.coerce.number().default(10),
+  PASSWORD_USE_SYMBOLS: z.coerce.boolean().default(true),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;

@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
-import { MemberStatusService } from './member-status.service';
-import { MemberStatus } from './entities/member-status.entity';
-import { MEMBERS_STATUS } from '@databases/seeds/mock/member-types';
-import { CreateMemberStatusDto } from './dto/create-member-status.dto';
 import { DeleteResult } from 'typeorm';
+import { MEMBERS_STATUS } from '@databases/seeds/mock/member-types';
+import { MemberStatusService } from '@memberStatus/member-status.service';
+import { CreateMemberStatusDto } from '@memberStatus/dto/create-member-status.dto';
+import { MemberStatus } from '@memberStatus/entities/member-status.entity';
 
 describe('member-status', () => {
   let memberStatusService: MemberStatusService;

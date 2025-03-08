@@ -13,17 +13,17 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { AttendancesService } from '@attendances/attendances.service';
-import { EventsService } from '@events/events.service';
-import { ScheduleService } from '@events/schedule.service';
-import { Event } from '@events/entities/event.entity';
-import { Attendance } from '@attendances/entities/attendance.entity';
-import { CreateEventDto } from '@events/dto/create-event.dto';
-import { UpdateEventDto } from '@events/dto/update-event.dto';
 import { Authorization } from '@common/guards/Authorization.guard';
 import { AuthPermission } from '@common/decorators/auth-permission.decorator';
 import { MODULES } from '@shared/enums/modules';
 import { PERMISSIONS } from '@shared/enums/permissions';
 import { idsDto } from '@shared/dtos/ids.dto';
+import { Attendance } from '@attendances/entities/attendance.entity';
+import { EventsService } from '@events/events.service';
+import { ScheduleService } from '@events/schedule.service';
+import { Event } from '@events/entities/event.entity';
+import { CreateEventDto } from '@events/dto/create-event.dto';
+import { UpdateEventDto } from '@events/dto/update-event.dto';
 
 @Controller('events')
 @UseGuards(Authorization)

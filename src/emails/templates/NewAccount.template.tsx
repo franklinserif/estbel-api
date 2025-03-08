@@ -35,17 +35,7 @@ export const NewAccount = (props: Props) => {
       <p style={{ fontSize: '16px' }}>
         Puedes entrar en tu cuenta usando esta contraseña provisional{' '}
       </p>
-      <span
-        style={{
-          fontSize: '22px',
-          background: '#F6F4F0',
-          padding: '5px',
-          borderRadius: '10px',
-          color: '#2E5077',
-        }}
-      >
-        {password}
-      </span>
+      <p style={{ fontSize: '16px' }}>🔑 {password}</p>
       <p style={{ fontSize: '16px' }}>Bendiciones,</p>
       <p style={{ fontSize: '16px', fontStyle: 'italic' }}> Estbel team</p>
     </Html>
