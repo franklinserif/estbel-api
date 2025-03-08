@@ -4,6 +4,8 @@ import { AdminsService } from '@admins/admins.service';
 import { PasswordService } from '@shared/libs/password/password.service';
 import { Payload, Tokens } from './interfaces/jw';
 import { Admin } from '@admins/entities/admin.entity';
+import { ChangePasswordDto } from './dtos/change-password.dto';
+import { ResetPasswordDto } from './dtos/reset-password';
 
 @Injectable()
 export class AuthService {
@@ -59,10 +61,56 @@ export class AuthService {
 
     if (isValidPassword) {
       delete admin.password;
-
       return admin;
     }
 
     return null;
+  }
+
+  /**
+   * Changes the password for an admin user
+   * @param {ChangePasswordDto} changePasswordDto - The data to update the admin.
+   * @returns {Promise<Admin>} The updated admin.
+   * @throws {UnauthorizedException} If the password is invalid
+   */
+  async changePassword(changePasswordDto: ChangePasswordDto): Promise<Admin> {
+    const admin = await this.admisnService.findByEmail(changePasswordDto.email);
+
+    console.log(admin);
+
+    const isValidPassword = await this.passwordService.comparePassword(
+      changePasswordDto.password,
+      admin.password,
+    );
+
+    if (!isValidPassword) {
+      throw new UnauthorizedException(`invalid password`);
+    }
+
+    admin.password = changePasswordDto.newPassword;
+
+    await this.admisnService.update(admin.id, {
+      password: changePasswordDto.newPassword,
+    });
+
+    delete admin.password;
+
+    return admin;
+  }
+
+  /**
+   * Resets the password for an admin user
+   * @param {ResetPasswordDto} resetPasswordDto - The data to update the admin.
+   * @returns {Promise<Admin>} The updated admin.
+   */
+  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<Admin> {
+    const admin = await this.admisnService.findByEmail(resetPasswordDto.email);
+
+    const newPassword = this.passwordService.generateTemporaryPassword();
+
+    await this.admisnService.update(admin.id, { password: newPassword });
+    delete admin.password;
+
+    return admin;
   }
 }
