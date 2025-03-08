@@ -161,9 +161,9 @@ export class AdminsService {
     const admin = await this.findOne(id);
 
     if (updateAdminDto.password) {
-    const hashedPassword = await this.passwordService.hashPassword(
-      updateAdminDto.password,
-    );
+      const hashedPassword = await this.passwordService.hashPassword(
+        updateAdminDto.password,
+      );
 
       admin.password = updateAdminDto.password;
       updateAdminDto.password = hashedPassword;
@@ -172,11 +172,11 @@ export class AdminsService {
     await this.adminRepository.update(id, updateAdminDto);
 
     if (updateAdminDto.password) {
-    this.eventEmitter.emit(AdminsEvents.UPDATE, {
-      email: admin.member.email,
-      firstName: admin.member.firstName,
-      password: admin.password,
-    } as GeneratedPasswordDto);
+      this.eventEmitter.emit(AdminsEvents.UPDATE, {
+        email: admin.member.email,
+        firstName: admin.member.firstName,
+        password: admin.password,
+      } as GeneratedPasswordDto);
     }
 
     delete admin.password;
