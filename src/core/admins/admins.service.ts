@@ -87,7 +87,7 @@ export class AdminsService {
       this.eventEmitter.emit(AdminsEvents.CREATE, {
         to: admin.member.email,
         firstName: admin.member.firstName,
-        password: admin.password,
+        password: password,
         email: admin.member.email,
       } as NewAccountEmailDto);
 
