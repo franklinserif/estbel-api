@@ -56,11 +56,11 @@ export class AdminsService {
       }
 
       const password = this.passwordService.generateTemporaryPassword();
-
+      const hashedPassword = await this.passwordService.hashPassword(password);
       const admin = this.adminRepository.create({
         id,
         member,
-        password,
+        password: hashedPassword,
         email,
       });
 
