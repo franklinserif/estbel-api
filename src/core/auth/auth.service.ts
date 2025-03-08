@@ -28,7 +28,7 @@ export class AuthService {
       admin.password,
     );
 
-    if (isValidPassword) {
+    if (!isValidPassword) {
       throw new UnauthorizedException(`invalid password`);
     }
 
