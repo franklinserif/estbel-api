@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { GroupType } from '@groupTypes/entities/group-types.entity';
-import { GroupTypesService } from './group-types.service';
-import { CreateGroupTypesDto } from '@groupTypes/dto/create-group-types.dto';
-import { UpdateGroupTypesDto } from '@groupTypes/dto/update-group-types.dto';
 import { NotFoundException } from '@nestjs/common';
 import { IQueryParams } from '@common/interfaces/decorators';
+import { GroupType } from '@groupTypes/entities/group-types.entity';
+import { GroupTypesService } from '@groupTypes/group-types.service';
+import { CreateGroupTypesDto } from '@groupTypes/dto/create-group-types.dto';
+import { UpdateGroupTypesDto } from '@groupTypes/dto/update-group-types.dto';
 
 describe('GroupTypesService', () => {
   let service: GroupTypesService;

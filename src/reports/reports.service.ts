@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { AdminsService } from '@admins/admins.service';
+import { MembersService } from '@members/members.service';
+import { GroupsService } from '@groups/groups.service';
+import { membersDoc } from '@reports/documents/members.report';
+import { groupsDoc } from '@reports/documents/groups.report';
 import { PrinterService } from '@reports/printer.service';
 import { testReport } from '@reports/documents/test.report';
 import { adminsDoc } from '@reports/documents/admins.report';
-import { MembersService } from '@members/members.service';
-import { membersDoc } from '@reports/documents/members.report';
-import { GroupsService } from '@groups/groups.service';
-import { groupsDoc } from '@reports/documents/groups.report';
 import { groupMembersDoc } from '@reports/documents/groupMembers.report';
 import { CreateReportDto } from '@reports/dto/create-report.dto';
 

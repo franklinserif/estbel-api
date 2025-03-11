@@ -2,7 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { generateTemporaryPassword, hashPassword } from '@shared/libs/password';
+import { PasswordService } from '@shared/libs/password/password.service';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { Module } from '@modules/entities/module.entity';
 import { Accesses } from '@accesses/entities/accesses.entity';
@@ -23,6 +23,7 @@ export class AdminsService {
     @InjectRepository(Accesses)
     private readonly accessRepository: Repository<Accesses>,
     private readonly eventEmitter: EventEmitter2,
+    private readonly passwordService: PasswordService,
   ) {}
 
   /**
@@ -54,12 +55,12 @@ export class AdminsService {
         throw new Error('Member not found');
       }
 
-      const password = generateTemporaryPassword();
-
+      const password = this.passwordService.generateTemporaryPassword();
+      const hashedPassword = await this.passwordService.hashPassword(password);
       const admin = this.adminRepository.create({
         id,
         member,
-        password,
+        password: hashedPassword,
         email,
       });
 
@@ -86,7 +87,7 @@ export class AdminsService {
       this.eventEmitter.emit(AdminsEvents.CREATE, {
         to: admin.member.email,
         firstName: admin.member.firstName,
-        password: admin.password,
+        password: password,
         email: admin.member.email,
       } as NewAccountEmailDto);
 
@@ -157,22 +158,28 @@ export class AdminsService {
    * @throws {NotFoundException} If the admin is not found.
    */
   async update(id: string, updateAdminDto: UpdateAdminDto): Promise<Admin> {
-    await this.findOne(id);
-
-    const hashedPassword = await hashPassword(updateAdminDto.password);
-    await this.adminRepository.update(id, {
-      ...updateAdminDto,
-      password: hashedPassword,
-    });
-
     const admin = await this.findOne(id);
 
-    this.eventEmitter.emit(AdminsEvents.UPDATE, {
-      email: admin.member.email,
-      firstName: admin.member.firstName,
-      password: admin.password,
-    } as GeneratedPasswordDto);
+    if (updateAdminDto.password) {
+      const hashedPassword = await this.passwordService.hashPassword(
+        updateAdminDto.password,
+      );
 
+      admin.password = updateAdminDto.password;
+      updateAdminDto.password = hashedPassword;
+    }
+
+    await this.adminRepository.update(id, updateAdminDto);
+
+    if (updateAdminDto.password) {
+      this.eventEmitter.emit(AdminsEvents.UPDATE, {
+        email: admin.member.email,
+        firstName: admin.member.firstName,
+        password: admin.password,
+      } as GeneratedPasswordDto);
+    }
+
+    delete admin.password;
     return admin;
   }
 

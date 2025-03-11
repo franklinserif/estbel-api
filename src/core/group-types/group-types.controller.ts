@@ -9,17 +9,17 @@ import {
   ParseUUIDPipe,
   UseGuards,
 } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { QueryParams } from '@common/decorators/query-params.decorator';
 import { IQueryParams } from '@common/interfaces/decorators';
-import { DeleteResult } from 'typeorm';
 import { GroupType } from '@groupTypes/entities/group-types.entity';
-import { GroupTypesService } from '@groupTypes/group-types.service';
-import { CreateGroupTypesDto } from '@groupTypes/dto/create-group-types.dto';
-import { UpdateGroupTypesDto } from '@groupTypes/dto/update-group-types.dto';
-import { Authorization } from '@common/guards/Authorization.guard';
-import { AuthPermission } from '@common/decorators/auth-permission.decorator';
 import { MODULES } from '@shared/enums/modules';
 import { PERMISSIONS } from '@shared/enums/permissions';
+import { Authorization } from '@common/guards/Authorization.guard';
+import { AuthPermission } from '@common/decorators/auth-permission.decorator';
+import { CreateGroupTypesDto } from '@groupTypes/dto/create-group-types.dto';
+import { UpdateGroupTypesDto } from '@groupTypes/dto/update-group-types.dto';
+import { GroupTypesService } from '@groupTypes/group-types.service';
 
 @Controller('group-types')
 @UseGuards(Authorization)

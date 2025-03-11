@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { v4 as uuid } from 'uuid';
-import { GroupsService } from './groups.service';
-import { Group } from './entities/group.entity';
 import { GROUPS } from '@databases/seeds/mock/groups';
 import { GROUP_TYPES } from '@databases/seeds/mock/group-types';
 import { Member } from '@members/entities/member.entity';
 import { GroupTypesService } from '@groupTypes/group-types.service';
 import { NotFoundException } from '@nestjs/common';
-import { UpdateGroupDto } from './dto/update-group.dto';
+import { Group } from '@groups/entities/group.entity';
+import { UpdateGroupDto } from '@groups/dto/update-group.dto';
+import { GroupsService } from '@groups/groups.service';
 
 const groupsWithIds = GROUPS.map((group) => ({
   ...group,

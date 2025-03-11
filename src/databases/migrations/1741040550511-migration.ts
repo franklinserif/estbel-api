@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Migration1740865033892 implements MigrationInterface {
-  name = 'Migration1740865033892';
+export class Migration1741040550511 implements MigrationInterface {
+  name = 'Migration1741040550511';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -26,7 +26,7 @@ export class Migration1740865033892 implements MigrationInterface {
       `CREATE TABLE "admins" ("id" text NOT NULL, "password" text NOT NULL, "email" text NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "memberId" text, CONSTRAINT "UQ_e3b38270c97a854c48d2e80874e" UNIQUE ("id"), CONSTRAINT "UQ_051db7d37d478a69a7432df1479" UNIQUE ("email"), CONSTRAINT "REL_b455a2a08052498484e856af7c" UNIQUE ("memberId"), CONSTRAINT "PK_e3b38270c97a854c48d2e80874e" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "access" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "moduleName" text NOT NULL, "canRead" boolean NOT NULL DEFAULT false, "canEdit" boolean NOT NULL DEFAULT false, "canDelete" boolean NOT NULL DEFAULT false, "canPrint" boolean NOT NULL DEFAULT false, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "adminId" text, "moduleId" uuid, CONSTRAINT "PK_e386259e6046c45ab06811584ed" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "access" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "moduleName" text NOT NULL, "canRead" boolean NOT NULL DEFAULT false, "canCreate" boolean NOT NULL DEFAULT false, "canEdit" boolean NOT NULL DEFAULT false, "canDelete" boolean NOT NULL DEFAULT false, "canPrint" boolean NOT NULL DEFAULT false, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "adminId" text, "moduleId" uuid, CONSTRAINT "PK_e386259e6046c45ab06811584ed" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "modules" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" text NOT NULL, "description" text NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_8cd1abde4b70e59644c98668c06" UNIQUE ("name"), CONSTRAINT "PK_7dbefd488bd96c5bf31f0ce0c95" PRIMARY KEY ("id"))`,

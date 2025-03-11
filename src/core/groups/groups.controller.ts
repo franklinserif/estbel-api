@@ -12,14 +12,14 @@ import {
 import { DeleteResult } from 'typeorm';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { QueryParams } from '@common/decorators/query-params.decorator';
-import { GroupsService } from '@groups/groups.service';
-import { CreateGroupDto } from '@groups/dto/create-group.dto';
-import { UpdateGroupDto } from '@groups/dto/update-group.dto';
-import { Group } from '@groups/entities/group.entity';
 import { Authorization } from '@common/guards/Authorization.guard';
 import { AuthPermission } from '@common/decorators/auth-permission.decorator';
 import { MODULES } from '@shared/enums/modules';
 import { PERMISSIONS } from '@shared/enums/permissions';
+import { GroupsService } from '@groups/groups.service';
+import { CreateGroupDto } from '@groups/dto/create-group.dto';
+import { UpdateGroupDto } from '@groups/dto/update-group.dto';
+import { Group } from '@groups/entities/group.entity';
 
 @Controller('groups')
 @UseGuards(Authorization)
