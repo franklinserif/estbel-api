@@ -6,7 +6,7 @@ import { EventUtils } from '@shared/libs/event';
 import { TIME_ZONE_CARACAS } from '@shared/constants/timeZone';
 import { EnumEvent } from '@events/enum/event';
 import { Event } from '@events/entities/event.entity';
-import { IJob } from '@events/interfaces/job';
+import { IJob } from '@jobs/interfaces/jobs';
 import { TEventState, IEvents } from '@events/interfaces/event';
 
 @Injectable()

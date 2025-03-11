@@ -28,11 +28,12 @@
       "@databases/*": ["src/databases/*"],
       "@reports/*": ["src/reports/*"],
       "@seeds/*": ["src/databases/seeds/*"],
-      "@events/*": ["src/events/*"],
       "@emails/*": ["src/emails/*"],
       "@notifications/*": ["src/notifications/*"],
       "@shared/*": ["src/shared/*"],
+      "@jobs/*": ["src/jobs/*"],
       // core
+      "@events/*": ["src/core/events/*"],
       "@auth/*": ["src/core/auth/*"],
       "@accesses/*": ["src/core/accesses/*"],
       "@modules/*": ["src/core/modules/*"],

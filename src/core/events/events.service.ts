@@ -6,7 +6,7 @@ import { JobInfo } from '@common/interfaces/schedule';
 import { IQueryParams } from '@common/interfaces/decorators';
 import { EnumEvent } from '@events/enum/event';
 import { Event } from '@events/entities/event.entity';
-import { ScheduleService } from '@events/schedule.service';
+import { ScheduleService } from '@jobs/schedule.service';
 import { CreateEventDto } from '@events/dto/create-event.dto';
 import { UpdateEventDto } from '@events/dto/update-event.dto';
 
