@@ -4,7 +4,7 @@ import { EventUtils } from '@shared/libs/event';
 import { JobInfo } from '@common/interfaces/schedule';
 import { Event } from '@events/entities/event.entity';
 import { EnumEvent } from '@events/enum/event';
-import { JobsService } from '@events/jobs.service';
+import { JobsService } from '@jobs/jobs.service';
 
 @Injectable()
 export class ScheduleService {

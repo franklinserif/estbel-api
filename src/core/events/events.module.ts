@@ -8,8 +8,7 @@ import { ConfigurationModule } from '@configuration/configuration.module';
 import { EventsService } from '@events/events.service';
 import { EventsController } from '@events/events.controller';
 import { Event } from '@events/entities/event.entity';
-import { ScheduleService } from '@events/schedule.service';
-import { JobsService } from '@events/jobs.service';
+import { JobsModule } from '@jobs/jobs.module';
 
 @Module({
   controllers: [EventsController],
@@ -18,8 +17,9 @@ import { JobsService } from '@events/jobs.service';
     MembersModule,
     forwardRef(() => AdminsModule),
     ConfigurationModule,
+    JobsModule,
   ],
-  providers: [EventsService, ScheduleService, AttendancesService, JobsService],
+  providers: [EventsService, AttendancesService],
   exports: [TypeOrmModule, EventsService],
 })
 export class EventsModule {}
