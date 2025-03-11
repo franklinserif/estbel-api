@@ -42,6 +42,11 @@ export class Authorization implements CanActivate {
       throw new UnauthorizedException();
     }
 
+    const refreshToken = request.cookies?.refreshToken;
+    if (!refreshToken) {
+      throw new UnauthorizedException('Refresh token is missing');
+    }
+
     try {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get<string>(ENV_VAR.JWT_SECRET),
@@ -103,6 +108,11 @@ export class Authorization implements CanActivate {
           );
         }
       }
+
+      // Optionally, you can verify the refresh token here
+      // const refreshPayload = await this.jwtService.verifyAsync(refreshToken, {
+      //   secret: this.configService.get<string>(ENV_VAR.JWT_REFRESH_SECRET),
+      // });
     } catch (error) {
       throw new UnauthorizedException(`Token is not valid: ${error.message}`);
     }
