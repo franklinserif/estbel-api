@@ -5,11 +5,10 @@ import { EventsService } from '@events/events.service';
 import { EventsController } from '@events/events.controller';
 import { Event } from '@events/entities/event.entity';
 import { Attendance } from '@attendances/entities/attendance.entity';
-import { ScheduleService } from '@events/schedule.service';
 import { AttendancesService } from '@attendances/attendances.service';
-import { JobsService } from '@events/jobs.service';
 import { AdminsModule } from '@admins/admins.module';
 import { ConfigurationModule } from '@configuration/configuration.module';
+import { JobsModule } from '@jobs/jobs.module';
 
 @Module({
   controllers: [EventsController],
@@ -18,8 +17,9 @@ import { ConfigurationModule } from '@configuration/configuration.module';
     MembersModule,
     forwardRef(() => AdminsModule),
     ConfigurationModule,
+    JobsModule,
   ],
-  providers: [EventsService, ScheduleService, AttendancesService, JobsService],
+  providers: [EventsService, AttendancesService],
   exports: [TypeOrmModule, EventsService],
 })
 export class EventsModule {}

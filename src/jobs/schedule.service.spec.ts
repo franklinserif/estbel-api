@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ScheduleService } from './schedule.service';
-import { JobsService } from '@events/jobs.service';
+import { JobsService } from '@jobs/jobs.service';
 import { Event } from '@events/entities/event.entity';
 import { EnumEvent } from '@events/enum/event';
 import { EventUtils } from '@shared/libs/event';
