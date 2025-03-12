@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ENV_VAR } from '@configuration/enum/env';
 import { GlobalErrorFilter } from '@common/errorsFilters/globalErrorFilter';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
