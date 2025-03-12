@@ -46,8 +46,7 @@ export class AuthService {
       email: admin.email,
     };
 
-    const accessToken = this.jwtService.sign(payload, { expiresIn: '5m' });
-    const refreshToken = this.jwtService.sign(payload, { expiresIn: '15d' });
+    const { accessToken, refreshToken } = await this.generateTokens(payload);
 
     return { accessToken, refreshToken } as Tokens;
   }
@@ -137,6 +136,18 @@ export class AuthService {
     }
 
     return payload;
+  }
+
+  /**
+   * Generates access and refresh tokens
+   * @param {Payload} payload - The payload of the token
+   * @returns {Promise<Tokens>} The access and refresh tokens
+   */
+  private async generateTokens(payload: Payload): Promise<Tokens> {
+    const accessToken = this.jwtService.sign(payload, { expiresIn: '5m' });
+    const refreshToken = this.jwtService.sign(payload, { expiresIn: '15d' });
+
+    return { accessToken, refreshToken } as Tokens;
   }
 
   /**
