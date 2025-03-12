@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { ENV_VAR } from '@configuration/enum/env';
 import {
   FIFTEEN_DAYS_IN_SECONDS,
-  TEN_DAYS_IN_SECONDS,
+  FIVE_MINUTES_IN_SECONDS,
 } from '@shared/constants/time';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class AuthService {
       throw new UnauthorizedException(`invalid password`);
     }
 
-    const payload: Payload = {
+    const payload: Omit<Payload, 'expiresIn'> = {
       sub: admin.id,
       email: admin.email,
     };
@@ -140,10 +140,12 @@ export class AuthService {
 
   /**
    * Generates access and refresh tokens
-   * @param {Payload} payload - The payload of the token
+   * @param {Omit<Payload, 'expiresIn'>} payload - The payload of the token
    * @returns {Promise<Tokens>} The access and refresh tokens
    */
-  private async generateTokens(payload: Payload): Promise<Tokens> {
+  private async generateTokens(
+    payload: Omit<Payload, 'expiresIn'>,
+  ): Promise<Tokens> {
     const accessToken = this.jwtService.sign(payload, { expiresIn: '5m' });
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '15d' });
 
@@ -176,6 +178,16 @@ export class AuthService {
       throw new UnauthorizedException('Invalid token');
     }
 
+    if (this.isTokenExpired(accessPayload.expiresIn, FIVE_MINUTES_IN_SECONDS)) {
+      throw new UnauthorizedException('Access token expired');
+    }
+
+    if (
+      this.isTokenExpired(resfreshPayload.expiresIn, FIFTEEN_DAYS_IN_SECONDS)
+    ) {
+      throw new UnauthorizedException('Refresh token expired');
+    }
+
     const admin = await this.admisnService.findOne(accessPayload.sub);
 
     if (!admin) {
@@ -190,15 +202,12 @@ export class AuthService {
    * @param {number} expiresIn - The expiration time of the token in seconds
    * @returns {boolean} True if the token is expired, false otherwise
    */
-  private isTokenExpired(expiresIn: number): boolean {
+  private isTokenExpired(expiresIn: number, expirationTime: number): boolean {
     const currentTimeInSeconds = Math.floor(Date.now() / 1000);
     const expirationTimeInSeconds = currentTimeInSeconds + expiresIn;
 
     const timeUntilExpiration = expirationTimeInSeconds - currentTimeInSeconds;
 
-    return (
-      timeUntilExpiration > TEN_DAYS_IN_SECONDS &&
-      timeUntilExpiration < FIFTEEN_DAYS_IN_SECONDS
-    );
+    return timeUntilExpiration > expirationTime;
   }
 }
