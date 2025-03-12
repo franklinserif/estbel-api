@@ -106,7 +106,7 @@
     ],
     "moduleNameMapper": {
       "@emails/(.*)$": "<rootDir>/emails/$1",
-      "@notification/(.*)$": "<rootDir>/notification/$1",
+      "@notifications/(.*)$": "<rootDir>/notifications/$1",
       "@jobs/(.*)$": "<rootDir>/jobs/$1",
       "@reports/(.*)$": "<rootDir>/reports/$1",
       "@common/(.*)$": "<rootDir>/common/$1",
