@@ -152,14 +152,25 @@ export class AuthService {
 
   /**
    * Verifies a access and refresh tokens
-   * @param {string} accessToken - The access token to verify
-   * @param {string} refresToken - The refresh token to verify
+   * @param {string | undefined} accessToken - The access token to verify
+   * @param {string | undefined} refreshToken - The refresh token to verify
    * @returns {Promise<Admin>} The admin information
    * @throws {UnauthorizedException} If the token is invalid
    */
-  async verifyTokens(accessToken: string, refresToken: string): Promise<Admin> {
+  async verifyTokens(
+    accessToken: string | undefined,
+    refreshToken: string | undefined,
+  ): Promise<Admin> {
+    if (!accessToken) {
+      throw new UnauthorizedException('Access token is missing');
+    }
+
+    if (!refreshToken) {
+      throw new UnauthorizedException('Refresh token is missing');
+    }
+
     const accessPayload = await this.verifyToken(accessToken);
-    const resfreshPayload = await this.verifyToken(refresToken);
+    const resfreshPayload = await this.verifyToken(refreshToken);
 
     if (accessPayload.sub !== resfreshPayload.sub) {
       throw new UnauthorizedException('Invalid token');
