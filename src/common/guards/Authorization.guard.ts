@@ -5,24 +5,19 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from '@auth/decorators/public';
-import { ENV_VAR } from '@configuration/enum/env';
-import { AdminsService } from '@admins/admins.service';
 import {
   MODULE_PERMISSION_KEY,
   PermissionType,
 } from '@common/decorators/auth-permission.decorator';
+import { AuthService } from '@auth/auth.service';
 
 @Injectable()
 export class Authorization implements CanActivate {
   constructor(
-    private jwtService: JwtService,
     private reflector: Reflector,
-    private configService: ConfigService,
-    private adminsService: AdminsService,
+    private authService: AuthService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -36,31 +31,15 @@ export class Authorization implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
 
-    if (!token) {
-      throw new UnauthorizedException();
-    }
-
-    const refreshToken = request.cookies?.refreshToken;
-    if (!refreshToken) {
-      throw new UnauthorizedException('Refresh token is missing');
-    }
+    const accessToken = this.extractTokenFromHeader(request);
+    const refreshToken = request.cookies?.refreshToken as string | undefined;
 
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.get<string>(ENV_VAR.JWT_SECRET),
-      });
-
-      if (!payload?.sub) {
-        throw new UnauthorizedException();
-      }
-
-      const admin = await this.adminsService.findOne(payload.sub);
-
-      if (!admin) {
-        throw new UnauthorizedException();
-      }
+      const admin = await this.authService.verifyTokens(
+        accessToken,
+        refreshToken,
+      );
 
       request['user'] = admin;
 
@@ -108,11 +87,6 @@ export class Authorization implements CanActivate {
           );
         }
       }
-
-      // Optionally, you can verify the refresh token here
-      // const refreshPayload = await this.jwtService.verifyAsync(refreshToken, {
-      //   secret: this.configService.get<string>(ENV_VAR.JWT_REFRESH_SECRET),
-      // });
     } catch (error) {
       throw new UnauthorizedException(`Token is not valid: ${error.message}`);
     }
