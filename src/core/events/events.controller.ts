@@ -20,7 +20,7 @@ import { PERMISSIONS } from '@shared/enums/permissions';
 import { idsDto } from '@shared/dtos/ids.dto';
 import { Attendance } from '@attendances/entities/attendance.entity';
 import { EventsService } from '@events/events.service';
-import { ScheduleService } from '@events/schedule.service';
+import { ScheduleService } from '@jobs/schedule.service';
 import { Event } from '@events/entities/event.entity';
 import { CreateEventDto } from '@events/dto/create-event.dto';
 import { UpdateEventDto } from '@events/dto/update-event.dto';
