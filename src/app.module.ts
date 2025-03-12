@@ -20,6 +20,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AttendancesModule } from '@attendances/attendances.module';
 import { JobsModule } from '@jobs/jobs.module';
+import { StatsModule } from './stats/stats.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { JobsModule } from '@jobs/jobs.module';
     ConfigurationModule,
     AttendancesModule,
     JobsModule,
+    StatsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

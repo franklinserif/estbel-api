@@ -109,6 +109,7 @@
       "@notifications/(.*)$": "<rootDir>/notifications/$1",
       "@jobs/(.*)$": "<rootDir>/jobs/$1",
       "@reports/(.*)$": "<rootDir>/reports/$1",
+      "@stats/(.*)$": "<rootDir>/stats/$1",
       "@common/(.*)$": "<rootDir>/common/$1",
       "@shared/(.*)$": "<rootDir>/shared/$1",
       "@databases/(.*)$": "<rootDir>/databases/$1",
