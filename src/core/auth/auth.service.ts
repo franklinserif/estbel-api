@@ -41,7 +41,7 @@ export class AuthService {
       throw new UnauthorizedException(`invalid password`);
     }
 
-    const payload: Omit<Payload, 'expiresIn'> = {
+    const payload: Omit<Payload, 'exp'> = {
       sub: admin.id,
       email: admin.email,
     };
@@ -82,8 +82,6 @@ export class AuthService {
   async changePassword(changePasswordDto: ChangePasswordDto): Promise<Admin> {
     const admin = await this.admisnService.findByEmail(changePasswordDto.email);
 
-    console.log(admin);
-
     const isValidPassword = await this.passwordService.comparePassword(
       changePasswordDto.password,
       admin.password,
@@ -121,12 +119,54 @@ export class AuthService {
   }
 
   /**
+   * Refreshes the access and refresh tokens for an admin user
+   * @param {string | undefined} oldAccessToken - The old access token
+   * @param {string | undefined} oldRefreshToken - The old refresh token
+   * @returns {Promise<Tokens>} The new access and refresh tokens
+   */
+  async refreshTokens(
+    oldAccessToken: string | undefined,
+    oldRefreshToken: string | undefined,
+  ): Promise<Tokens> {
+    const accessPayload = await this.verifyToken(oldAccessToken);
+    const resfreshPayload = await this.verifyToken(oldRefreshToken);
+
+    if (accessPayload.sub !== resfreshPayload.sub) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    const isRefreshExpired = this.isTokenExpired(
+      resfreshPayload.exp,
+      FIFTEEN_DAYS_IN_SECONDS,
+    );
+
+    if (isRefreshExpired) {
+      throw new UnauthorizedException('Refresh token expired');
+    }
+
+    const admin = await this.admisnService.findOne(accessPayload.sub);
+
+    const payload: Omit<Payload, 'exp'> = {
+      sub: admin.id,
+      email: admin.email,
+    };
+
+    const { accessToken, refreshToken } = await this.generateTokens(payload);
+
+    return { accessToken, refreshToken } as Tokens;
+  }
+
+  /**
    * Verifies a token
    * @param {string} token - The token to verify
    * @returns {Promise<Payload>} The payload of the token
    * @throws {UnauthorizedException} If the token is invalid
    */
   async verifyToken(token: string): Promise<Payload> {
+    if (!token) {
+      throw new UnauthorizedException('Token is missing');
+    }
+
     const payload = await this.jwtService.verifyAsync(token, {
       secret: this.configService.get<string>(ENV_VAR.JWT_SECRET),
     });
@@ -143,9 +183,7 @@ export class AuthService {
    * @param {Omit<Payload, 'expiresIn'>} payload - The payload of the token
    * @returns {Promise<Tokens>} The access and refresh tokens
    */
-  private async generateTokens(
-    payload: Omit<Payload, 'expiresIn'>,
-  ): Promise<Tokens> {
+  private async generateTokens(payload: Omit<Payload, 'exp'>): Promise<Tokens> {
     const accessToken = this.jwtService.sign(payload, { expiresIn: '5m' });
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '15d' });
 
@@ -163,14 +201,6 @@ export class AuthService {
     accessToken: string | undefined,
     refreshToken: string | undefined,
   ): Promise<Admin> {
-    if (!accessToken) {
-      throw new UnauthorizedException('Access token is missing');
-    }
-
-    if (!refreshToken) {
-      throw new UnauthorizedException('Refresh token is missing');
-    }
-
     const accessPayload = await this.verifyToken(accessToken);
     const resfreshPayload = await this.verifyToken(refreshToken);
 
@@ -178,21 +208,21 @@ export class AuthService {
       throw new UnauthorizedException('Invalid token');
     }
 
-    if (this.isTokenExpired(accessPayload.expiresIn, FIVE_MINUTES_IN_SECONDS)) {
-      throw new UnauthorizedException('Access token expired');
-    }
+    const isAccessExpired = this.isTokenExpired(
+      accessPayload.exp,
+      FIVE_MINUTES_IN_SECONDS,
+    );
 
-    if (
-      this.isTokenExpired(resfreshPayload.expiresIn, FIFTEEN_DAYS_IN_SECONDS)
-    ) {
-      throw new UnauthorizedException('Refresh token expired');
+    const isRefreshExpired = this.isTokenExpired(
+      resfreshPayload.exp,
+      FIFTEEN_DAYS_IN_SECONDS,
+    );
+
+    if (isAccessExpired || isRefreshExpired) {
+      throw new UnauthorizedException('token expired');
     }
 
     const admin = await this.admisnService.findOne(accessPayload.sub);
-
-    if (!admin) {
-      throw new UnauthorizedException('Invalid token');
-    }
 
     return admin;
   }
@@ -202,12 +232,18 @@ export class AuthService {
    * @param {number} expiresIn - The expiration time of the token in seconds
    * @returns {boolean} True if the token is expired, false otherwise
    */
-  private isTokenExpired(expiresIn: number, expirationTime: number): boolean {
+  private isTokenExpired(
+    expiresIn: number | undefined,
+    expirationTime: number,
+  ): boolean {
+    if (!expiresIn) {
+      return true;
+    }
+
     const currentTimeInSeconds = Math.floor(Date.now() / 1000);
     const expirationTimeInSeconds = currentTimeInSeconds + expiresIn;
 
     const timeUntilExpiration = expirationTimeInSeconds - currentTimeInSeconds;
-
-    return timeUntilExpiration > expirationTime;
+    return timeUntilExpiration < expirationTime;
   }
 }

@@ -6,8 +6,8 @@ import {
   Post,
   Res,
   UseGuards,
-  Request,
   Patch,
+  Request,
 } from '@nestjs/common';
 import { JwtGuard } from '@common/guards/jwt.guard';
 import { AuthService } from '@auth/auth.service';
@@ -51,6 +51,12 @@ export class AuthController {
   }
 
   @UseGuards(JwtGuard)
+  @Patch('refresh-tokens')
+  refreshTokens(@Request() req, @Body() body: { accessToken: string }) {
+    const { refreshToken } = req.cookies;
+    return this.authService.refreshTokens(body.accessToken, refreshToken);
+  }
+
   @Get('test')
   test(@Request() req) {
     return req.user;
