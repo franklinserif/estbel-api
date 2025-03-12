@@ -19,7 +19,7 @@ import { ConfigurationModule } from '@configuration/configuration.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AttendancesModule } from '@attendances/attendances.module';
-import { JobsModule } from './jobs/jobs.module';
+import { JobsModule } from '@jobs/jobs.module';
 
 @Module({
   imports: [

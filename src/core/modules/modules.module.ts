@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ModulesService } from './modules.service';
 import { ModulesController } from './modules.controller';
 import { Module as ModuleEntity } from './entities/module.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from '@auth/auth.module';
 import { AdminsModule } from '@admins/admins.module';
 import { ConfigurationModule } from '@configuration/configuration.module';
 
@@ -10,7 +11,8 @@ import { ConfigurationModule } from '@configuration/configuration.module';
   controllers: [ModulesController],
   imports: [
     TypeOrmModule.forFeature([ModuleEntity]),
-    AdminsModule,
+    forwardRef(() => AuthModule),
+    forwardRef(() => AdminsModule),
     ConfigurationModule,
   ],
   providers: [ModulesService],

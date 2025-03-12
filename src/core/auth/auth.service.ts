@@ -6,6 +6,12 @@ import { Payload, Tokens } from './interfaces/jw';
 import { Admin } from '@admins/entities/admin.entity';
 import { ChangePasswordDto } from './dtos/change-password.dto';
 import { ResetPasswordDto } from './dtos/reset-password';
+import { ConfigService } from '@nestjs/config';
+import { ENV_VAR } from '@configuration/enum/env';
+import {
+  FIFTEEN_DAYS_IN_SECONDS,
+  FIVE_MINUTES_IN_SECONDS,
+} from '@shared/constants/time';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +19,7 @@ export class AuthService {
     private admisnService: AdminsService,
     private jwtService: JwtService,
     private passwordService: PasswordService,
+    private configService: ConfigService,
   ) {}
 
   /**
@@ -34,13 +41,12 @@ export class AuthService {
       throw new UnauthorizedException(`invalid password`);
     }
 
-    const payload: Payload = {
+    const payload: Omit<Payload, 'expiresIn'> = {
       sub: admin.id,
       email: admin.email,
     };
 
-    const accessToken = this.jwtService.sign(payload, { expiresIn: '5m' });
-    const refreshToken = this.jwtService.sign(payload, { expiresIn: '14d' });
+    const { accessToken, refreshToken } = await this.generateTokens(payload);
 
     return { accessToken, refreshToken } as Tokens;
   }
@@ -112,5 +118,96 @@ export class AuthService {
     delete admin.password;
 
     return admin;
+  }
+
+  /**
+   * Verifies a token
+   * @param {string} token - The token to verify
+   * @returns {Promise<Payload>} The payload of the token
+   * @throws {UnauthorizedException} If the token is invalid
+   */
+  async verifyToken(token: string): Promise<Payload> {
+    const payload = await this.jwtService.verifyAsync(token, {
+      secret: this.configService.get<string>(ENV_VAR.JWT_SECRET),
+    });
+
+    if (!payload || !payload.sub) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    return payload;
+  }
+
+  /**
+   * Generates access and refresh tokens
+   * @param {Omit<Payload, 'expiresIn'>} payload - The payload of the token
+   * @returns {Promise<Tokens>} The access and refresh tokens
+   */
+  private async generateTokens(
+    payload: Omit<Payload, 'expiresIn'>,
+  ): Promise<Tokens> {
+    const accessToken = this.jwtService.sign(payload, { expiresIn: '5m' });
+    const refreshToken = this.jwtService.sign(payload, { expiresIn: '15d' });
+
+    return { accessToken, refreshToken } as Tokens;
+  }
+
+  /**
+   * Verifies a access and refresh tokens
+   * @param {string | undefined} accessToken - The access token to verify
+   * @param {string | undefined} refreshToken - The refresh token to verify
+   * @returns {Promise<Admin>} The admin information
+   * @throws {UnauthorizedException} If the token is invalid
+   */
+  async verifyTokens(
+    accessToken: string | undefined,
+    refreshToken: string | undefined,
+  ): Promise<Admin> {
+    if (!accessToken) {
+      throw new UnauthorizedException('Access token is missing');
+    }
+
+    if (!refreshToken) {
+      throw new UnauthorizedException('Refresh token is missing');
+    }
+
+    const accessPayload = await this.verifyToken(accessToken);
+    const resfreshPayload = await this.verifyToken(refreshToken);
+
+    if (accessPayload.sub !== resfreshPayload.sub) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    if (this.isTokenExpired(accessPayload.expiresIn, FIVE_MINUTES_IN_SECONDS)) {
+      throw new UnauthorizedException('Access token expired');
+    }
+
+    if (
+      this.isTokenExpired(resfreshPayload.expiresIn, FIFTEEN_DAYS_IN_SECONDS)
+    ) {
+      throw new UnauthorizedException('Refresh token expired');
+    }
+
+    const admin = await this.admisnService.findOne(accessPayload.sub);
+
+    if (!admin) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    return admin;
+  }
+
+  /**
+   * Verifies if a token is expired
+   * @param {number} expiresIn - The expiration time of the token in seconds
+   * @returns {boolean} True if the token is expired, false otherwise
+   */
+  private isTokenExpired(expiresIn: number, expirationTime: number): boolean {
+    const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+    const expirationTimeInSeconds = currentTimeInSeconds + expiresIn;
+
+    const timeUntilExpiration = expirationTimeInSeconds - currentTimeInSeconds;
+
+    return timeUntilExpiration > expirationTime;
   }
 }

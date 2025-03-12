@@ -13,7 +13,6 @@ export class MembersService {
   constructor(
     @InjectRepository(Member)
     private readonly memberRepository: Repository<Member>,
-
     private readonly memberStatusService: MemberStatusService,
   ) {}
 
