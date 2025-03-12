@@ -6,6 +6,12 @@ import { Payload, Tokens } from './interfaces/jw';
 import { Admin } from '@admins/entities/admin.entity';
 import { ChangePasswordDto } from './dtos/change-password.dto';
 import { ResetPasswordDto } from './dtos/reset-password';
+import { ConfigService } from '@nestjs/config';
+import { ENV_VAR } from '@configuration/enum/env';
+import {
+  FIFTEEN_DAYS_IN_SECONDS,
+  TEN_DAYS_IN_SECONDS,
+} from '@shared/constants/time';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +19,7 @@ export class AuthService {
     private admisnService: AdminsService,
     private jwtService: JwtService,
     private passwordService: PasswordService,
+    private configService: ConfigService,
   ) {}
 
   /**
@@ -40,7 +47,7 @@ export class AuthService {
     };
 
     const accessToken = this.jwtService.sign(payload, { expiresIn: '5m' });
-    const refreshToken = this.jwtService.sign(payload, { expiresIn: '14d' });
+    const refreshToken = this.jwtService.sign(payload, { expiresIn: '15d' });
 
     return { accessToken, refreshToken } as Tokens;
   }
@@ -112,5 +119,64 @@ export class AuthService {
     delete admin.password;
 
     return admin;
+  }
+
+  /**
+   * Verifies a token
+   * @param {string} token - The token to verify
+   * @returns {Promise<Payload>} The payload of the token
+   * @throws {UnauthorizedException} If the token is invalid
+   */
+  async verifyToken(token: string): Promise<Payload> {
+    const payload = await this.jwtService.verifyAsync(token, {
+      secret: this.configService.get<string>(ENV_VAR.JWT_SECRET),
+    });
+
+    if (!payload || !payload.sub) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    return payload;
+  }
+
+  /**
+   * Verifies a access and refresh tokens
+   * @param {string} accessToken - The access token to verify
+   * @param {string} refresToken - The refresh token to verify
+   * @returns {Promise<Admin>} The admin information
+   * @throws {UnauthorizedException} If the token is invalid
+   */
+  async verifyTokens(accessToken: string, refresToken: string): Promise<Admin> {
+    const accessPayload = await this.verifyToken(accessToken);
+    const resfreshPayload = await this.verifyToken(refresToken);
+
+    if (accessPayload.sub !== resfreshPayload.sub) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    const admin = await this.admisnService.findOne(accessPayload.sub);
+
+    if (!admin) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    return admin;
+  }
+
+  /**
+   * Verifies if a token is expired
+   * @param {number} expiresIn - The expiration time of the token in seconds
+   * @returns {boolean} True if the token is expired, false otherwise
+   */
+  private isTokenExpired(expiresIn: number): boolean {
+    const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+    const expirationTimeInSeconds = currentTimeInSeconds + expiresIn;
+
+    const timeUntilExpiration = expirationTimeInSeconds - currentTimeInSeconds;
+
+    return (
+      timeUntilExpiration > TEN_DAYS_IN_SECONDS &&
+      timeUntilExpiration < FIFTEEN_DAYS_IN_SECONDS
+    );
   }
 }
