@@ -32,6 +32,7 @@
       "@notifications/*": ["src/notifications/*"],
       "@shared/*": ["src/shared/*"],
       "@jobs/*": ["src/jobs/*"],
+      "@stats/*": ["src/stats/*"],
       // core
       "@events/*": ["src/core/events/*"],
       "@auth/*": ["src/core/auth/*"],
