@@ -5,14 +5,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Member } from '@members/entities/member.entity';
 import { MemberStatusModule } from '@memberStatus/member-status.module';
 import { ConfigurationModule } from '@configuration/configuration.module';
+import { AuthModule } from '@auth/auth.module';
 import { AdminsModule } from '@admins/admins.module';
 
 @Module({
   controllers: [MembersController],
   imports: [
-    forwardRef(() => AdminsModule),
     TypeOrmModule.forFeature([Member]),
     MemberStatusModule,
+    forwardRef(() => AuthModule),
+    forwardRef(() => AdminsModule),
     ConfigurationModule,
   ],
   providers: [MembersService],
