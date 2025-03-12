@@ -20,6 +20,7 @@ import { NotificationsModule } from '@notifications/notifications.module';
 import { ConfigurationModule } from '@configuration/configuration.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { NODE_ENV } from '@shared/constants/server';
+import { StatsModule } from 'src/stats/stats.module';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { NODE_ENV } from '@shared/constants/server';
     GroupTypesModule,
     EmailModule,
     NotificationsModule,
+    StatsModule,
     ConfigurationModule,
   ],
   controllers: [SeedsController],
