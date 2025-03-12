@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from '@auth/decorators/public';
 import { ENV_VAR } from '@configuration/enum/env';
-import { AdminsService } from '@admins/admins.service';
+import { AuthService } from '@auth/auth.service';
 
 @Injectable()
 export class JwtGuard implements CanActivate {
@@ -18,7 +18,7 @@ export class JwtGuard implements CanActivate {
     private jwtService: JwtService,
     private reflector: Reflector,
     private configService: ConfigService,
-    private adminsService: AdminsService,
+    private authService: AuthService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -32,22 +32,23 @@ export class JwtGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
 
-    if (!token) {
-      throw new UnauthorizedException();
-    }
+    const accessToken = this.extractTokenFromHeader(request);
+    const refreshToken = request.cookies?.refreshToken as string | undefined;
 
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      const admin = await this.authService.verifyTokens(
+        accessToken,
+        refreshToken,
+      );
+
+      const payload = await this.jwtService.verifyAsync(accessToken, {
         secret: this.configService.get<string>(ENV_VAR.JWT_SECRET),
       });
 
       if (!payload?.sub) {
         throw new UnauthorizedException();
       }
-
-      const admin = await this.adminsService.findOne(payload.sub);
 
       request['user'] = admin;
     } catch {

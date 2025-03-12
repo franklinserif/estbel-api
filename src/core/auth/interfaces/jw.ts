@@ -1,7 +1,7 @@
 export interface Payload {
   sub: string;
   email: string;
-  expiresIn: number;
+  exp: number;
 }
 
 export interface Tokens {
