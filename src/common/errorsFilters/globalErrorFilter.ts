@@ -7,11 +7,13 @@ import {
 } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
 import { Request, Response } from 'express';
+import { SentryExceptionCaptured } from '@sentry/nestjs';
 
 @Catch(QueryFailedError)
 export class GlobalErrorFilter implements ExceptionFilter {
   private readonly logger: Logger = new Logger(GlobalErrorFilter.name);
 
+  @SentryExceptionCaptured()
   catch(exception: QueryFailedError, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
