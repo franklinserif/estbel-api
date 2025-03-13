@@ -20,6 +20,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AttendancesModule } from '@attendances/attendances.module';
 import { JobsModule } from '@jobs/jobs.module';
+import { SentryModule } from '@sentry/nestjs/setup';
 import { StatsModule } from './stats/stats.module';
 
 @Module({
@@ -27,6 +28,7 @@ import { StatsModule } from './stats/stats.module';
     ConfigModule.forRoot(),
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
+    SentryModule.forRoot(),
     DatabaseModule,
     ModulesModule,
     AdminsModule,

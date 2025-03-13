@@ -32,6 +32,8 @@ export const envSchema = z.object({
   PASSWORD_DEFAULT_LENGTH: z.coerce.number().default(12),
   PASSWORD_SALT_ROUNDS: z.coerce.number().default(10),
   PASSWORD_USE_SYMBOLS: z.coerce.boolean().default(true),
+
+  SENTRY_DSN: z.string().min(1, 'SENTRY_DSN is required'),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;
