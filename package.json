@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "nest build && pnpm sentry:sourcemaps",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -23,7 +23,8 @@
     "migration:generate": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d ./src/databases/migrations/data-source/data-source.ts ./src/databases/migrations/migration",
     "migration:create": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create -d ./src/databases/migrations/data-source/data-source.ts ./src/databases/migrations/migration",
     "migration:run": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/databases/migrations/data-source/data-source.ts ",
-    "migration:revert": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/databases/migrations/data-source/data-source.ts "
+    "migration:revert": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/databases/migrations/data-source/data-source.ts ",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org estbel --project node-nestjs ./dist && sentry-cli sourcemaps upload --org estbel --project node-nestjs ./dist"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -36,6 +37,9 @@
     "@nestjs/schedule": "^4.1.2",
     "@nestjs/typeorm": "^10.0.2",
     "@react-email/components": "^0.0.32",
+    "@sentry/cli": "^2.42.2",
+    "@sentry/nestjs": "^9.5.0",
+    "@sentry/profiling-node": "^9.5.0",
     "@types/bcrypt": "^5.0.2",
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^19.0.8",
